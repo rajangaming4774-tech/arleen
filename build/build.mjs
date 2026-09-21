@@ -86,7 +86,7 @@ const serviceSchema = (name, type, desc, path) => ({
   provider: { '@id': ORG_ID }, areaServed: { '@type': 'City', name: 'Chennai' },
 });
 /* ---------- Layout ---------- */
-const FONTS = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500&display=swap';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap';
 
 function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = 'og-image.jpg', preload }) {
   const canonical = `${SITE.url}${path}`;
