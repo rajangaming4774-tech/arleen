@@ -45,6 +45,11 @@
       header.classList.toggle('scrolled', y > edge);
     }
     filmUpdate();
+    if (bar) {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0).toFixed(4) + ')';
+    }
+    if (paraUpdate) paraUpdate();
     if (hero && !reduced) {
       var h = hero.offsetHeight;
       if (y < h) {
@@ -60,6 +65,95 @@
     cancelAnimationFrame(raf);
     raf = requestAnimationFrame(update);
   }, { passive: true });
+
+  // Smooth inertial scrolling (mouse wheel / trackpad on desktop). Wheel input moves a target;
+  // a rAF loop glides the page towards it, so every scroll-driven effect below moves fluidly.
+  // Touch devices and reduced-motion users keep native scrolling.
+  var smooth = !reduced && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (smooth) {
+    var root = document.documentElement;
+    root.classList.add('smooth-scroll');
+    var target = window.scrollY, cur = target, gliding = false, lastT = 0, setY = -1;
+    var maxY = function () { return root.scrollHeight - window.innerHeight; };
+    var locked = function () { return document.body.classList.contains('nav-open') || document.body.style.overflow === 'hidden'; };
+    // a scrollable box under the pointer (e.g. the open menu) keeps its own native scrolling
+    var ownScroller = function (el, dy) {
+      for (; el && el !== document.body && el !== root; el = el.parentElement) {
+        if (el.scrollHeight <= el.clientHeight) continue;
+        var oy = getComputedStyle(el).overflowY;
+        if ((oy === 'auto' || oy === 'scroll') && (dy < 0 ? el.scrollTop > 0 : el.scrollTop + el.clientHeight < el.scrollHeight - 1)) return true;
+      }
+      return false;
+    };
+    var glide = function (t) {
+      // someone else moved the page mid-glide (scrollbar drag, keyboard, find-in-page): let go
+      if (setY >= 0 && Math.abs(window.scrollY - setY) > 2) { gliding = false; return; }
+      var dt = lastT ? Math.min(64, t - lastT) : 16.7;
+      lastT = t;
+      cur += (target - cur) * (1 - Math.pow(0.9, dt / 16.7)); // same feel at 60, 120 or 240 Hz
+      if (Math.abs(target - cur) < 0.4) cur = target;
+      window.scrollTo(0, cur);
+      setY = window.scrollY;
+      if (cur !== target) requestAnimationFrame(glide);
+      else gliding = false;
+    };
+    var glideTo = function (y) {
+      if (!gliding) { cur = window.scrollY; lastT = 0; setY = -1; }
+      target = Math.max(0, Math.min(maxY(), y));
+      if (!gliding) { gliding = true; requestAnimationFrame(glide); }
+    };
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.defaultPrevented || locked()) return;
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      if (ownScroller(e.target, e.deltaY)) return;
+      e.preventDefault();
+      var d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? window.innerHeight : 1);
+      glideTo((gliding ? target : window.scrollY) + d);
+    }, { passive: false });
+    // in-page links glide too
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      var id = a.getAttribute('href').slice(1);
+      var el = id && document.getElementById(id);
+      if (!el || el.closest('.menu')) return;
+      e.preventDefault();
+      glideTo(el.getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0));
+      if (history.pushState) history.pushState(null, '', '#' + id);
+      if (el.tabIndex < 0 && !/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName)) el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
+    });
+  }
+
+  // Scroll progress line along the top edge
+  var bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bar);
+
+  // Parallax inside project / service images: each picture drifts against the scroll within its frame
+  var para = [];
+  if (!reduced && 'IntersectionObserver' in window) {
+    var pio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.target._on = e.isIntersecting; });
+    }, { rootMargin: '10% 0px' });
+    document.querySelectorAll('.work__media img, .row__media img').forEach(function (img) {
+      var box = img.closest('.work__media, .row__media');
+      box.classList.add('parallax');
+      para.push({ box: box, img: img });
+      pio.observe(box);
+      box._on = false;
+    });
+  }
+  var paraUpdate = function () {
+    var vh = window.innerHeight;
+    for (var i = 0; i < para.length; i++) {
+      if (!para[i].box._on) continue;
+      var r = para[i].box.getBoundingClientRect();
+      var off = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2); // -1 (leaving top) .. 1 (entering bottom)
+      para[i].img.style.setProperty('--py', (Math.max(-1, Math.min(1, off)) * 7).toFixed(2) + '%');
+    }
+  };
 
   // Reveal on scroll — stagger children of grid-like containers
   document.querySelectorAll('.grid, .clients, .faq, .stats, .footer-grid, .rows, .contact-band').forEach(function (group) {
@@ -129,7 +223,7 @@
       var store = function (i, bmp) {
         frames[i] = bmp; loaded++;
         delete inflight[i];
-        if (i === wanted || lastDrawn < 0) draw(wanted);
+        if (lastDrawn !== wanted) draw(wanted); // a frame nearer the one on screen may have arrived
         if (loading && loaded >= N * 0.15) loading.classList.add('done');
       };
       // Load order: coarse to fine (every 32nd frame, then 16th, 8th ...) so that scrubbing anywhere
@@ -170,23 +264,33 @@
 
       // Scroll sets the target; a rAF loop eases the shown frame towards it so fast wheel
       // flicks and trackpad jumps play as motion instead of a jump cut.
-      var tick = function () {
-        var diff = progress - shown;
-        if (Math.abs(diff) < 0.0005) { shown = progress; animating = false; }
-        else { shown += diff * 0.22; animating = true; }
+      var render = function () {
         var fp = Math.max(0, (shown - HOLD) / (1 - HOLD));
         wanted = Math.round(fp * (N - 1));
         if (stride > 1) wanted -= wanted % stride;
         draw(wanted);
-        if (animating && visible) requestAnimationFrame(tick);
+      };
+      var tick = function () {
+        // the loop always clears its flag when it stops, so the next scroll can restart it
+        if (!visible) { animating = false; return; }
+        var diff = progress - shown;
+        var settled = Math.abs(diff) < 0.0005;
+        shown = settled ? progress : shown + diff * 0.22;
+        render();
+        if (settled) animating = false;
+        else requestAnimationFrame(tick);
       };
       filmUpdate = function () {
         var range = film.offsetHeight - sticky.offsetHeight;
         var rect = film.getBoundingClientRect();
-        visible = !(rect.bottom < 0 || rect.top > window.innerHeight);
+        var wasVisible = visible;
+        visible = !(rect.bottom <= 0 || rect.top >= window.innerHeight);
         if (!visible) return;
         var p = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
         progress = p;
+        // Coming back from outside the film (e.g. Home key, back to top, bfcache restore):
+        // jump straight to the frame for this position instead of rewinding the whole take.
+        if (!wasVisible || Math.abs(progress - shown) > 0.3) { shown = progress; render(); }
         if (!animating) { animating = true; requestAnimationFrame(tick); }
         film.style.setProperty('--p', p.toFixed(4));
         if (hint) hint.classList.toggle('off', p > 0.04);
@@ -211,6 +315,8 @@
     }
   }
   update();
+  // returning with the browser's Back button can restore this page from the bfcache mid-scroll
+  window.addEventListener('pageshow', function (e) { if (e.persisted) update(); });
 
   // Counting numbers
   var counters = document.querySelectorAll('[data-count]');
