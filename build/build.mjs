@@ -1,9 +1,15 @@
 // Static site generator for arleenbuilders.com
 // Usage: node build/build.mjs   -> writes *.php pages, sitemap.xml, robots.txt into the project root.
 // Pages are plain HTML saved with .php extensions so the old URLs keep working on the existing host.
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, CATEGORY_LABEL, imgName } from './data.mjs';
 import { TOUR, cutPoints } from './config.mjs';
+
+// Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
+const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
+const CSS_V = ver('assets/css/style.css');
+const JS_V = ver('assets/js/main.js');
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const YEAR = new Date().getFullYear();
@@ -127,7 +133,7 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONTS}">
-${preloadTag}<link rel="stylesheet" href="/assets/css/style.css">
+${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 <script type="application/ld+json">${JSON.stringify(graph)}</script>
 </head>
 <body>
@@ -216,7 +222,7 @@ ${body}
   <a class="fa-wa" href="https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent('Hi Arleen Builders, I would like to enquire about a project.')}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${I.wa}</a>
   <a class="fa-call" href="tel:${P1.tel}" aria-label="Call ${P1.display}">${I.phone}</a>
 </div>
-<script src="/assets/js/main.js" defer></script>
+<script src="/assets/js/main.js?v=${JS_V}" defer></script>
 </body>
 </html>
 `;
