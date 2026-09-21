@@ -41,7 +41,7 @@
   var update = function () {
     var y = window.scrollY;
     if (header) {
-      var edge = dark && !dark.classList.contains('film--static') ? dark.offsetTop + dark.offsetHeight - 76 : 60;
+      var edge = dark && !dark.classList.contains('film--static') ? dark.offsetTop + dark.offsetHeight - 60 : 60;
       header.classList.toggle('scrolled', y > edge);
     }
     filmUpdate();
