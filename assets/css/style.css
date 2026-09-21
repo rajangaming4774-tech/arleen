@@ -84,12 +84,10 @@ h1.display { font-size: clamp(2.2rem, 6.5vw, 6rem); }
 .site-header.scrolled { color: var(--ink); background: rgba(253, 252, 249, .86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--line); }
 body.nav-open .site-header { color: var(--ink); background: none; border-bottom-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 60px; gap: 24px; max-width: none; padding: 0 clamp(20px, 2.5vw, 40px); }
-.nav__brand { font-family: var(--font-brand); font-weight: 600; font-size: .9rem; letter-spacing: .3em; line-height: 1; text-transform: uppercase; white-space: nowrap; justify-self: start;
-  background: linear-gradient(100deg, #c9a02c 0%, #ecce82 20%, #d4a92a 40%, #b8891f 50%, #ecce82 70%, #d9b13f 85%, #c9a02c 100%) 0 0 / 200% 100%;
-  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-  animation: brand-shimmer 3.4s linear infinite; }
-@keyframes brand-shimmer { to { background-position: -200% 0; } }
-@media (prefers-reduced-motion: reduce) { .nav__brand { animation: none; } }
+.nav__brand { display: inline-flex; align-items: center; justify-self: start; line-height: 0; }
+/* Compact logo: white over the dark film / page hero, true colours on the light bar and open menu */
+.nav__brand img { display: block; height: 34px; width: auto; filter: brightness(0) invert(1) drop-shadow(0 1px 8px rgba(0, 0, 0, .35)); transition: filter .4s; }
+.site-header.scrolled .nav__brand img, body.nav-open .nav__brand img { filter: none; }
 .nav__menu { display: flex; gap: clamp(20px, 3vw, 48px); justify-content: center; }
 .nav__menu a { font-family: var(--font-nav); font-weight: 500; font-size: .64rem; letter-spacing: .22em; text-transform: uppercase; opacity: .72; transition: opacity .3s; padding: 8px 0; }
 .nav__menu a:hover, .nav__menu a[aria-current="page"] { opacity: 1; }

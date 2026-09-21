@@ -140,7 +140,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <nav class="container nav" aria-label="Main">
-    <a class="nav__brand" href="/" aria-label="${SITE.name} home">${SITE.name}</a>
+    <a class="nav__brand" href="/" aria-label="${SITE.name} home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="${SITE.name}"></picture></a>
     <ul class="nav__menu">${navHtml}</ul>
     <div class="nav__right">
       <span class="nav__tag" aria-hidden="true">Builders · Interiors<br>Sports flooring — Chennai</span>
