@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero/poster-lg.webp" imagesrcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/style.css?v=e3e1512f">
+<link rel="stylesheet" href="/assets/css/style.css?v=e53c564e">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":{"@type":"ImageObject","url":"https://www.arleenbuilders.com/assets/img/logo.png","width":360,"height":168},"image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"}]}</script>
 </head>
 <body>
@@ -76,11 +76,11 @@
   </div>
 </div>
 <main id="main">
-<figure class="hero hero--film" data-frames="120" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
+<figure class="hero hero--film" data-frames="200" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
   <noscript><style>.hero--film{height:auto}.hero--film .hero__sticky{position:static;height:auto}.hero--film .hero__card{aspect-ratio:16/9;height:auto}.hero__canvas{display:none}</style></noscript>
   <div class="hero__sticky">
     <div class="hero__card">
-      <img class="hero__img" src="/assets/video/hero/poster-lg.webp" srcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" sizes="100vw" width="1280" height="720" alt="Visualisation of a modern office lobby interior with a glazed entrance and warm ceiling lighting" fetchpriority="high" decoding="async">
+      <img class="hero__img" src="/assets/video/hero/poster-lg.webp" srcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" sizes="100vw" width="1280" height="720" alt="Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby" fetchpriority="high" decoding="async">
       <canvas class="hero__canvas" width="1280" height="720" aria-hidden="true"></canvas>
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__text">
@@ -90,7 +90,7 @@
         <a class="btn" href="/contactus.php">Start a project</a>
       </div>
     </div>
-    <figcaption class="hero__credit">Office lobby — interior visualisation</figcaption>
+    <figcaption class="hero__credit">Building exterior and office lobby — visualisation</figcaption>
     <div class="hero__hint" aria-hidden="true">Scroll</div>
   </div>
 </figure>

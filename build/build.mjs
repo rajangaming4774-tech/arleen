@@ -331,8 +331,8 @@ const homeHeroSrcset = (b) => `/assets/img/${b}-sm.webp 800w, /assets/img/${b}-1
 // Its first frame is an ordinary <img> underneath, so the page paints before any frame loads, and it
 // is all that shows for visitors with "reduce motion" on or without JavaScript.
 const HERO_FILM = { poster: '/assets/video/hero/poster-lg.webp', posterSm: '/assets/video/hero/poster-sm.webp',
-  alt: 'Visualisation of a modern office lobby interior with a glazed entrance and warm ceiling lighting',
-  credit: 'Office lobby — interior visualisation' };
+  alt: 'Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby',
+  credit: 'Building exterior and office lobby — visualisation' };
 const heroFilmSrcset = `${HERO_FILM.posterSm} 720w, ${HERO_FILM.poster} 1280w`;
 function homeHero() {
   return `<figure class="hero hero--film" data-frames="${FILM.frames}" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">

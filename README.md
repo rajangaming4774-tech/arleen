@@ -31,17 +31,19 @@ To add a project:
 3. Run both build commands.
 
 ## Home hero
-The home page opens with the rounded card playing a short **scroll film**: the office-lobby take
-(`raw/tour/3-lobby.mp4`, the same file as `Modern_office_lobby_interior_20260921212448.mp4`, 8 s).
-The card pins for about two screens of scrolling while the footage advances with the scroll; the
-headline stays over it. Frames are rendered by `build/film.mjs` (`FILM`: clip, watermark box, frame
-count, sizes) into `assets/video/hero/` — 120 WebP frames at 1280 and 720 wide (about 6 MB in all)
-plus a poster that is the LCP `<img>` and the whole hero for "reduce motion" / no-JS visitors:
+The home page opens with the rounded card playing a short **scroll film** made of two clips the
+owner supplied, cross-faded into one 15 s take: the building exterior → interior tour first
+(`raw/tour/0-tour-1080.mp4` = `Building_exterior_and_interior_tour_20260921203742.mp4`), then the
+office lobby (`raw/tour/3-lobby.mp4` = `Modern_office_lobby_interior_20260921212448.mp4`).
+The card pins for three screens of scrolling while the footage advances with the scroll; the
+headline stays over it. Frames are rendered by `build/film.mjs` (`FILM`: clips in order, watermark
+boxes, cross-fade, frame count, sizes) into `assets/video/hero/` — 200 WebP frames at 1280 and 720
+wide plus a poster that is the LCP `<img>` and the whole hero for "reduce motion" / no-JS visitors:
 ```bash
-node build/film.mjs     # re-render after changing the clip or FRAMES (needs ffmpeg)
+node build/film.mjs     # re-render after changing the clips or FRAMES (needs ffmpeg)
 node build/build.mjs
 ```
-The scroll length is `.hero--film { --screens: 2.2 }` (2 on phones) in `assets/css/style.css`.
+The scroll length is `.hero--film { --screens: 3 }` (2.6 on phones) in `assets/css/style.css`.
 The text, alt and credit line live in `HERO_FILM` in `build/build.mjs`.
 
 `HOME_HEROES` / `hero-index-*.webp` (real project photographs cut by `build/images.mjs`) remain
