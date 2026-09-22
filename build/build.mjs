@@ -367,16 +367,21 @@ const homeHeroSrcset = (b) => [`${b}-sm`, `${b}-1280`, b]
 // stretched across a full-screen card. The lobby clip's own source is 1280x720, its ceiling.
 const HERO_FILM = {
   poster: '/assets/video/hero/poster-xl.webp', posterLg: '/assets/video/hero/poster-lg.webp', posterSm: '/assets/video/hero/poster-sm.webp',
+  posterPt: '/assets/video/hero/poster-pt.webp',
   alt: 'Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby',
   credit: 'Building exterior and office lobby — visualisation',
 };
 const heroFilmSrcset = `${HERO_FILM.posterSm} 720w, ${HERO_FILM.posterLg} 1280w, ${HERO_FILM.poster} 1920w`;
 function homeHero() {
-  return `<figure class="hero hero--film" data-frames="${FILM.frames}" data-xl="/assets/video/hero/xl/" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
+  const [pw, ph] = FILM.portrait.size;
+  return `<figure class="hero hero--film" data-frames="${FILM.frames}" data-xl="/assets/video/hero/xl/" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/" data-pt="/assets/video/hero/pt/" data-pt-size="${pw}x${ph}">
   <noscript><style>.hero--film{height:auto}.hero--film .hero__sticky{position:static;height:auto}.hero--film .hero__card{aspect-ratio:16/9;height:auto}.hero__canvas{display:none}</style></noscript>
   <div class="hero__sticky">
     <div class="hero__card">
-      <img class="hero__img" src="${HERO_FILM.posterLg}" srcset="${heroFilmSrcset}" sizes="100vw" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" alt="${esc(HERO_FILM.alt)}" fetchpriority="high" decoding="async">
+      <picture>
+        <source media="(max-width: 767px) and (orientation: portrait)" srcset="${HERO_FILM.posterPt}" width="${pw}" height="${ph}">
+        <img class="hero__img" src="${HERO_FILM.posterLg}" srcset="${heroFilmSrcset}" sizes="100vw" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" alt="${esc(HERO_FILM.alt)}" fetchpriority="high" decoding="async">
+      </picture>
       <canvas class="hero__canvas" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" aria-hidden="true"></canvas>
       <div class="hero__scrim" aria-hidden="true"></div>
       <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since ${SITE.founded}</span></h1>

@@ -19,7 +19,12 @@ export const FILM = {
   // genuinely 1920 wide, so rendering the master at 720p was throwing away detail the source has.
   // (The lobby clip is 1280x720 and is upscaled to match — it cannot get sharper than its source.)
   tiers: { xl: [1920, 72], lg: [1280, 66], sm: [720, 58] },
+  // Phones hold the hero full-screen and portrait, so a landscape frame has to be blown up about
+  // 4x to cover a tall screen — that is what looked soft on mobile. `portrait` renders a centre
+  // 9:16 slice of the master instead, at a size close to a phone's real pixels.
+  portrait: { size: [900, 1600], q: 58 },
   canvas: [1920, 1080],                    // master resolution and the <canvas> drawing surface
+  canvasPortrait: [900, 1600],             // drawing surface when the portrait frames are in use
 };
 
 const OUT = 'assets/video/hero';
@@ -70,6 +75,18 @@ if (process.argv[1] && process.argv[1].endsWith('film.mjs')) {
     console.log(`${name}: ${n} frames, ${mb(sizeOf(dir))}`);
     if (n !== FILM.frames) console.warn(`WARNING: expected ${FILM.frames} frames in ${dir}, got ${n}`);
   }
+  // portrait frames: a centre 9:16 slice, for phones holding the hero full-screen
+  {
+    const [pw, ph] = FILM.portrait.size;
+    const dir = `${OUT}/pt`;
+    rmSync(dir, { recursive: true, force: true });
+    mkdirSync(dir, { recursive: true });
+    ff(['-i', master, '-vf', `fps=${sampleFps},crop=ih*9/16:ih,scale=${pw}:${ph}:flags=lanczos`, '-frames:v', String(FILM.frames),
+      '-c:v', 'libwebp', '-quality', String(FILM.portrait.q), `${dir}/f-%03d.webp`]);
+    console.log(`pt: ${readdirSync(dir).length} frames, ${mb(sizeOf(dir))}`);
+    ff(['-i', master, '-frames:v', '1', '-vf', `crop=ih*9/16:ih,scale=${pw}:${ph}:flags=lanczos`, '-c:v', 'libwebp', '-quality', String(FILM.portrait.q + 10), `${OUT}/poster-pt.webp`]);
+  }
+
   // posters = frame 1 at each tier (the <img> under the canvas; also the no-JS / reduced-motion view)
   for (const [name, [width, q]] of Object.entries(FILM.tiers)) {
     ff(['-i', master, '-frames:v', '1', '-vf', `scale=${width}:-2`, '-c:v', 'libwebp', '-quality', String(q + 10), `${OUT}/poster-${name}.webp`]);

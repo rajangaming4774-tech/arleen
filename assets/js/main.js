@@ -78,12 +78,20 @@
       var hint = film.querySelector('.hero__hint');
       var N = parseInt(film.getAttribute('data-frames'), 10);
       var slow = !!conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
-      // Frame tier by the pixels the card actually covers: a 1280 frame stretched across a
-      // full-screen card is what made the film look soft. xl is the master's own 1920.
-      var wide = window.innerWidth * (window.devicePixelRatio || 1);
-      var tier = window.innerWidth < 768 || slow ? 'data-sm'
-        : (wide >= 1500 && (navigator.deviceMemory || 8) >= 4 && film.getAttribute('data-xl') ? 'data-xl' : 'data-lg');
+      // Frame tier by the pixels the card actually covers. A phone holds this card full-screen and
+      // portrait, so a landscape frame would be blown up about 4x — those get the 9:16 frames, drawn
+      // on a canvas of the same shape. Wide screens get the master's own 1920.
+      var dpr = window.devicePixelRatio || 1;
+      var phone = window.innerWidth < 768;
+      var portrait = phone && window.innerHeight > window.innerWidth && !slow && film.getAttribute('data-pt');
+      var tier = portrait ? 'data-pt' : (phone || slow) ? 'data-sm'
+        : (window.innerWidth * dpr >= 1500 && (navigator.deviceMemory || 8) >= 4 && film.getAttribute('data-xl') ? 'data-xl' : 'data-lg');
       var base = film.getAttribute(tier) || film.getAttribute('data-lg');
+      if (portrait) { // the canvas has to match the frames' shape or they draw squashed
+        var size = (film.getAttribute('data-pt-size') || '900x1600').split('x');
+        canvas.width = parseInt(size[0], 10);
+        canvas.height = parseInt(size[1], 10);
+      }
       var stride = (navigator.deviceMemory || 8) <= 2 ? 2 : 1; // low-memory phones: every 2nd frame
       var frames = new Array(N), inflight = {}, lastDrawn = -1, wanted = 0;
       var pad = function (n) { return ('00' + n).slice(-3); };
