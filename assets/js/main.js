@@ -146,11 +146,23 @@
 
       // Scroll sets the target; a rAF loop eases the shown frame towards it so fast wheel
       // flicks and trackpad jumps play as motion instead of a jump cut.
+      // Captions follow the frame that is actually on screen (the eased value), not the raw scroll
+      // position, so a fast flick never shows a chapter title over the previous clip.
+      var setCards = function (v) {
+        cards.forEach(function (card) {
+          var on = v >= card.from && v < card.to;
+          if (on !== card.el.classList.contains('on')) {
+            card.el.classList.toggle('on', on);
+            card.el.inert = !on;
+          }
+        });
+      };
       var render = function () {
         var fp = Math.max(0, (shown - HOLD) / (1 - HOLD));
         wanted = Math.round(fp * (N - 1));
         if (stride > 1) wanted -= wanted % stride;
         draw(wanted);
+        setCards(shown);
       };
       var tick = function () {
         // the loop always clears its flag when it stops, so the next scroll can restart it
@@ -176,13 +188,6 @@
         if (!animating) { animating = true; requestAnimationFrame(tick); }
         film.style.setProperty('--p', p.toFixed(4));
         if (hint) hint.classList.toggle('off', p > 0.04);
-        cards.forEach(function (card) {
-          var on = p >= card.from && p < card.to;
-          if (on !== card.el.classList.contains('on')) {
-            card.el.classList.toggle('on', on);
-            card.el.inert = !on;
-          }
-        });
       };
       // keyboard users: focusing a chapter link scrolls the film to that chapter
       cards.forEach(function (card) {

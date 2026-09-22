@@ -38,7 +38,7 @@ node build/build.mjs
 ```
 - Clip count, frame count, clip length, cross-fade and sizes live in `build/config.mjs` (`TOUR`). Both `video.mjs` and `build.mjs` read it.
 - Chapter titles, sub-lines and links live in `FILM` in `build/build.mjs`. Chapter boundaries follow the cross-fades (`cutPoints()`).
-- **Scroll length** is set in CSS: `.film { --screens: 4 }` (3.5 on phones) in `assets/css/style.css`. It was 8 before the client asked for a shorter intro; each chapter now gets about three quarters of a screen of scrolling.
+- **Scroll length** is set in CSS: `.film { --screens: 2.6 }` (2.4 on phones) in `assets/css/style.css`. It was 8 before the client asked for a shorter intro; the whole take now plays in about one and a half screens of scrolling. Captions switch on the frame actually drawn (the eased value), so they never run ahead of the footage on a fast flick.
 - Frame tiers are in `TOUR.tiers`; the browser picks one by screen size and connection, loads frames coarse-to-fine and eases the shown frame towards the scroll position.
 - Visitors with "reduce motion" on, or without JavaScript, get the first frame, the chapters as a list, and a normal `<video>` with controls.
 
