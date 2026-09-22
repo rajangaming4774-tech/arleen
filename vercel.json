@@ -4,6 +4,9 @@
   "installCommand": "",
   "buildCommand": "node build/vercel.mjs",
   "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/:path*.php", "destination": "/404.html" }
+  ],
   "redirects": [
     { "source": "/index.php", "destination": "/", "permanent": true }
   ],

@@ -324,20 +324,33 @@ const HOME_HEROES = {
 };
 const HOME_HERO = HOME_HEROES[process.env.HERO === 'b' ? 'b' : 'a'];
 const homeHeroSrcset = (b) => `/assets/img/${b}-sm.webp 800w, /assets/img/${b}-1280.webp 1280w, /assets/img/${b}.webp 1920w`;
+
+// The home card plays a short scroll-scrubbed film (the office-lobby take, frames rendered by
+// build/film.mjs): the card pins for a couple of screens while the footage advances with the scroll.
+// Its first frame is an ordinary <img> underneath, so the page paints before any frame loads, and it
+// is all that shows for visitors with "reduce motion" on or without JavaScript.
+const HERO_FILM = { poster: '/assets/video/hero/poster-lg.webp', posterSm: '/assets/video/hero/poster-sm.webp',
+  alt: 'Visualisation of a modern office lobby interior with a glazed entrance and warm ceiling lighting',
+  credit: 'Office lobby — interior visualisation' };
+const heroFilmSrcset = `${HERO_FILM.posterSm} 720w, ${HERO_FILM.poster} 1280w`;
 function homeHero() {
-  const b = HOME_HERO.base;
-  return `<figure class="hero">
-  <div class="hero__card">
-    <img class="hero__img" src="/assets/img/${b}-1280.webp" srcset="${homeHeroSrcset(b)}" sizes="100vw" width="1920" height="1080" alt="${esc(HOME_HERO.alt)}" fetchpriority="high" decoding="async">
-    <div class="hero__scrim" aria-hidden="true"></div>
-    <div class="hero__text">
-      <span class="kicker">${SITE.name} — ${addr.city}, since ${SITE.founded}</span>
-      <h1 class="display hero__title">Builders, interiors and <em>sports courts</em> in Chennai</h1>
-      <p class="mono">School blocks, apartments, showroom facades and indoor courts — built by one team since ${SITE.founded}.</p>
-      <a class="btn" href="/contactus.php">Start a project</a>
+  return `<figure class="hero hero--film" data-frames="${FILM.frames}" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
+  <noscript><style>.hero--film{height:auto}.hero--film .hero__sticky{position:static;height:auto}.hero--film .hero__card{aspect-ratio:16/9;height:auto}.hero__canvas{display:none}</style></noscript>
+  <div class="hero__sticky">
+    <div class="hero__card">
+      <img class="hero__img" src="${HERO_FILM.poster}" srcset="${heroFilmSrcset}" sizes="100vw" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" alt="${esc(HERO_FILM.alt)}" fetchpriority="high" decoding="async">
+      <canvas class="hero__canvas" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" aria-hidden="true"></canvas>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__text">
+        <span class="kicker">${SITE.name} — ${addr.city}, since ${SITE.founded}</span>
+        <h1 class="display hero__title">Builders, interiors and <em>sports courts</em> in Chennai</h1>
+        <p class="mono">School blocks, apartments, showroom facades and indoor courts — built by one team since ${SITE.founded}.</p>
+        <a class="btn" href="/contactus.php">Start a project</a>
+      </div>
     </div>
+    <figcaption class="hero__credit">${HERO_FILM.credit}</figcaption>
+    <div class="hero__hint" aria-hidden="true">Scroll</div>
   </div>
-  <figcaption class="hero__credit">${HOME_HERO.credit}</figcaption>
 </figure>`;
 }
 
@@ -522,7 +535,7 @@ const pages = {};
 // HOME
 pages['index.php'] = layout({
   path: '/', key: 'home', ogImage: 'og-home.jpg',
-  preload: { href: `/assets/img/${HOME_HERO.base}-1280.webp`, srcset: homeHeroSrcset(HOME_HERO.base), sizes: '100vw' },
+  preload: { href: HERO_FILM.poster, srcset: heroFilmSrcset, sizes: '100vw' },
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
   h1Hero: homeHero(),
