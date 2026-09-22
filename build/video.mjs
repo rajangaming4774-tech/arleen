@@ -52,13 +52,16 @@ ff([...norm.flatMap((f) => ['-i', f]), '-filter_complex', filter.slice(0, -1), '
 const total = dur(master);
 console.log(`master: ${total.toFixed(2)}s`);
 
-// 3a. scrub frames — pick FRAMES evenly spaced frames
-const step = Math.max(1, Math.floor((total * FPS) / FRAMES));
+// 3a. scrub frames — FRAMES evenly spaced over the WHOLE master, so frame i sits at i / FRAMES of
+// the running time. The chapter cut points in config.mjs are fractions of that same running time,
+// so each caption appears with its own clip; sampling every Nth source frame instead rounds the
+// step down, stops short of the end and drifts the film behind its captions.
+const sampleFps = (FRAMES / total).toFixed(6);
 for (const [name, [width, q]] of Object.entries(TOUR.tiers)) {
   const dir = `${OUT}/tour/${name}`;
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
-  ff(['-i', master, '-vf', `select='not(mod(n\\,${step}))',scale=${width}:-2`, '-fps_mode', 'vfr', '-frames:v', String(FRAMES), '-c:v', 'libwebp', '-quality', String(q), `${dir}/f-%03d.webp`]);
+  ff(['-i', master, '-vf', `fps=${sampleFps},scale=${width}:-2`, '-frames:v', String(FRAMES), '-c:v', 'libwebp', '-quality', String(q), `${dir}/f-%03d.webp`]);
   const n = readdirSync(dir).length;
   console.log(`${name}: ${n} frames, ${mb(sizeOf(dir))}`);
   if (n !== FRAMES) console.warn(`WARNING: expected ${FRAMES} frames in ${dir}, got ${n}`);

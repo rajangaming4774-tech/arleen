@@ -31,9 +31,7 @@
 
   // Header state, inner-page hero parallax and the film — one rAF-throttled scroll handler
   var header = document.querySelector('.site-header');
-  var hero = document.querySelector('.page-hero');
-  var heroBg = hero && hero.querySelector('.page-hero__bg');
-  var heroBox = hero && hero.querySelector('.container');
+  var hero = null, heroBg = null, heroBox = null; // inner pages no longer have a dark parallax hero
   var film = document.querySelector('.film');
   var filmUpdate = function () {};
   var raf = 0;
@@ -213,7 +211,7 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    items.forEach(function (el) { if (!el.closest('.page-hero')) io.observe(el); });
+    items.forEach(function (el) { io.observe(el); });
   } else {
     items.forEach(function (el) { el.classList.add('in'); });
   }
