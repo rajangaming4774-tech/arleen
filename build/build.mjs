@@ -101,8 +101,8 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
   const cur = (n) => n.key === key || (n.children && n.children.includes(key));
   const navHtml = NAV.map((n) => `<li><a href="${n.href}"${cur(n) ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
   const menuHtml = MENU.map((n) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}>${n.label}</a>`).join('\n        ');
-  // Only the home film is dark; every other page starts with the paper header bar
-  const lightHeader = !h1Hero.includes('class="film"');
+  // The hero is a card inset below the bar, so every page starts with the paper header bar
+  const lightHeader = true;
   const preloadTag = !preload ? '' : typeof preload === 'string'
     ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp 1920w" imagesizes="100vw">\n`
     : `<link rel="preload" as="image" href="${preload.href}" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes || '100vw'}" fetchpriority="high">\n`;
@@ -238,7 +238,36 @@ const pic = (base, alt, { w = 1400, h = 933, cls = '', eager = false, sizes = '(
 const heroImg = (name, alt) =>
   `<img class="cover__img" src="/assets/img/${name}.webp" srcset="/assets/img/${name}-sm.webp 800w, /assets/img/${name}.webp 1920w" sizes="(max-width: 900px) 100vw, 58vw" alt="${esc(alt)}" width="1920" height="1280" fetchpriority="high">`;
 
-const startLink = (label = 'Start a project') => `<a class="link link--lg" href="/contactus.php">${label}</a>`;
+const startLink = (label = 'Start a project') => `<a class="btn" href="/contactus.php">${label}</a>`;
+
+// Four figures on one rounded rail, under (or overlapping) the hero — the reference layout's stat bar.
+const FACTS = [
+  [`Est. ${SITE.founded}`, `${addr.locality}, ${addr.city}`],
+  [`${YEAR - 2007} years`, 'Building, interiors and courts'],
+  [`${PROJECTS.length} projects`, 'Schools, homes, showrooms, courts'],
+  ['3 divisions', 'One in-house team'],
+];
+const statBar = ({ float = false } = {}) => `<section class="statbar-wrap${float ? ' statbar-wrap--float' : ''}">
+  <div class="container">
+    <ul class="statbar reveal">${FACTS.map(([n, l]) => `<li><strong>${n}</strong><span>${l}</span></li>`).join('')}</ul>
+  </div>
+</section>`;
+
+// Card grid that closes a page: label, arrow title, one line — the reference layout's tiles.
+const TILES = [
+  { label: 'Our projects', title: 'See the work', text: `${PROJECTS.length} schools, homes, showrooms, recreation centres and courts across Chennai.`, href: '/projects.php' },
+  { label: 'Our services', title: 'What we build', text: 'Construction, interior and exterior decor, sports flooring and courts.', href: '/services.php' },
+  { label: 'Contact us', title: 'Start a project', text: 'Tell us the brief. A free site visit and an itemised quotation follow.', href: '/contactus.php' },
+];
+const tiles = () => `<section class="section section--flush">
+  <div class="container">
+    <div class="tiles">${TILES.map((t) => `<a class="tile reveal" href="${t.href}">
+      <span class="tile__label">${t.label}</span>
+      <h3 class="tile__title">${t.title}</h3>
+      <p>${t.text}</p>
+    </a>`).join('')}</div>
+  </div>
+</section>`;
 
 // Inner-page cover: headline on paper with the photo offset to the right and a caption under it
 function pageHero({ img, alt, caption = '', crumbs, kicker, h1, intro, actions = true }) {
@@ -256,7 +285,8 @@ function pageHero({ img, alt, caption = '', crumbs, kicker, h1, intro, actions =
       ${caption ? `<figcaption>${caption}</figcaption>` : ''}
     </figure>
   </div>
-</section>`;
+</section>
+${statBar()}`;
 }
 
 const projectAlt = (p, i) => `${p.title}, ${p.place} – ${p.work} by Arleen Builders${p.files.length > 1 ? ` (photo ${i + 1})` : ''}`;
@@ -288,7 +318,8 @@ const lightbox = `<div class="lightbox" id="lightbox" role="dialog" aria-modal="
   <button class="lb-next" aria-label="Next photo">›</button>
 </div>`;
 
-const contactBand = (heading = 'Start a<br>project', text = 'Tell us about the site, the brief and the timeline. We call back within one working day to arrange a free site visit and a detailed, itemised quotation.') => `<section class="section">
+const contactBand = (heading = 'Start a<br>project', text = 'Tell us about the site, the brief and the timeline. We call back within one working day to arrange a free site visit and a detailed, itemised quotation.') => `${tiles()}
+<section class="section">
   <div class="container contact-band">
     <div class="reveal">
       <span class="kicker">Enquiries</span>
@@ -421,7 +452,14 @@ pages['index.php'] = layout({
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
   h1Hero: filmSection,
-  body: `<section class="section" id="studio">
+  body: `${statBar({ float: true })}
+<section class="section section--flush">
+  <div class="container">
+    <p class="statement reveal">Construction, interiors and sports courts <b>delivered by one team in Chennai</b> — from the first site visit <b>to handover</b>.</p>
+  </div>
+</section>
+
+<section class="section" id="studio">
   <div class="container">
     <div class="studio">
       <div class="reveal">
@@ -435,12 +473,6 @@ pages['index.php'] = layout({
       </div>
       <blockquote class="pull reveal">A single point of responsibility, from the first site visit to handover.<cite>How we work, since ${SITE.founded}</cite></blockquote>
     </div>
-    <ul class="facts reveal">
-      <li><strong>Est. ${SITE.founded}</strong> ${addr.locality}, ${addr.city}</li>
-      <li><strong>${YEAR - 2007} years</strong> of building, interiors and courts</li>
-      <li><strong>${PROJECTS.length} projects</strong> schools, homes, showrooms and courts</li>
-      <li><strong>3 divisions</strong> one in-house team</li>
-    </ul>
   </div>
 </section>
 

@@ -39,10 +39,8 @@
   // Pages without either use the light bar from the top.
   var update = function () {
     var y = window.scrollY;
-    if (header) {
-      var dark = film && !film.classList.contains('film--static') ? film : hero;
-      header.classList.toggle('scrolled', dark ? y > dark.offsetTop + dark.offsetHeight - 60 : true);
-    }
+    // the header is always the paper bar now — the hero sits in a card below it
+    if (header) header.classList.add('scrolled');
     filmUpdate();
     if (hero && !reduced) {
       var h = hero.offsetHeight;
