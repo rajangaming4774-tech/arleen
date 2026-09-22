@@ -23,17 +23,24 @@ node build/images.mjs   # only when you add or replace photos or the hero video 
 node build/build.mjs    # regenerates the .php pages, sitemap.xml and robots.txt
 node build/serve.mjs    # local preview on http://localhost:8080
 ```
-The home page opens with a headline and one framed photo that slowly cross-fades through three real projects (see "Home hero" below). Inner pages open with a full-bleed still from `assets/img/hero-*.webp`.
+The home page opens with a short pinned, scroll-driven film (see "The film" below). Inner pages open with a full-bleed still from `assets/img/hero-*.webp`.
 
 To add a project:
 1. Put its photos in `raw/projects/<folder>/big/`.
 2. Add an entry to `PROJECTS` in `data.mjs` (`featured: true` puts it on the home page; the first featured project gets the wide tile, the second the tall one).
 3. Run both build commands.
 
-## Home hero
-`HERO_PHOTOS` in `build/build.mjs` lists the photos that cross-fade in the hero frame, with their alt text and caption. They are the `hero-*.webp` banners, rendered from the raw project photos by `build/images.mjs` (the `heroes` map there says which raw file each one comes from). The first photo is preloaded; the fade runs every 5.5 s in `assets/js/main.js` and is switched off for visitors with "reduce motion" on.
-
-The earlier AI-generated scroll film was removed on client feedback (too long, and not their building). Its source clips are still in `raw/tour/` if ever needed.
+## The film (Home page)
+The home page opens with a title card and then plays one continuous, scroll-scrubbed take with four chapters (construction, facade, interiors, sports court). It is stitched from five 8-second clips in `raw/tour/` — `0-tour-1080.mp4` (the opening take under the title card), then `1-exterior-1080.mp4`, `2-facade.mp4`, `3-lobby.mp4`, `4-court.mp4` for the chapters:
+```bash
+node build/video.mjs    # cross-fades the 5 clips into raw/tour-master.mp4, exports 220 WebP frames in three sizes (1920 / 1280 / 720 wide), an mp4 fallback and posters
+node build/build.mjs
+```
+- Clip count, frame count, clip length, cross-fade and sizes live in `build/config.mjs` (`TOUR`). Both `video.mjs` and `build.mjs` read it.
+- Chapter titles, sub-lines and links live in `FILM` in `build/build.mjs`. Chapter boundaries follow the cross-fades (`cutPoints()`).
+- **Scroll length** is set in CSS: `.film { --screens: 4 }` (3.5 on phones) in `assets/css/style.css`. It was 8 before the client asked for a shorter intro; each chapter now gets about three quarters of a screen of scrolling.
+- Frame tiers are in `TOUR.tiers`; the browser picks one by screen size and connection, loads frames coarse-to-fine and eases the shown frame towards the scroll position.
+- Visitors with "reduce motion" on, or without JavaScript, get the first frame, the chapters as a list, and a normal `<video>` with controls.
 
 ## Design
 Warm white UI, near-black text, hairline dividers; the inner-page heroes are full-bleed photos with white captions. Type: `Fraunces` (light serif, sentence case) for headings and `Manrope` for body text and small uppercase labels, from one Google Fonts request. Projects use an editorial grid (`.work--editorial`): the first tile wide, the second tall, the rest three-up. The header is a fixed bar (transparent over the dark inner-page heroes, light on the home page); the grid button opens a full-screen menu with every page, the three divisions and contact details. Gold (`--gold`) is used for kickers, the active nav link, focus rings and the submit button; the WhatsApp button keeps its green. Motion is one soft fade-up per section, switched off for "reduce motion".

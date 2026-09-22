@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, CATEGORY_LABEL, imgName } from './data.mjs';
+import { TOUR, cutPoints } from './config.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
@@ -100,8 +101,8 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
   const cur = (n) => n.key === key || (n.children && n.children.includes(key));
   const navHtml = NAV.map((n) => `<li><a href="${n.href}"${cur(n) ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
   const menuHtml = MENU.map((n) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}>${n.label}</a>`).join('\n        ');
-  // Pages without a dark hero (home) start with the light header bar instead of white-on-dark text
-  const lightHeader = !h1Hero.includes('class="page-hero"');
+  // Pages without a dark hero or film start with the light header bar instead of white-on-dark text
+  const lightHeader = !/class="(page-hero|film)"/.test(h1Hero);
   const preloadTag = !preload ? '' : typeof preload === 'string'
     ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp 1920w" imagesizes="100vw">\n`
     : `<link rel="preload" as="image" href="${preload.href}" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes || '100vw'}" fetchpriority="high">\n`;
@@ -362,32 +363,58 @@ const CLIENTS = ['Stella Matutina College', 'D.G. Vaishnav College', 'Sacred Hea
 /* ---------- Pages ---------- */
 const pages = {};
 
-// HOME — a short editorial hero: the headline, then one framed photo that slowly cross-fades
-// through a few real projects (the hero-*.webp banners rendered by build/images.mjs).
-const HERO_PHOTOS = [
-  { img: 'hero-sports', alt: 'Indoor synthetic badminton court with steel roof built by Arleen Builders at Sacred Heart School, Chennai', caption: 'Sacred Heart School — indoor badminton court, Church Park' },
-  { img: 'hero-about', alt: 'Stella Matutina College canteen block with ACP cladding and glazing at dusk, built by Arleen Builders', caption: 'Stella Matutina College — canteen block, Ashok Nagar' },
-  { img: 'hero-home', alt: 'Eden Square commercial building with structural glazing facade by Arleen Builders, Chennai', caption: 'Eden Square — structural glazing facade' },
-];
-const homeHero = `<section class="hero">
-  <div class="container">
-    <div class="hero__text">
-      <h1 class="reveal">Builders, interior decorators &amp; sports flooring contractors in Chennai</h1>
-      <p class="lead reveal">Apartments, villas, schools, showrooms and indoor courts — designed, built and fitted out by one in-house team since ${SITE.founded}.</p>
-      <p class="hero__links reveal"><a class="link" href="/projects.php">View projects</a><a class="link link--muted" href="/contactus.php">Get a quotation</a></p>
+// HOME — the film: one pinned, scroll-scrubbed take over the clips in raw/tour/, with a title card
+// and one chapter per clip. Chapter ranges follow the cross-fades. Its scroll length is set in CSS
+// (.film { --screens }) and was halved on client feedback.
+const cuts = cutPoints();
+const FILM = {
+  hold: 0, // the one-take opening clip plays under the title card as you start to scroll
+  title: { to: cuts[0], kicker: 'Builders · Interiors · Sports flooring', line: 'Construction, interiors and sports courts — Chennai, since 2007.' },
+  chapters: [
+    { kicker: 'Construction', title: 'The structure', sub: 'Apartments, villas, offices and institutions — built on time.', href: '/construction.php' },
+    { kicker: 'Facades', title: 'The facade', sub: 'ACP cladding, structural and spider glazing.', href: '/interiors.php#exterior' },
+    { kicker: 'Interiors', title: 'The interior', sub: 'Offices, showrooms and homes, fitted out by our own team.', href: '/interiors.php' },
+    { kicker: 'Sports', title: 'The court', sub: 'Indoor badminton and multi-sport arenas.', href: '/sports-flooring.php' },
+  ],
+};
+const chapterRanges = FILM.chapters.map((_, i) => [cuts[i], i + 1 < cuts.length ? cuts[i + 1] : 1.01]);
+const FRAME1 = { sm: '/assets/video/tour/sm/f-001.webp', lg: '/assets/video/tour/lg/f-001.webp', xl: '/assets/video/tour/xl/f-001.webp' };
+const filmSection = `<section class="film" aria-label="Arleen Builders film" data-frames="${TOUR.frames}" data-hold="${FILM.hold}" data-xl="/assets/video/tour/xl/" data-lg="/assets/video/tour/lg/" data-sm="/assets/video/tour/sm/">
+  <noscript><style>.film{height:auto}.film .film__sticky{position:static;height:auto;overflow:visible;padding-top:60px}.film__canvas,.film__progress,.film__hint,.film__loading,.film__vignette{display:none}.film__poster{position:static;aspect-ratio:16/9;height:auto}.film__video{display:block;width:100%}.film__card{position:static;opacity:1;transform:none;pointer-events:auto;padding:40px var(--gutter);border-top:1px solid var(--line);align-items:flex-start;text-align:left}.film__card h2{font-size:clamp(2rem,5vw,3.5rem)}</style></noscript>
+  <div class="film__sticky">
+    <img class="film__poster" src="${FRAME1.lg}" srcset="${FRAME1.sm} 720w, ${FRAME1.lg} 1280w, ${FRAME1.xl} 1920w" sizes="100vw" width="${TOUR.canvas[0]}" height="${TOUR.canvas[1]}" alt="" fetchpriority="high" decoding="async">
+    <canvas class="film__canvas" width="${TOUR.canvas[0]}" height="${TOUR.canvas[1]}" aria-hidden="true"></canvas>
+    <video class="film__video" src="/assets/video/tour.mp4" poster="/assets/video/tour-poster.jpg" muted playsinline controls preload="none" width="1280" height="720">Video tour: exterior, facade, interiors and indoor badminton court.</video>
+    <div class="film__vignette" aria-hidden="true"></div>
+    <div class="film__card film__card--title on" data-from="0" data-to="${FILM.title.to}">
+      <span class="kicker">${FILM.title.kicker}</span>
+      <h1 class="display film__wordmark">Arleen Builders<span class="sr-only"> — builders, interior decorators &amp; sports flooring contractors in Chennai</span></h1>
+      <p class="mono">${FILM.title.line}</p>
     </div>
-    <figure class="hero__media reveal">
-      <div class="hero__frame">${HERO_PHOTOS.map((h, i) => `<img${i === 0 ? ' class="is-on"' : ''} src="/assets/img/${h.img}.webp" srcset="/assets/img/${h.img}-sm.webp 800w, /assets/img/${h.img}.webp 1920w" sizes="(max-width: 1400px) 100vw, 1400px" alt="${esc(h.alt)}" data-caption="${esc(h.caption)}" width="1920" height="1280"${i === 0 ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`).join('')}</div>
-      <figcaption class="hero__caption">${esc(HERO_PHOTOS[0].caption)}</figcaption>
-    </figure>
+    ${FILM.chapters.map((c, i) => `<div class="film__card film__card--${i % 2 ? 'right' : 'left'}" data-from="${chapterRanges[i][0].toFixed(3)}" data-to="${chapterRanges[i][1].toFixed(3)}" inert>
+      <span class="kicker">${c.kicker}</span>
+      <h2 class="display">${c.title}</h2>
+      <p class="mono">${c.sub}</p>
+      <a class="link" href="${c.href}">See the work</a>
+    </div>`).join('\n    ')}
+    <div class="film__loading" role="status" aria-live="polite">Loading film…</div>
+    <div class="film__hint" aria-hidden="true">Scroll</div>
+    <div class="film__progress" aria-hidden="true"></div>
   </div>
 </section>`;
+const filmSchema = {
+  '@type': 'VideoObject', name: 'Arleen Builders – construction, facade, interior and sports court tour',
+  description: 'A short tour of the kind of work Arleen Builders delivers in Chennai: commercial building construction, glass facade, office interiors and an indoor badminton court.',
+  thumbnailUrl: `${SITE.url}/assets/video/tour-poster.jpg`, contentUrl: `${SITE.url}/assets/video/tour.mp4`,
+  duration: `PT${TOUR.seconds}S`, uploadDate: new Date().toISOString().slice(0, 10), publisher: { '@id': ORG_ID },
+};
 
 pages['index.php'] = layout({
-  path: '/', key: 'home', preload: 'hero-sports',
+  path: '/', key: 'home', schema: [filmSchema],
+  preload: { href: FRAME1.lg, srcset: `${FRAME1.sm} 720w, ${FRAME1.lg} 1280w, ${FRAME1.xl} 1920w`, sizes: '100vw' },
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
-  h1Hero: homeHero,
+  h1Hero: filmSection,
   body: `<section class="section" id="studio">
   <div class="container">
     <div class="studio">
