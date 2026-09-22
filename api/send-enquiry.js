@@ -10,8 +10,6 @@ function respond(ok, message, isAjax) {
   return new Response(null, { status: 303, headers: { Location: '/contactus.php?sent=' + (ok ? '1' : '0') } });
 }
 
-const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-
 export async function GET() {
   return new Response(null, { status: 303, headers: { Location: '/contactus.php' } });
 }
@@ -61,7 +59,7 @@ export async function POST(request) {
   }).catch(() => null);
 
   if (res && res.ok) {
-    return respond(true, `Thank you, ${esc(name)}! Your enquiry has been sent. We will call you within one working day.`, isAjax);
+    return respond(true, `Thank you, ${name}! Your enquiry has been sent. We will call you within one working day.`, isAjax);
   }
   console.error('Resend failed', res && res.status, res && (await res.text()));
   return respond(false, FALLBACK, isAjax);

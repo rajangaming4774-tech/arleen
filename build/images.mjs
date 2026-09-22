@@ -12,27 +12,47 @@ const ff = (args) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args]);
 const webp = (src, dst, width, q = 78) =>
   ff(['-i', src, '-vf', `scale='min(${width},iw)':-2`, '-c:v', 'libwebp', '-quality', String(q), dst]);
 
+// The Eden Square frame has a rival contractor's signboard at the right edge; everything that uses
+// this photo goes through the crop below so the board never ships.
+const EDENSQUARE = 'projects/edensquare/big/edensquare_1.jpg';
+const noRival = 'crop=iw*0.88:ih:0:0';
+
 for (const p of PROJECTS) {
   p.files.forEach((f, i) => {
     const src = `${RAW}/projects/${p.dir}/big/${f}.jpg`;
     if (!existsSync(src)) return console.warn('missing', src);
     const base = `${OUT}/projects/${imgName(p, i)}`;
-    webp(src, `${base}.webp`, 1400);
-    webp(src, `${base}-sm.webp`, 640, 72);
+    const pre = src.endsWith(EDENSQUARE) ? `${noRival},` : '';
+    ff(['-i', src, '-vf', `${pre}scale='min(1400,iw)':-2`, '-c:v', 'libwebp', '-quality', '78', `${base}.webp`]);
+    ff(['-i', src, '-vf', `${pre}scale='min(640,iw)':-2`, '-c:v', 'libwebp', '-quality', '72', `${base}-sm.webp`]);
   });
+}
+
+// Home hero: a 16:9 crop of one real project, biased up so the roof line survives.
+// Two candidates while the owner picks; the unused one is dropped afterwards.
+const HOME_HEROES = {
+  'hero-index-a': 'projects/sacred-heart/big/1.jpg', // indoor court, 2048x1536 — the only true 1920w source
+  'hero-index-b': 'projects/kk-nirmala-school/big/schools1.jpg', // college block at dusk, 1280w
+};
+const wide = "crop=iw:iw*9/16:0:(ih-ih*9/16)*0.40";
+for (const [name, src] of Object.entries(HOME_HEROES)) {
+  for (const [suffix, width, q] of [['', 1920, 72], ['-1280', 1280, 70], ['-sm', 800, 66]]) {
+    ff(['-i', `${RAW}/${src}`, '-vf', `${wide},scale='min(${width},iw)':-2`, '-c:v', 'libwebp', '-quality', String(q), `${OUT}/${name}${suffix}.webp`]);
+  }
 }
 
 // Hero / page banners
 const heroes = {
-  'hero-home': 'projects/edensquare/big/edensquare_1.jpg',
+  'hero-home': EDENSQUARE,
   'hero-construction': 'projects/sunil/big/sunil1.jpg',
   'hero-interiors': 'projects/recreationcentre-1/big/billards_2.jpg',
   'hero-sports': 'projects/sacred-heart/big/1.jpg',
   'hero-about': 'projects/kk-nirmala-school/big/schools1.jpg',
 };
 for (const [name, src] of Object.entries(heroes)) {
-  webp(`${RAW}/${src}`, `${OUT}/${name}.webp`, 1920, 70);
-  webp(`${RAW}/${src}`, `${OUT}/${name}-sm.webp`, 800, 65);
+  const pre = src === EDENSQUARE ? `${noRival},` : '';
+  ff(['-i', `${RAW}/${src}`, '-vf', `${pre}scale='min(1920,iw)':-2`, '-c:v', 'libwebp', '-quality', '70', `${OUT}/${name}.webp`]);
+  ff(['-i', `${RAW}/${src}`, '-vf', `${pre}scale='min(800,iw)':-2`, '-c:v', 'libwebp', '-quality', '65', `${OUT}/${name}-sm.webp`]);
 }
 
 // Logo: white -> transparent, resized
@@ -40,7 +60,7 @@ ff(['-i', `${RAW}/images/logo.png`, '-vf', 'scale=360:-2,colorkey=white:0.08:0.0
 ff(['-i', `${OUT}/logo.png`, '-c:v', 'libwebp', '-quality', '90', `${OUT}/logo.webp`]);
 // Favicon + social share image
 ff(['-i', `${RAW}/images/logo.png`, '-vf', 'crop=1110:1060:0:0,scale=-2:168,pad=192:192:(ow-iw)/2:(oh-ih)/2:white', `${OUT}/favicon.png`]);
-ff(['-i', `${RAW}/projects/edensquare/big/edensquare_1.jpg`, '-vf', 'scale=1200:630:force_original_aspect_ratio=increase,crop=1200:630', '-q:v', '4', `${OUT}/og-image.jpg`]);
+ff(['-i', `${RAW}/${EDENSQUARE}`, '-vf', `${noRival},scale=1200:630:force_original_aspect_ratio=increase,crop=1200:630`, '-q:v', '4', `${OUT}/og-image.jpg`]);
 
 
 console.log('images done');

@@ -1,6 +1,6 @@
 /* Arleen Builders — stylesheet. Warm editorial: paper background, ink text, terracotta accent, Fraunces serif + Manrope.
    Layout idea: a fixed left "margin column" (var(--margin)) carries section labels; content sits to its right, like a magazine spread.
-   Only the home film and the footer are dark. */
+   Only the home hero card and the footer are dark. */
 :root {
   --paper: #f4efe5;
   --paper-2: #ece5d6;
@@ -97,7 +97,7 @@ h1.display { font-size: clamp(2.5rem, 5.2vw, 4.8rem); }
 body.nav-open .site-header { color: var(--ink); background: none; border-bottom-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 64px; gap: 24px; max-width: none; padding: 0 clamp(20px, 2.5vw, 40px); }
 .nav__brand { display: inline-flex; align-items: center; justify-self: start; line-height: 0; }
-/* Compact logo: white over the dark film, true colours on the paper bar and open menu */
+/* Compact logo: true colours on the paper bar; the inverted rule stays for any dark header */
 .nav__brand img { display: block; height: 34px; width: auto; filter: brightness(0) invert(1) drop-shadow(0 1px 8px rgba(0, 0, 0, .35)); transition: filter .4s; }
 .site-header.scrolled .nav__brand img, body.nav-open .nav__brand img { filter: none; }
 .nav__menu { display: flex; gap: clamp(18px, 2.6vw, 40px); justify-content: center; }
@@ -133,53 +133,31 @@ body.nav-open .site-header { color: var(--ink); background: none; border-bottom-
   .menu__links a { font-size: clamp(1.6rem, 8vw, 2.6rem); }
 }
 
-/* ---------- Film (home): pinned, scroll-scrubbed frame sequence. --screens sets how long it runs ---------- */
-.film { --screens: 2.6; height: calc(var(--screens) * 100vh); position: relative; background: var(--dark); color: var(--on-dark); }
-.film__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--dark); }
-.film__poster, .film__canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.film__canvas { will-change: transform; backface-visibility: hidden; transform: translateZ(0); opacity: 0; transition: opacity .4s; }
-.film__canvas.ready { opacity: 1; }
-.film__video { display: none; }
-.film__vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 40%, rgba(20, 14, 8, .5) 100%), linear-gradient(180deg, rgba(20, 14, 8, .5) 0%, transparent 28%, transparent 62%, rgba(20, 14, 8, .62) 100%); }
-.film__card { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 0 var(--gutter) clamp(72px, 12vh, 128px); opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .9s var(--ease); pointer-events: none; }
-.film__card.on { opacity: 1; transform: none; pointer-events: auto; }
-.film__card--right { align-items: flex-end; text-align: right; }
-.film__card--title { justify-content: center; align-items: center; text-align: center; padding-bottom: 0; }
-.film__card .kicker { margin-bottom: 1.2rem; color: var(--on-dark-muted); }
-.film__card h2, .film__wordmark { color: #fff; }
-.film__card .link { color: #fff; margin-top: 1.6rem; border-bottom-color: rgba(255, 255, 255, .4); }
-.film__card .link:hover { border-bottom-color: #fff; color: #fff; }
-.film__card h2 { font-size: clamp(2rem, 5.5vw, 4.8rem); font-style: italic; max-width: 12ch; margin: 0 0 .25em; text-shadow: 0 2px 30px rgba(0, 0, 0, .35); }
-.film__card--right h2 { margin-left: auto; }
-.film__card .mono { color: var(--on-dark-muted); max-width: 48ch; }
-.film__wordmark { font-size: clamp(2.8rem, 8.5vw, 7.5rem); font-weight: 300; font-style: italic; letter-spacing: -.01em; line-height: 1; margin: .15em 0 .3em; text-shadow: 0 2px 40px rgba(0, 0, 0, .4); }
-.film__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; z-index: 3; background: var(--accent); transform: scaleX(var(--p, 0)); transform-origin: left; }
-.film__loading { position: absolute; left: var(--gutter); bottom: 22px; z-index: 3; font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark-muted); transition: opacity .4s; }
-.film__loading.done { opacity: 0; }
-.film__hint { position: absolute; right: var(--gutter); bottom: 22px; z-index: 3; font-family: var(--font-display); font-style: italic; font-size: .9rem; color: var(--on-dark-muted); transition: opacity .4s; animation: film-bob 1.8s ease-in-out infinite; }
-.film__hint.off { opacity: 0; }
-@keyframes film-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
-@media (max-width: 768px) {
-  .film { --screens: 2.4; }
-  .film__card { padding-bottom: 104px; }
-  .film__card h2 { font-size: clamp(1.9rem, 8.5vw, 3rem); }
-  .film__card--right { align-items: flex-start; text-align: left; }
-  .film__card--right h2 { margin-left: 0; }
-  .film__hint { right: auto; left: var(--gutter); bottom: 60px; }
-  .film__loading { bottom: 40px; }
+/* ---------- Home hero: one real photograph in the rounded card, headline over it ---------- */
+.hero { padding: var(--bar) var(--inset) 0; }
+.hero__card { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 9;
+  max-height: calc(100svh - var(--bar) - var(--inset)); background: var(--paper-3); }
+.hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* a flat bottom scrim, not a cinematic vignette: the headline has to read, the photo stays a photo */
+.hero__scrim { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(20, 14, 8, .34) 0%, rgba(20, 14, 8, 0) 38%, rgba(20, 14, 8, .74) 100%); }
+/* bottom padding clears the figures rail, which floats up over the card's lower edge */
+.hero__text { position: absolute; inset: auto 0 0 0; z-index: 2; padding: 0 clamp(24px, 3.5vw, 56px) clamp(84px, 13vh, 148px); }
+.hero__text .kicker { color: rgba(244, 239, 229, .82); margin-bottom: 1rem; }
+.hero__title { color: #fff; font-size: clamp(2.1rem, 5.4vw, 4.6rem); font-style: italic; max-width: 16ch; margin: 0 0 .35em; text-shadow: 0 2px 30px rgba(0, 0, 0, .35); }
+.hero__title em { color: #f0d9c6; }
+.hero__text .mono { color: var(--on-dark-muted); max-width: 46ch; }
+.hero__text .btn { margin-top: 1.8rem; background: var(--paper); color: var(--ink); }
+.hero__text .btn::after { background: var(--ink); color: var(--paper); }
+.hero__text .btn:hover { background: #fff; }
+/* top right: clear of both the rail below and the floating call buttons */
+.hero__credit { position: absolute; top: clamp(14px, 1.8vw, 24px); right: clamp(18px, 2.4vw, 32px); z-index: 2; max-width: 46%; text-align: right;
+  font-family: var(--font-display); font-style: italic; font-size: .82rem; line-height: 1.4; color: rgba(244, 239, 229, .8); text-shadow: 0 1px 12px rgba(0, 0, 0, .45); }
+@media (max-width: 700px) {
+  .hero__card { aspect-ratio: 4 / 5; }
+  .hero__scrim { background: linear-gradient(180deg, rgba(20, 14, 8, .26) 0%, rgba(20, 14, 8, 0) 26%, rgba(20, 14, 8, .78) 100%); }
+  .hero__credit { font-size: .74rem; max-width: 62%; }
 }
-/* Static fallback: reduced motion or no JS */
-.film--static { height: auto; background: var(--paper); color: var(--ink); }
-.film--static .film__sticky { position: static; height: auto; overflow: visible; padding-top: 64px; background: var(--paper); }
-.film--static .film__card h2, .film--static .film__card .link { color: var(--ink); }
-.film--static .film__card .kicker, .film--static .film__card .mono { color: var(--muted); }
-.film--static .film__canvas, .film--static .film__progress, .film--static .film__hint, .film--static .film__loading, .film--static .film__vignette { display: none; }
-.film--static .film__poster { position: static; aspect-ratio: 16 / 9; height: auto; }
-.film--static .film__video { display: block; width: 100%; margin-top: 2px; }
-.film--static .film__card { position: static; opacity: 1; transform: none; pointer-events: auto; padding: 40px var(--gutter); border-top: 1px solid var(--rule); align-items: flex-start; text-align: left; }
-.film--static .film__card h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
-.film--static .film__card--title { align-items: flex-start; text-align: left; }
-.film--static .film__card--right h2 { margin-left: 0; }
 
 /* ---------- Inner page cover: headline on paper, photo offset to the right with a caption ---------- */
 .cover { padding: calc(64px + clamp(40px, 7vh, 88px)) 0 clamp(48px, 6vw, 96px); }
@@ -404,23 +382,12 @@ body.nav-open .site-header { color: var(--ink); background: none; border-bottom-
    figures, closing tiles and pill buttons follow the same rounded language. */
 :root { --radius: 24px; --radius-sm: 16px; --inset: clamp(8px, 1.2vw, 18px); --bar: 64px; }
 
-/* Hero card: the film is inset below the header instead of running edge to edge */
-.film__sticky { background: var(--paper); }
-/* the poster and canvas are replaced elements: they need an explicit size, not just the inset */
-.film__poster, .film__canvas, .film__vignette, .film__card { inset: var(--bar) var(--inset) var(--inset); border-radius: var(--radius); }
-.film__poster, .film__canvas, .film__vignette { width: calc(100% - 2 * var(--inset)); height: calc(100% - var(--bar) - var(--inset)); }
-.film__card { padding: 0 clamp(24px, 3.5vw, 56px) clamp(48px, 8vh, 96px); }
-.film__card--title { padding-bottom: 0; }
-.film__progress { left: var(--inset); right: var(--inset); bottom: var(--inset); border-radius: 0 0 var(--radius) var(--radius); }
-.film__hint, .film__loading { bottom: calc(var(--inset) + 16px); }
-.film__hint { right: calc(var(--inset) + clamp(24px, 3.5vw, 56px)); }
-.film__loading { left: calc(var(--inset) + clamp(24px, 3.5vw, 56px)); }
-.cover__img, .work__media, .split__media img, .row__media img, .film__video { border-radius: var(--radius); }
-.contact-map, .contact-map iframe { border-radius: var(--radius); overflow: hidden; }
+.cover__img, .work__media, .split__media img, .row__media img { border-radius: var(--radius); }
+.map { border-radius: var(--radius); }
 
 /* Stat rail */
 .statbar-wrap { padding: clamp(28px, 4vw, 48px) 0 0; }
-.statbar-wrap--float { position: relative; z-index: 6; margin-top: calc(-1 * clamp(52px, 7vw, 92px)); padding-top: 0; }
+.statbar-wrap--float { position: relative; z-index: 6; margin-top: calc(-1 * clamp(44px, 5.5vw, 72px)); padding-top: 0; }
 .statbar { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
 .statbar-wrap--float .statbar { background: rgba(244, 239, 229, .94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 24px 60px -34px rgba(27, 24, 19, .5); }
 .statbar li { padding: clamp(20px, 2.6vw, 32px) clamp(18px, 2.2vw, 30px); border-left: 1px solid var(--rule); }
@@ -470,7 +437,6 @@ body.nav-open .site-header { color: var(--ink); background: none; border-bottom-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .film__hint { animation: none; }
   .menu__links a { transform: none; }
   * { transition-duration: 0s !important; }
 }

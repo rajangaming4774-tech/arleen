@@ -69,6 +69,6 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $sent = @mail($TO, '=?UTF-8?B?' . base64_encode($SUBJECT) . '?=', $body, $headers);
 
 if ($sent) {
-    respond(true, 'Thank you, ' . htmlspecialchars($name) . '! Your enquiry has been sent. We will call you within one working day.', $isAjax);
+    respond(true, 'Thank you, ' . $name . '! Your enquiry has been sent. We will call you within one working day.', $isAjax);
 }
 respond(false, 'Sorry, your message could not be sent. Please call +91 93833 41020 or email info@arleenbuilders.com.', $isAjax);

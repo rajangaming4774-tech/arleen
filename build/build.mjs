@@ -4,7 +4,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, CATEGORY_LABEL, imgName } from './data.mjs';
-import { TOUR, cutPoints } from './config.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
@@ -101,8 +100,6 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
   const cur = (n) => n.key === key || (n.children && n.children.includes(key));
   const navHtml = NAV.map((n) => `<li><a href="${n.href}"${cur(n) ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
   const menuHtml = MENU.map((n) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}>${n.label}</a>`).join('\n        ');
-  // The hero is a card inset below the bar, so every page starts with the paper header bar
-  const lightHeader = true;
   const preloadTag = !preload ? '' : typeof preload === 'string'
     ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp 1920w" imagesizes="100vw">\n`
     : `<link rel="preload" as="image" href="${preload.href}" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes || '100vw'}" fetchpriority="high">\n`;
@@ -141,7 +138,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header${lightHeader ? ' scrolled' : ''}">
+<header class="site-header scrolled">
   <nav class="container nav" aria-label="Main">
     <a class="nav__brand" href="/" aria-label="${SITE.name} home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="${SITE.name}"></picture></a>
     <ul class="nav__menu">${navHtml}</ul>
@@ -242,10 +239,10 @@ const startLink = (label = 'Start a project') => `<a class="btn" href="/contactu
 
 // Four figures on one rounded rail, under (or overlapping) the hero — the reference layout's stat bar.
 const FACTS = [
-  [`Est. ${SITE.founded}`, `${addr.locality}, ${addr.city}`],
-  [`${YEAR - 2007} years`, 'Building, interiors and courts'],
-  [`${PROJECTS.length} projects`, 'Schools, homes, showrooms, courts'],
+  [`Since ${SITE.founded}`, `${addr.locality}, ${addr.city}`],
+  [`${YEAR - Number(SITE.founded)} years`, 'Building, interiors and courts'],
   ['3 divisions', 'One in-house team'],
+  ['Chennai', 'City and suburbs'],
 ];
 const statBar = ({ float = false } = {}) => `<section class="statbar-wrap${float ? ' statbar-wrap--float' : ''}">
   <div class="container">
@@ -287,6 +284,36 @@ function pageHero({ img, alt, caption = '', crumbs, kicker, h1, intro, actions =
   </div>
 </section>
 ${statBar()}`;
+}
+
+// Home cover: one real project photograph filling the card, with the headline over it.
+// Kept separate from pageHero() — that one sets text on paper beside the photo and needs a
+// breadcrumb, neither of which suits the home page.
+const HOME_HEROES = {
+  a: { base: 'hero-index-a',
+       alt: 'Indoor synthetic badminton court with steel roofing built by Arleen Builders at Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai',
+       credit: 'Sacred Heart Matriculation Hr. Sec. School — indoor shuttle court, Church Park' },
+  b: { base: 'hero-index-b',
+       alt: 'Glazed entrance block with ACP cladding built by Arleen Builders at Stella Matutina College of Education, Ashok Nagar, Chennai',
+       credit: 'Stella Matutina College of Education — glazed entrance block, Ashok Nagar' },
+};
+const HOME_HERO = HOME_HEROES[process.env.HERO === 'b' ? 'b' : 'a'];
+const homeHeroSrcset = (b) => `/assets/img/${b}-sm.webp 800w, /assets/img/${b}-1280.webp 1280w, /assets/img/${b}.webp 1920w`;
+function homeHero() {
+  const b = HOME_HERO.base;
+  return `<section class="hero">
+  <figure class="hero__card">
+    <img class="hero__img" src="/assets/img/${b}-1280.webp" srcset="${homeHeroSrcset(b)}" sizes="100vw" width="1920" height="1080" alt="${esc(HOME_HERO.alt)}" fetchpriority="high" decoding="async">
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="hero__text">
+      <span class="kicker">${SITE.name} — ${addr.city}, since ${SITE.founded}</span>
+      <h1 class="display hero__title">Builders, interiors and <em>sports courts</em> in Chennai</h1>
+      <p class="mono">School blocks, apartments, showroom facades and indoor courts — built by one team since ${SITE.founded}.</p>
+      <a class="btn" href="/contactus.php">Start a project</a>
+    </div>
+    <figcaption class="hero__credit">${HOME_HERO.credit}</figcaption>
+  </figure>
+</section>`;
 }
 
 const projectAlt = (p, i) => `${p.title}, ${p.place} – ${p.work} by Arleen Builders${p.files.length > 1 ? ` (photo ${i + 1})` : ''}`;
@@ -401,57 +428,13 @@ const CLIENTS = ['Stella Matutina College', 'D.G. Vaishnav College', 'Sacred Hea
 /* ---------- Pages ---------- */
 const pages = {};
 
-// HOME — the film: one pinned, scroll-scrubbed take over the clips in raw/tour/, with a title card
-// and one chapter per clip. Chapter ranges follow the cross-fades. Its scroll length is set in CSS
-// (.film { --screens }) and was halved on client feedback.
-const cuts = cutPoints();
-const FILM = {
-  hold: 0, // the one-take opening clip plays under the title card as you start to scroll
-  title: { to: cuts[0], kicker: 'Builders · Interiors · Sports flooring', line: 'Construction, interiors and sports courts — Chennai, since 2007.' },
-  chapters: [ // one per clip after the opening take — keep in step with CLIPS in build/video.mjs
-    { kicker: 'Facades', title: 'The facade', sub: 'ACP cladding, structural and spider glazing.', href: '/interiors.php#exterior' },
-    { kicker: 'Interiors', title: 'The interior', sub: 'Offices, showrooms and homes, fitted out by our own team.', href: '/interiors.php' },
-    { kicker: 'Sports', title: 'The court', sub: 'Indoor badminton and multi-sport arenas.', href: '/sports-flooring.php' },
-  ],
-};
-const chapterRanges = FILM.chapters.map((_, i) => [cuts[i], i + 1 < cuts.length ? cuts[i + 1] : 1.01]);
-const FRAME1 = { sm: '/assets/video/tour/sm/f-001.webp', lg: '/assets/video/tour/lg/f-001.webp', xl: '/assets/video/tour/xl/f-001.webp' };
-const filmSection = `<section class="film" aria-label="Arleen Builders film" data-frames="${TOUR.frames}" data-hold="${FILM.hold}" data-xl="/assets/video/tour/xl/" data-lg="/assets/video/tour/lg/" data-sm="/assets/video/tour/sm/">
-  <noscript><style>.film{height:auto}.film .film__sticky{position:static;height:auto;overflow:visible;padding-top:60px}.film__canvas,.film__progress,.film__hint,.film__loading,.film__vignette{display:none}.film__poster{position:static;aspect-ratio:16/9;height:auto}.film__video{display:block;width:100%}.film__card{position:static;opacity:1;transform:none;pointer-events:auto;padding:40px var(--gutter);border-top:1px solid var(--line);align-items:flex-start;text-align:left}.film__card h2{font-size:clamp(2rem,5vw,3.5rem)}</style></noscript>
-  <div class="film__sticky">
-    <img class="film__poster" src="${FRAME1.lg}" srcset="${FRAME1.sm} 720w, ${FRAME1.lg} 1280w, ${FRAME1.xl} 1920w" sizes="100vw" width="${TOUR.canvas[0]}" height="${TOUR.canvas[1]}" alt="" fetchpriority="high" decoding="async">
-    <canvas class="film__canvas" width="${TOUR.canvas[0]}" height="${TOUR.canvas[1]}" aria-hidden="true"></canvas>
-    <video class="film__video" src="/assets/video/tour.mp4" poster="/assets/video/tour-poster.jpg" muted playsinline controls preload="none" width="1280" height="720">Video tour: exterior, facade, interiors and indoor badminton court.</video>
-    <div class="film__vignette" aria-hidden="true"></div>
-    <div class="film__card film__card--title on" data-from="0" data-to="${FILM.title.to}">
-      <span class="kicker">${FILM.title.kicker}</span>
-      <h1 class="display film__wordmark">Arleen Builders<span class="sr-only"> — builders, interior decorators &amp; sports flooring contractors in Chennai</span></h1>
-      <p class="mono">${FILM.title.line}</p>
-    </div>
-    ${FILM.chapters.map((c, i) => `<div class="film__card film__card--${i % 2 ? 'right' : 'left'}" data-from="${chapterRanges[i][0].toFixed(3)}" data-to="${chapterRanges[i][1].toFixed(3)}" inert>
-      <span class="kicker">${c.kicker}</span>
-      <h2 class="display">${c.title}</h2>
-      <p class="mono">${c.sub}</p>
-      <a class="link" href="${c.href}">See the work</a>
-    </div>`).join('\n    ')}
-    <div class="film__loading" role="status" aria-live="polite">Loading film…</div>
-    <div class="film__hint" aria-hidden="true">Scroll</div>
-    <div class="film__progress" aria-hidden="true"></div>
-  </div>
-</section>`;
-const filmSchema = {
-  '@type': 'VideoObject', name: 'Arleen Builders – construction, facade, interior and sports court tour',
-  description: 'A short tour of the kind of work Arleen Builders delivers in Chennai: commercial building construction, glass facade, office interiors and an indoor badminton court.',
-  thumbnailUrl: `${SITE.url}/assets/video/tour-poster.jpg`, contentUrl: `${SITE.url}/assets/video/tour.mp4`,
-  duration: `PT${TOUR.seconds}S`, uploadDate: new Date().toISOString().slice(0, 10), publisher: { '@id': ORG_ID },
-};
-
+// HOME
 pages['index.php'] = layout({
-  path: '/', key: 'home', schema: [filmSchema],
-  preload: { href: FRAME1.lg, srcset: `${FRAME1.sm} 720w, ${FRAME1.lg} 1280w, ${FRAME1.xl} 1920w`, sizes: '100vw' },
+  path: '/', key: 'home',
+  preload: { href: `/assets/img/${HOME_HERO.base}-1280.webp`, srcset: homeHeroSrcset(HOME_HERO.base), sizes: '100vw' },
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
-  h1Hero: filmSection,
+  h1Hero: homeHero(),
   body: `${statBar({ float: true })}
 <section class="section section--flush">
   <div class="container">
@@ -862,7 +845,7 @@ pages['contactus.php'] = layout({
       <div class="field"><label for="f-location">Project location</label><input id="f-location" name="location" type="text" maxlength="120" placeholder="e.g. Anna Nagar, Chennai"></div>
       <div class="field"><label for="f-msg">Project details *</label><textarea id="f-msg" name="message" required maxlength="2000" placeholder="Tell us about your project, size and timeline"></textarea></div>
       <div class="hp" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <button class="btn" type="submit">Send enquiry ${I.arrow}</button>
+      <button class="btn" type="submit">Send enquiry</button>
     </form>
   </div>
 </section>

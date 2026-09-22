@@ -27,7 +27,7 @@ export const SITE = {
 // category: construction | interiors | sports
 export const PROJECTS = [
   { slug: 'sacred-heart-indoor-shuttle-court', title: 'Sacred Heart Matriculation Hr. Sec. School', place: 'Church Park, Chennai', category: 'sports',
-    work: 'Indoor synthetic badminton / shuttle court with steel roofing', dir: 'sacred-heart', files: ['1', '2', '3', '4', '5', '6', '7'], featured: true },
+    work: 'Indoor synthetic badminton / shuttle court with steel roofing', dir: 'sacred-heart', files: ['1', '2', '3', '4', '5'], featured: true },
   { slug: 'stella-matutina-college-building', title: 'Stella Matutina College of Education (K.K. Nirmala School)', place: 'Ashok Nagar, Chennai', category: 'construction',
     work: 'Institutional building construction and glazed entrance block', dir: 'kk-nirmala-school', files: ['schools1', 'schools2', 'schools3', 'schools4', 'schools5'], featured: true },
   { slug: 'edensquare-structural-glazing', title: 'Eden Square', place: 'Chennai', category: 'interiors',

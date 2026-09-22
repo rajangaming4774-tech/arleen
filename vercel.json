@@ -7,12 +7,9 @@
   "redirects": [
     { "source": "/index.php", "destination": "/", "permanent": true }
   ],
-  "rewrites": [
-    { "source": "/send-enquiry.php", "destination": "/api/send-enquiry" }
-  ],
   "headers": [
     {
-      "source": "/(.*)\\.php",
+      "source": "/(index|aboutus|services|construction|interiors|sports-flooring|projects|contactus|404).php",
       "headers": [{ "key": "Content-Type", "value": "text/html; charset=utf-8" }]
     },
     {
