@@ -5,10 +5,21 @@
 //   ENQUIRY_FROM    – sender on a domain verified in Resend, default no-reply@arleenbuilders.com
 const FALLBACK = 'Sorry, your message could not be sent. Please call +91 93833 41020 or email info@arleenbuilders.com.';
 
-function respond(ok, message, isAjax) {
-  if (isAjax) return Response.json({ ok, message });
-  return new Response(null, { status: 303, headers: { Location: '/contactus.php?sent=' + (ok ? '1' : '0') } });
+function respond(ok, message, isAjax, field) {
+  if (isAjax) return Response.json({ ok, message, ...(field ? { field } : {}) }, { headers: { 'Cache-Control': 'no-store' } });
+  return new Response(null, { status: 303, headers: { Location: '/contactus.php?sent=' + (ok ? '1' : '0'), 'Cache-Control': 'no-store' } });
 }
+
+// One submission per address per minute is plenty for a contact form and keeps a script from
+// burning the mail quota. Resets whenever the function instance does, which is fine for this.
+const lastSeen = new Map();
+const tooSoon = (ip) => {
+  const now = Date.now();
+  for (const [k, t] of lastSeen) if (now - t > 60000) lastSeen.delete(k);
+  if (lastSeen.has(ip)) return true;
+  lastSeen.set(ip, now);
+  return false;
+};
 
 export async function GET() {
   return new Response(null, { status: 303, headers: { Location: '/contactus.php' } });
@@ -30,11 +41,14 @@ export async function POST(request) {
   const location = clean('location', 120);
   const message = String(form.get('message') ?? '').trim().replace(/<[^>]*>/g, '').slice(0, 2000);
 
-  if (!name || !phone || !service || !message) {
-    return respond(false, 'Please fill in your name, phone number, service and project details.', isAjax);
+  for (const [key, value, label] of [['name', name, 'your name'], ['phone', phone, 'your phone number'], ['service', service, 'the service you need'], ['message', message, 'a few words about the project']]) {
+    if (!value) return respond(false, `Please add ${label}.`, isAjax, key);
   }
-  if (!/^[0-9+\s-]{8,16}$/.test(phone)) return respond(false, 'Please enter a valid phone number.', isAjax);
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return respond(false, 'Please enter a valid email address.', isAjax);
+  if (!/^[0-9+()\s-]{8,18}$/.test(phone)) return respond(false, 'Please enter a valid phone number.', isAjax, 'phone');
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return respond(false, 'Please enter a valid email address.', isAjax, 'email');
+
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
+  if (tooSoon(ip)) return respond(false, 'That enquiry is already on its way to us — thank you.', isAjax);
 
   if (!process.env.RESEND_API_KEY) {
     console.error('RESEND_API_KEY is not set');
@@ -52,7 +66,8 @@ export async function POST(request) {
     body: JSON.stringify({
       from: `Arleen Builders Website <${process.env.ENQUIRY_FROM || 'no-reply@arleenbuilders.com'}>`,
       to: [process.env.ENQUIRY_TO || 'info@arleenbuilders.com'],
-      subject: 'New website enquiry – Arleen Builders',
+      ...(process.env.ENQUIRY_BCC ? { bcc: [process.env.ENQUIRY_BCC] } : {}),
+      subject: `New enquiry · ${service}${location ? ' · ' + location : ''} – Arleen Builders`,
       text,
       ...(email ? { reply_to: `${name} <${email}>` } : {}),
     }),

@@ -100,27 +100,44 @@
     });
   }
 
-  // Enquiry form (AJAX with graceful fallback to normal POST)
+  // Enquiry form. Submits by fetch when it can, and falls back to a normal POST — which comes
+  // back as ?sent=1|0, so that path shows a message too instead of an identical-looking page.
   var form = document.getElementById('enquiry-form');
-  if (form && window.fetch && window.FormData) {
+  if (form) {
     var msg = form.querySelector('.form-msg');
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var btn = form.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'X-Requested-With': 'fetch' } })
-        .then(function (r) { return r.json(); })
-        .then(function (res) {
-          msg.className = 'form-msg ' + (res.ok ? 'ok' : 'err');
-          msg.textContent = res.message;
-          if (res.ok) form.reset();
-        })
-        .catch(function () {
-          msg.className = 'form-msg err';
-          msg.textContent = 'Sorry, something went wrong. Please call us or email info@arleenbuilders.com.';
-        })
-        .then(function () { btn.disabled = false; msg.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
-    });
+    var fallback = form.getAttribute('data-fallback') || 'Sorry, something went wrong. Please call us.';
+    var say = function (ok, text) {
+      msg.className = 'form-msg ' + (ok ? 'ok' : 'err');
+      msg.textContent = text;
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    var sent = /[?&]sent=([01])/.exec(location.search);
+    if (sent) {
+      say(sent[1] === '1', sent[1] === '1' ? form.getAttribute('data-thanks') : fallback);
+      if (history.replaceState) history.replaceState(null, '', location.pathname);
+    }
+    if (window.fetch && window.FormData) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = form.querySelector('button[type="submit"]');
+        var label = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'X-Requested-With': 'fetch' } })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            say(res.ok, res.message);
+            if (res.ok) form.reset();
+            else if (res.field) { // the server names the field it rejected
+              var bad = form.querySelector('[name="' + res.field + '"]');
+              if (bad) { bad.setAttribute('aria-invalid', 'true'); bad.focus(); }
+            }
+          })
+          .catch(function () { say(false, fallback); })
+          .then(function () { btn.disabled = false; btn.textContent = label; });
+      });
+      form.addEventListener('input', function (e) { e.target.removeAttribute('aria-invalid'); });
+    }
   }
 
   // Current year

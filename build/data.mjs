@@ -22,7 +22,14 @@ export const SITE = {
   },
   geo: { lat: 13.0569, lng: 80.2425 },
   mapQuery: 'Pushpa Nagar Main Road, Nungambakkam, Chennai 600034',
+  // Stated once here and read everywhere, so the site cannot promise two different things.
+  hours: { days: 'Monday – Saturday', opens: '09:30', closes: '18:30', display: 'Mon – Sat · 9:30 AM – 6:30 PM' },
+  responsePromise: 'We reply within one working day.',
 };
+
+// Where we work. Used in the coverage section and in the search data.
+export const SERVICE_AREAS = ['Nungambakkam', 'T. Nagar', 'Anna Nagar', 'Adyar', 'Velachery', 'Ashok Nagar',
+  'Mylapore', 'Porur', 'OMR', 'ECR', 'Tambaram'];
 
 // category: construction | interiors | sports
 export const PROJECTS = [
@@ -65,3 +72,47 @@ export const CATEGORY_LABEL = {
 };
 
 export const imgName = (p, i) => `${p.slug}-${i + 1}`;
+
+/* ---------------------------------------------------------------------------
+   Material the owner supplies. Every list below starts empty and each section
+   renders ONLY when its data is filled in, so the site never shows a heading
+   with nothing under it — and never shows anything invented.
+   --------------------------------------------------------------------------- */
+
+// Written client quotes. Add one only when the client has actually said it and
+// agreed to it appearing on the site (keep the email or WhatsApp message).
+// Never paraphrase and never write a sample.
+export const TESTIMONIALS = [
+  // {
+  //   quote: '',        // their words, verbatim
+  //   author: '',       // who said it                      (required)
+  //   role: '',         // 'Correspondent', 'Facilities Manager'
+  //   org: '',          // 'Sacred Heart Mat. Hr. Sec. School'
+  //   projectSlug: '',  // a slug from PROJECTS above — links the quote to the work
+  //   date: '',         // 'YYYY-MM'
+  //   consent: false,   // true only when they agreed to publication
+  // },
+];
+
+// The people who run the firm. `photo` is a file in assets/img/team/ without the
+// extension; leave it out and the entry renders as text. No stock photos.
+export const TEAM = [
+  // { name: '', role: '', qualification: '', note: '', photo: '' },
+];
+
+// Statutory registrations. Fill each value from the certificate, not from memory.
+// Empty values are skipped in the footer, on the pages and in the search data.
+export const CREDENTIALS = {
+  gst: '',    // 15-character GSTIN
+  cin: '',    // 21-character CIN from the certificate of incorporation
+  udyam: '',  // Udyam / MSME registration number
+};
+export const CREDENTIAL_LABELS = { gst: 'GSTIN', cin: 'CIN', udyam: 'Udyam registration' };
+
+// Guards used by the page builder — the "is there anything to show?" test lives here.
+export const publishedTestimonials = () =>
+  TESTIMONIALS.filter((t) => t.consent && t.quote?.trim() && t.author?.trim());
+export const filledCredentials = () =>
+  Object.entries(CREDENTIAL_LABELS)
+    .filter(([k]) => CREDENTIALS[k]?.trim())
+    .map(([k, label]) => [label, CREDENTIALS[k].trim()]);

@@ -3,7 +3,7 @@
 // Pages are plain HTML saved with .php extensions so the old URLs keep working on the existing host.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { SITE, PROJECTS, CATEGORY_LABEL, imgName } from './data.mjs';
+import { SITE, PROJECTS, SERVICE_AREAS, CATEGORY_LABEL, imgName, TEAM, publishedTestimonials, filledCredentials } from './data.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
@@ -56,6 +56,19 @@ const DIVISIONS = [
 ];
 
 /* ---------- Structured data ---------- */
+// Each of these spreads adds nothing at all while its source data is empty.
+const credentialSchema = () => {
+  const list = filledCredentials();
+  return !list.length ? {} : { identifier: list.map(([name, value]) => ({ '@type': 'PropertyValue', name, value })),
+    ...(list.find(([n]) => n === 'GSTIN') ? { taxID: list.find(([n]) => n === 'GSTIN')[1] } : {}) };
+};
+const teamSchema = () => !TEAM.length ? {} : { employee: TEAM.map((m) => ({ '@type': 'Person', name: m.name, jobTitle: m.role })) };
+// Quotes only — no rating. The owner supplies words, not scores, and a star value would be invented.
+const reviewSchema = () => {
+  const list = publishedTestimonials();
+  return !list.length ? {} : { review: list.map((t) => ({ '@type': 'Review', author: { '@type': 'Person', name: t.author },
+    reviewBody: t.quote, ...(t.date ? { datePublished: t.date } : {}) })) };
+};
 const ORG_ID = `${SITE.url}/#organization`;
 const orgSchema = {
   '@type': ['GeneralContractor', 'LocalBusiness'],
@@ -71,11 +84,14 @@ const orgSchema = {
   email: SITE.email,
   address: { '@type': 'PostalAddress', streetAddress: addr.street, addressLocality: `${addr.locality}, ${addr.city}`, addressRegion: addr.region, postalCode: addr.postal, addressCountry: addr.country },
   geo: { '@type': 'GeoCoordinates', latitude: SITE.geo.lat, longitude: SITE.geo.lng },
-  areaServed: { '@type': 'City', name: 'Chennai' },
+  areaServed: [{ '@type': 'City', name: 'Chennai' }, ...SERVICE_AREAS.map((n) => ({ '@type': 'Place', name: `${n}, Chennai` }))],
   priceRange: '₹₹',
-  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '09:30', closes: '18:30' }],
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: SITE.hours.opens, closes: SITE.hours.closes }],
   contactPoint: SITE.phones.map((p) => ({ '@type': 'ContactPoint', telephone: p.tel, contactType: 'sales', areaServed: 'IN', availableLanguage: ['English', 'Tamil'] })),
   knowsAbout: ['Building construction', 'Interior design', 'Exterior facade', 'ACP cladding', 'Structural glazing', 'Sports flooring', 'Indoor badminton court', 'Sports court construction'],
+  ...credentialSchema(),
+  ...teamSchema(),
+  ...reviewSchema(),
 };
 
 const crumbSchema = (items) => ({
@@ -88,7 +104,7 @@ const faqSchema = (faqs) => ({
 });
 const serviceSchema = (name, type, desc, path) => ({
   '@type': 'Service', name, serviceType: type, description: desc, url: `${SITE.url}${path}`,
-  provider: { '@id': ORG_ID }, areaServed: { '@type': 'City', name: 'Chennai' },
+  provider: { '@id': ORG_ID }, areaServed: [{ '@type': 'City', name: 'Chennai' }, ...SERVICE_AREAS.map((n) => ({ '@type': 'Place', name: `${n}, Chennai` }))],
 });
 /* ---------- Layout ---------- */
 // Fraunces (serif, optical sizing) for headings; Manrope for body text and small labels
@@ -168,7 +184,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
     </div>
     <div>
       <h3>Studio</h3>
-      <p>${addr.street},<br>${addr.locality}, ${addr.city} – ${addr.postal.slice(0, 3)} ${addr.postal.slice(3)}<br>Mon – Sat · 9:30 AM – 6:30 PM</p>
+      <p>${addr.street},<br>${addr.locality}, ${addr.city} – ${addr.postal.slice(0, 3)} ${addr.postal.slice(3)}<br>${SITE.hours.display}</p>
       <p><a href="/Arleen-Builders-Brochure.pdf" target="_blank" rel="noopener">Brochure (PDF) ↗</a></p>
     </div>
   </div>
@@ -183,6 +199,7 @@ ${body}
       <a class="footer-logo" href="/"><img src="/assets/img/logo.png" alt="Arleen Builders" width="110" height="51" loading="lazy"></a>
       <p>${SITE.legalName} — builders, interior &amp; exterior decorators and sports infrastructure contractors in Chennai since ${SITE.founded}.</p>
       <p><em>“${SITE.tagline}”</em></p>
+      ${credentialsLine()}
     </div>
     <div>
       <h3>Services</h3>
@@ -209,7 +226,7 @@ ${body}
         <li>${addrLine}</li>
         <li><a href="tel:${P1.tel}">${P1.display}</a> / <a href="tel:${P2.tel}">${P2.display}</a></li>
         <li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
-        <li>Mon – Sat: 9:30 AM – 6:30 PM</li>
+        <li>${SITE.hours.display.replace('·', '—')}</li>
       </ul>
     </div>
   </div>
@@ -267,7 +284,7 @@ const tiles = () => `<section class="section section--flush">
 </section>`;
 
 // Inner-page cover: headline on paper with the photo offset to the right and a caption under it
-function pageHero({ img, alt, caption = '', crumbs, kicker, h1, intro, actions = true }) {
+function pageHero({ img, alt, caption = '', crumbs, kicker, h1, intro, actions = true, stats = true }) {
   return `<section class="cover">
   <div class="container cover__grid">
     <div class="cover__text">
@@ -283,7 +300,7 @@ function pageHero({ img, alt, caption = '', crumbs, kicker, h1, intro, actions =
     </figure>
   </div>
 </section>
-${statBar()}`;
+${stats ? statBar() : ''}`;
 }
 
 // Home cover: one real project photograph filling the card, with the headline over it.
@@ -370,6 +387,51 @@ const faqBlock = (faqs, heading) => `<section class="section">
   </div>
 </section>`;
 
+// Client quotes. Nothing renders until TESTIMONIALS in data.mjs holds a real, consented quote.
+const testimonialBlock = (list, heading = 'In their words') => !list.length ? '' : `<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">Clients</span><h2 class="display">${heading}</h2></div>
+    <div class="quotes">${list.map((t) => {
+      const project = PROJECTS.find((p) => p.slug === t.projectSlug);
+      const who = [t.role, t.org].filter(Boolean).join(', ');
+      return `<figure class="quote reveal">
+        <blockquote class="pull">${esc(t.quote)}</blockquote>
+        <figcaption><strong>${esc(t.author)}</strong>${who ? `<span>${esc(who)}</span>` : ''}${project ? `<a class="link" href="/projects.php#${project.slug}">See the project</a>` : ''}</figcaption>
+      </figure>`;
+    }).join('')}</div>
+  </div>
+</section>`;
+
+// The people on site. Nothing renders until TEAM in data.mjs is filled in.
+const teamBlock = () => !TEAM.length ? '' : `<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">The team</span><h2 class="display">The people on your site</h2></div>
+    <div class="rows rows--columns team">${TEAM.map((m) => `<article class="row reveal">
+      <h3>${esc(m.name)}</h3>
+      <div class="row__body">
+        <p>${[m.role, m.qualification].filter(Boolean).map(esc).join(' · ')}</p>
+        ${m.note ? `<p>${esc(m.note)}</p>` : ''}
+      </div>
+      ${m.photo ? `<div class="row__media">${pic(`team/${m.photo}`, `${m.name} — ${m.role}, Arleen Builders`, { w: 800, h: 800, sizes: '200px' })}</div>` : ''}
+    </article>`).join('')}</div>
+  </div>
+</section>`;
+
+// Statutory registrations, shown wherever they help: nothing until CREDENTIALS is filled in.
+const credentialsBlock = () => {
+  const list = filledCredentials();
+  return !list.length ? '' : `<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">Registered</span><h2 class="display">Company registration</h2></div>
+    <ul class="statbar reveal">${list.map(([label, value]) => `<li><strong>${esc(value)}</strong><span>${label}</span></li>`).join('')}</ul>
+  </div>
+</section>`;
+};
+const credentialsLine = () => {
+  const list = filledCredentials();
+  return !list.length ? '' : `<p class="mono creds-line">${list.map(([label, value]) => `${label} ${esc(value)}`).join(' · ')}</p>`;
+};
+
 const related = (cat, heading) => {
   const list = PROJECTS.filter((p) => p.category === cat).slice(0, 3);
   return `<section class="section">
@@ -413,6 +475,29 @@ const rows = (items, { cols2 = false, steps = false } = {}) => `<div class="rows
   <h3>${t}</h3>
   <div class="row__body"><p>${d}</p></div>
 </div>`).join('')}</div>`;
+
+// The four steps a client actually goes through — stated once, used on every page that needs it.
+const PROCESS = [
+  ['Consultation', 'A free site visit to understand the requirement, the site and the budget.'],
+  ['Design &amp; estimate', 'Drawings, material specifications and an itemised quotation.'],
+  ['Execution', 'Supervised construction with regular progress updates.'],
+  ['Handover', 'Quality checks, a clean handover and support after it.'],
+];
+const processSection = (kicker = 'How we work') => `<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">${kicker}</span><h2 class="display">A simple, transparent process</h2></div>
+    ${rows(PROCESS, { steps: true })}
+  </div>
+</section>`;
+
+// Where we work, from SERVICE_AREAS — a real section rather than a grey footnote.
+const coverageSection = () => `<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">Coverage</span><h2 class="display">Where we work</h2><p class="lead">We take projects across ${addr.city} and the suburbs around it.</p></div>
+    <div class="offset"><ul class="list cols-2">${SERVICE_AREAS.map((a) => `<li>${a}</li>`).join('')}</ul>
+    <p class="section-foot mono reveal">Somewhere else in ${addr.city}? Call ${P1.display} — we travel for the site visit.</p></div>
+  </div>
+</section>`;
 
 const WHY = [
   ['Since 2007', `Over ${YEAR - 2007} years of building, decorating and equipping spaces across Chennai.`],
@@ -482,6 +567,10 @@ ${lightbox}
   </div>
 </section>
 
+${processSection()}
+
+${testimonialBlock(publishedTestimonials().slice(0, 2))}
+
 <section class="section">
   <div class="container">
     <div class="section-head reveal"><span class="kicker">Clients</span><h2 class="display">Trusted by schools, colleges <em>and brands</em></h2></div>
@@ -544,6 +633,12 @@ pages['aboutus.php'] = layout({
   </div>
 </section>
 
+${processSection()}
+
+${teamBlock()}
+${credentialsBlock()}
+${testimonialBlock(publishedTestimonials())}
+
 <section class="section">
   <div class="container">
     <div class="section-head reveal"><span class="kicker">What we do</span><h2 class="display">Three divisions</h2></div>
@@ -597,12 +692,7 @@ pages['services.php'] = layout({
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head reveal"><span class="kicker">How we work</span><h2 class="display">A simple, transparent process</h2></div>
-    ${rows([['Consultation', 'Free site visit to understand your requirements and budget.'], ['Design &amp; estimate', 'Drawings, material specifications and an itemised quotation.'], ['Execution', 'Supervised construction with regular progress updates.'], ['Handover', 'Quality checks, clean handover and after-sales support.']], { steps: true })}
-  </div>
-</section>
+${processSection()}
 ${contactBand()}`,
 });
 
@@ -615,12 +705,13 @@ function servicePage({ file, key, cat, n, title, desc, hero, heroAlt, heroCaptio
     h1Hero: pageHero({ img: hero, alt: heroAlt, caption: heroCaption, crumbs: [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services.php' }, { name: schemaName }], kicker, h1, intro }),
     body: `${sections}
 ${related(cat, `Our ${CATEGORY_LABEL[cat].toLowerCase()} projects`)}
+${testimonialBlock(publishedTestimonials().filter((t) => PROJECTS.find((p) => p.slug === t.projectSlug)?.category === cat).slice(0, 2))}
 ${faqBlock(faqs, faqHeading)}
 ${contactBand()}`,
   });
 }
 
-const areas = 'Nungambakkam, T. Nagar, Anna Nagar, Adyar, Velachery, Ashok Nagar, Mylapore, Porur, OMR, ECR, Tambaram and across Chennai';
+const areas = `${SERVICE_AREAS.join(', ')} and across Chennai`;
 const areasLine = (t) => `<p class="section-foot mono reveal">${t}</p>`;
 
 // CONSTRUCTION
@@ -791,7 +882,7 @@ pages['projects.php'] = layout({
   body: `<section class="section section--flush">
   <div class="container">
     ${Object.entries(CATEGORY_LABEL).map(([k, v]) => `<div class="work-group" id="${k}">
-      <h2 class="reveal">${v}</h2>
+      <h2 class="reveal">${v} <span class="mono">${PROJECTS.filter((p) => p.category === k).length} projects</span></h2>
       ${workGrid(PROJECTS.filter((p) => p.category === k))}
     </div>`).join('\n    ')}
   </div>
@@ -808,8 +899,17 @@ pages['contactus.php'] = layout({
   schema: [crumbSchema([{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contactus.php' }])],
   h1Hero: pageHero({ img: 'hero-home', alt: 'Commercial building by Arleen Builders, Chennai', caption: 'Eden Square — structural glazing facade',
     crumbs: [{ name: 'Home', href: '/' }, { name: 'Contact' }], kicker: 'Contact',
-    h1: 'Contact <em>Arleen Builders</em>', intro: 'Tell us about your project. We will call you back within one working day to arrange a free site visit.', actions: false }),
-  body: `<section class="section section--flush">
+    h1: 'Contact <em>Arleen Builders</em>', intro: 'Tell us about your project. We will call you back within one working day to arrange a free site visit.', actions: false, stats: false }),
+  body: `<section class="statbar-wrap">
+  <div class="container">
+    <ul class="statbar reveal">
+      <li><strong>One working day</strong><span>${SITE.responsePromise.replace('We reply within one working day.', 'We reply to every enquiry')}</span></li>
+      <li><strong>Free site visit</strong><span>Anywhere in ${addr.city} and the suburbs</span></li>
+      <li><strong>Itemised quotation</strong><span>Priced line by line, no hidden costs</span></li>
+    </ul>
+  </div>
+</section>
+<section class="section section--flush">
   <div class="container contact-grid">
     <div class="info-card reveal">
       <h2 class="display">Get in touch</h2>
@@ -817,18 +917,19 @@ pages['contactus.php'] = layout({
       <div class="info-item"><span class="mono">Studio</span><strong>${SITE.legalName}</strong><br>${addr.street},<br>${addr.locality}, ${addr.city} – 600 034</div>
       <div class="info-item"><span class="mono">Phone</span><a href="tel:${P1.tel}">${P1.display}</a><br><a href="tel:${P2.tel}">${P2.display}</a></div>
       <div class="info-item"><span class="mono">Email</span><a href="mailto:${SITE.email}">${SITE.email}</a></div>
-      <div class="info-item"><span class="mono">Hours</span>Monday – Saturday<br>9:30 AM – 6:30 PM</div>
+      <div class="info-item"><span class="mono">Hours</span>${SITE.hours.days}<br>9:30 AM – 6:30 PM</div>
+      ${filledCredentials().length ? `<div class="info-item"><span class="mono">Registration</span>${filledCredentials().map(([l, v]) => `${l} ${esc(v)}`).join('<br>')}</div>` : ''}
       <div class="info-links">
         <a class="link" href="https://wa.me/${SITE.whatsapp}" target="_blank" rel="noopener">Chat on WhatsApp</a>
         <a class="link link--muted" href="/Arleen-Builders-Brochure.pdf" target="_blank" rel="noopener">Download brochure</a>
       </div>
     </div>
-    <form class="form reveal" id="enquiry-form" action="/send-enquiry.php" method="post">
+    <form class="form reveal" id="enquiry-form" action="/send-enquiry.php" method="post" data-thanks="Thank you — your enquiry has been sent. ${SITE.responsePromise}" data-fallback="Sorry, your enquiry could not be sent. Please call ${P1.display} or email ${SITE.email}.">
       <h2 class="display">Enquiry</h2>
-      <div class="form-msg" role="status" aria-live="polite"></div>
+      <div class="form-msg" id="form-status" role="status" aria-live="polite"></div>
       <div class="form-row">
         <div class="field"><label for="f-name">Your name *</label><input id="f-name" name="name" type="text" autocomplete="name" required maxlength="80"></div>
-        <div class="field"><label for="f-phone">Phone number *</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required pattern="[0-9+\\s\\-]{8,16}" maxlength="16"></div>
+        <div class="field"><label for="f-phone">Phone number *</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required pattern="[0-9+()\\s\\-]{8,18}" maxlength="18" title="Digits, spaces, brackets, + and - only" aria-describedby="form-status"></div>
       </div>
       <div class="form-row">
         <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" maxlength="120"></div>
@@ -844,11 +945,13 @@ pages['contactus.php'] = layout({
       </div>
       <div class="field"><label for="f-location">Project location</label><input id="f-location" name="location" type="text" maxlength="120" placeholder="e.g. Anna Nagar, Chennai"></div>
       <div class="field"><label for="f-msg">Project details *</label><textarea id="f-msg" name="message" required maxlength="2000" placeholder="Tell us about your project, size and timeline"></textarea></div>
-      <div class="hp" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="hp" aria-hidden="true"><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off" aria-label="Leave this field empty"></div>
+      <p class="form-note">Your details reach our office inbox and are used only to answer this enquiry. We do not pass them to anyone else.</p>
       <button class="btn" type="submit">Send enquiry</button>
     </form>
   </div>
 </section>
+${coverageSection()}
 <section aria-label="Map showing Arleen Builders office location">
   <iframe class="map" title="Arleen Builders office location on Google Maps" src="https://www.google.com/maps?q=${encodeURIComponent('Arleen Builders, ' + SITE.mapQuery)}&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </section>`,
@@ -858,16 +961,14 @@ pages['contactus.php'] = layout({
 pages['404.php'] = layout({
   path: '/404.php', key: '', title: 'Page Not Found | Arleen Builders',
   desc: 'The page you are looking for could not be found. Explore Arleen Builders construction, interior and sports flooring services in Chennai.',
-  h1Hero: pageHero({ img: 'hero-home', alt: 'Arleen Builders project', caption: 'Eden Square — Chennai', crumbs: [{ name: 'Home', href: '/' }, { name: 'Page not found' }], kicker: '404', h1: 'Page <em>not found</em>', intro: 'Sorry, we could not find that page. Try one of the divisions below.', actions: false }),
+  h1Hero: pageHero({ img: 'hero-home', alt: 'Arleen Builders project', caption: 'Eden Square — Chennai', crumbs: [{ name: 'Home', href: '/' }, { name: 'Page not found' }], kicker: '404', h1: 'Page <em>not found</em>', intro: 'Sorry, we could not find that page. Try one of the divisions below.', actions: false, stats: false }),
   body: `<section class="section section--flush"><div class="container">${divisionRows()}</div></section>`,
 }).replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex, follow">');
 
 /* ---------- Write files ---------- */
 // Post-process: add scroll-reveal classes to repeated elements in one place.
 const animate = (html) => html
-  .replace(/class="section-head( center)?"/g, 'class="section-head$1 reveal"')
   .replace(/<ul class="clients">([\s\S]*?)<\/ul>/g, (m, inner) => '<ul class="clients">' + inner.replace(/<li>/g, '<li class="reveal">') + '</ul>')
-  .replace(/<blockquote>/g, '<blockquote class="reveal">')
   .replace(/<details>/g, '<details class="reveal">')
   .replace(/<div class="container footer-grid">([\s\S]*?)<\/div>\n  <div class="container footer-bottom">/g, (m, inner) => '<div class="container footer-grid">' + inner.replace(/\n    <div>/g, '\n    <div class="reveal">') + '</div>\n  <div class="container footer-bottom">')
   .replace(/<iframe class="map"/g, '<iframe class="map reveal"');
