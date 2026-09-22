@@ -29,9 +29,9 @@
 <link rel="apple-touch-icon" href="/assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero/poster-lg.webp" imagesrcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/style.css?v=bb255241">
+<link rel="stylesheet" href="/assets/css/style.css?v=8d790a65">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":{"@type":"ImageObject","url":"https://www.arleenbuilders.com/assets/img/logo.png","width":360,"height":168},"image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"}]}</script>
 </head>
 <body>
@@ -83,70 +83,39 @@
       <img class="hero__img" src="/assets/video/hero/poster-lg.webp" srcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" sizes="100vw" width="1280" height="720" alt="Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby" fetchpriority="high" decoding="async">
       <canvas class="hero__canvas" width="1280" height="720" aria-hidden="true"></canvas>
       <div class="hero__scrim" aria-hidden="true"></div>
+      <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since 2007</span></h1>
       <div class="hero__text">
-        <span class="kicker">Arleen Builders — Chennai, since 2007</span>
-        <h1 class="display hero__title">Builders, interiors and <em>sports courts</em> in Chennai</h1>
-        <p class="mono">School blocks, apartments, showroom facades and indoor courts — built by one team since 2007.</p>
-        <a class="btn" href="/contactus.php">Start a project</a>
+        <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
+        <a class="btn btn--light" href="/contactus.php">Start a project</a>
       </div>
+      <div class="hero__badge"><strong>15</strong> projects across Chennai</div>
+      <div class="hero__stat"><strong>19<em>+</em></strong><span>years of building, interiors and courts in Chennai</span></div>
     </div>
     <figcaption class="hero__credit">Building exterior and office lobby — visualisation</figcaption>
     <div class="hero__hint" aria-hidden="true">Scroll</div>
   </div>
 </figure>
-<section class="statbar-wrap statbar-wrap--float">
+<section class="section section--flush about" id="studio">
   <div class="container">
-    <ul class="statbar reveal"><li><strong>Since 2007</strong><span>Nungambakkam, Chennai</span></li><li><strong>19 years</strong><span>Building, interiors and courts</span></li><li><strong>3 divisions</strong><span>One in-house team</span></li><li><strong>Chennai</strong><span>City and suburbs</span></li></ul>
-  </div>
-</section>
-<section class="section section--flush">
-  <div class="container">
-    <p class="statement reveal">Construction, interiors and sports courts <b>delivered by one team in Chennai</b> — from the first site visit <b>to handover</b>.</p>
-  </div>
-</section>
-
-<section class="section" id="studio">
-  <div class="container">
-    <div class="studio">
-      <div class="reveal">
-        <span class="kicker">The studio</span>
-        <h2 class="display">One team for construction, interiors and <em>sports courts</em></h2>
-      </div>
-      <div class="reveal prose">
-        <p>Arleen Builders India Pvt. Ltd is a Chennai construction company with three specialist divisions under one roof: residential and commercial building construction, interior and exterior decoration, and sports arena construction.</p>
-        <p>Backed by professional architects, experienced engineers and a skilled workforce, we have delivered apartments, villas, individual homes, commercial complexes, schools and sports facilities across the city since 2007 — with a single point of responsibility from planning to handover.</p>
-        <p><a class="link" href="/aboutus.php">About the studio</a></p>
-      </div>
-      <blockquote class="pull reveal">A single point of responsibility, from the first site visit to handover.<cite>How we work, since 2007</cite></blockquote>
+    <div class="about__head">
+      <span class="kicker reveal">About us</span>
+      <p class="statement reveal">Every school, home, showroom and court we build is <b>one team's responsibility</b> — from the first site visit to handover.</p>
+    </div>
+    <div class="about__row">
+      <ul class="about__figures reveal">
+        <li><strong>19<em>+</em></strong><span>years in Chennai</span></li>
+        <li><strong>100<em>%</em></strong><span>in-house engineers and supervisors</span></li>
+      </ul>
+      <p class="about__text reveal">Arleen Builders India Pvt. Ltd is a Chennai construction company with three divisions under one roof — building construction, interior and exterior decoration, and sports arena construction — with our own architects, engineers and skilled workforce since 2007.</p>
+      <a class="btn reveal" href="/aboutus.php">About the studio</a>
     </div>
   </div>
 </section>
 
-<section class="section section--flush showcase-wrap" aria-label="Selected work">
-  <div class="showcase">
-    <img class="showcase__bg" src="/assets/img/hero-index-a-1280.webp" srcset="/assets/img/hero-index-a-sm.webp 800w, /assets/img/hero-index-a-1280.webp 1280w, /assets/img/hero-index-a.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
-    <div class="showcase__scrim" aria-hidden="true"></div>
-    <div class="showcase__cover">
-      <div class="showcase__intro reveal">
-        <span class="kicker">Selected work</span>
-        <p>Schools, residences, showrooms, recreation centres and sports courts — 15 projects across Chennai since 2007.</p>
-      </div>
-      <div class="showcase__title reveal">
-        <h2 class="display">Arleen <em>Builders</em></h2>
-        <p class="mono">Why choose us?</p>
-      </div>
-      <ul class="showcase__notes">
-        <li class="reveal"><strong>Named clients</strong><span>Sacred Heart School, Stella Matutina College, D.G. Vaishnav College, CavinCare, Sreeleathers.</span></li><li class="reveal"><strong>One contract</strong><span>Civil work, interiors and sports flooring under one agreement and one site engineer.</span></li><li class="reveal"><strong>One quotation</strong><span>Priced line by line before work starts, so you can see what each item costs.</span></li>
-      </ul>
-      <ul class="showcase__figures reveal">
-        <li><strong>19</strong><span>years</span></li>
-        <li><strong>15</strong><span>projects</span></li>
-        <li><strong>3</strong><span>divisions</span></li>
-      </ul>
-    </div>
-    <div class="showcase__body">
-      <p class="showcase__statement reveal">We build Chennai's <b>schools, homes, showrooms and courts</b> — one team from the first site visit to handover.</p>
-      <div class="work work--editorial"><article class="work__item reveal" id="sacred-heart-indoor-shuttle-court">
+<section class="section section--flush projects" aria-label="Selected work">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">Selected work</span><h2 class="display">Recent <em>projects</em></h2></div>
+    <div class="work"><article class="work__item reveal" id="sacred-heart-indoor-shuttle-court">
     <div class="work__media">
       <button type="button" data-gallery='{&quot;title&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School&quot;,&quot;place&quot;:&quot;Church Park, Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-2.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-4.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-5.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Sacred Heart Matriculation Hr. Sec. School">
         <img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
@@ -182,32 +151,18 @@
       <p class="work__place">Chennai</p>
       <p class="work__work">Commercial facade with structural glazing</p>
     </div>
-  </article><article class="work__item reveal" id="recreation-centre-billiards-interior">
-    <div class="work__media">
-      <button type="button" data-gallery='{&quot;title&quot;:&quot;Recreation Centre I – Billiards&quot;,&quot;place&quot;:&quot;Park Side Road, Nungambakkam&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-1.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-2.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-3.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-4.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-5.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Recreation Centre I – Billiards">
-        <img src="/assets/img/projects/recreation-centre-billiards-interior-1.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-1-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
-      </button>
-    </div>
-    <div class="work__meta">
-      <span class="mono">Interiors & Exteriors · 5 photos</span>
-      <h3>Recreation Centre I – Billiards</h3>
-      <p class="work__place">Park Side Road, Nungambakkam</p>
-      <p class="work__work">Billiards room interior, flooring, lighting and wall finishes</p>
-    </div>
-  </article><article class="work__item reveal" id="sreeleathers-glass-facade">
-    <div class="work__media">
-      <button type="button" data-gallery='{&quot;title&quot;:&quot;Sreeleathers Showroom&quot;,&quot;place&quot;:&quot;Purasaiwakkam, Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-1.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-2.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-3.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-4.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 4)&quot;}]}' aria-label="View 4 photos of Sreeleathers Showroom">
-        <img src="/assets/img/projects/sreeleathers-glass-facade-1.webp" srcset="/assets/img/projects/sreeleathers-glass-facade-1-sm.webp 640w, /assets/img/projects/sreeleathers-glass-facade-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
-      </button>
-    </div>
-    <div class="work__meta">
-      <span class="mono">Interiors & Exteriors · 4 photos</span>
-      <h3>Sreeleathers Showroom</h3>
-      <p class="work__place">Purasaiwakkam, Chennai</p>
-      <p class="work__work">Showroom exterior with ACP cladding and spider glazing</p>
-    </div>
   </article></div>
-      <p class="section-foot reveal"><a class="link" href="/projects.php">All 15 projects</a></p>
+    <a class="wide reveal" href="/projects.php#construction" aria-label="Stella Matutina College of Education, Ashok Nagar — see all construction projects">
+      <img src="/assets/img/hero-index-b-1280.webp" srcset="/assets/img/hero-index-b-sm.webp 800w, /assets/img/hero-index-b-1280.webp 1280w, /assets/img/hero-index-b.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+      <span class="wide__play" aria-hidden="true">↗</span>
+      <span class="wide__cap">Stella Matutina College — Ashok Nagar</span>
+    </a>
+    <div class="closing">
+      <h2 class="display reveal">Building Chennai <em>one site at a time</em></h2>
+      <div class="reveal">
+        <p>Schools, residences, showrooms, recreation centres and indoor courts — 15 projects delivered across the city since 2007, each with one contract, one engineer on site and one itemised quotation.</p>
+        <a class="btn" href="/projects.php">All 15 projects</a>
+      </div>
     </div>
   </div>
 </section>

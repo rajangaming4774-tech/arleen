@@ -109,7 +109,8 @@ const serviceSchema = (name, type, desc, path) => ({
 });
 /* ---------- Layout ---------- */
 // Fraunces (serif, optical sizing) for headings; Manrope for body text and small labels
-const FONTS = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap';
+// Bebas Neue (tall condensed capitals) for headings; Manrope for text and labels
+const FONTS = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600&display=swap';
 
 function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = 'og-image.jpg', preload, pageType = 'WebPage', org = true }) {
   const canonical = `${SITE.url}${path}`;
@@ -342,12 +343,13 @@ function homeHero() {
       <img class="hero__img" src="${HERO_FILM.poster}" srcset="${heroFilmSrcset}" sizes="100vw" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" alt="${esc(HERO_FILM.alt)}" fetchpriority="high" decoding="async">
       <canvas class="hero__canvas" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" aria-hidden="true"></canvas>
       <div class="hero__scrim" aria-hidden="true"></div>
+      <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since ${SITE.founded}</span></h1>
       <div class="hero__text">
-        <span class="kicker">${SITE.name} — ${addr.city}, since ${SITE.founded}</span>
-        <h1 class="display hero__title">Builders, interiors and <em>sports courts</em> in Chennai</h1>
-        <p class="mono">School blocks, apartments, showroom facades and indoor courts — built by one team since ${SITE.founded}.</p>
-        <a class="btn" href="/contactus.php">Start a project</a>
+        <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
+        <a class="btn btn--light" href="/contactus.php">Start a project</a>
       </div>
+      <div class="hero__badge"><strong>${PROJECTS.length}</strong> projects across Chennai</div>
+      <div class="hero__stat"><strong>${YEAR - Number(SITE.founded)}<em>+</em></strong><span>years of building, interiors and courts in ${addr.city}</span></div>
     </div>
     <figcaption class="hero__credit">${HERO_FILM.credit}</figcaption>
     <div class="hero__hint" aria-hidden="true">Scroll</div>
@@ -530,35 +532,23 @@ const WHY = [
 
 const CLIENTS = ['Stella Matutina College', 'D.G. Vaishnav College', 'Sacred Heart School', 'Sreeleathers', 'CavinCare', 'Naturals Salon & Spa', 'Eden Square', 'Cloudy Shop'];
 
-// Dark showcase (after a reference the owner sent): a full-bleed photo card with the name set large
-// over it, three reasons and the figures at the edges, then a statement and the featured projects on
-// the same dark ground. The photo is the real Sacred Heart court, cut by build/images.mjs.
-const showcase = () => `<section class="section section--flush showcase-wrap" aria-label="Selected work">
-  <div class="showcase">
-    <img class="showcase__bg" src="/assets/img/hero-index-a-1280.webp" srcset="/assets/img/hero-index-a-sm.webp 800w, /assets/img/hero-index-a-1280.webp 1280w, /assets/img/hero-index-a.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
-    <div class="showcase__scrim" aria-hidden="true"></div>
-    <div class="showcase__cover">
-      <div class="showcase__intro reveal">
-        <span class="kicker">Selected work</span>
-        <p>Schools, residences, showrooms, recreation centres and sports courts — ${PROJECTS.length} projects across Chennai since ${SITE.founded}.</p>
+// Home projects block (the reference layout's lower half): three project cards, one wide card, and a
+// closing statement with the link to all projects. Photos are the real projects.
+const projectsBlock = () => `<section class="section section--flush projects" aria-label="Selected work">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker">Selected work</span><h2 class="display">Recent <em>projects</em></h2></div>
+    ${workGrid(PROJECTS.filter((p) => p.featured).slice(0, 3), false)}
+    <a class="wide reveal" href="/projects.php#construction" aria-label="Stella Matutina College of Education, Ashok Nagar — see all construction projects">
+      <img src="/assets/img/hero-index-b-1280.webp" srcset="/assets/img/hero-index-b-sm.webp 800w, /assets/img/hero-index-b-1280.webp 1280w, /assets/img/hero-index-b.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+      <span class="wide__play" aria-hidden="true">↗</span>
+      <span class="wide__cap">Stella Matutina College — Ashok Nagar</span>
+    </a>
+    <div class="closing">
+      <h2 class="display reveal">Building Chennai <em>one site at a time</em></h2>
+      <div class="reveal">
+        <p>Schools, residences, showrooms, recreation centres and indoor courts — ${PROJECTS.length} projects delivered across the city since ${SITE.founded}, each with one contract, one engineer on site and one itemised quotation.</p>
+        <a class="btn" href="/projects.php">All ${PROJECTS.length} projects</a>
       </div>
-      <div class="showcase__title reveal">
-        <h2 class="display">Arleen <em>Builders</em></h2>
-        <p class="mono">Why choose us?</p>
-      </div>
-      <ul class="showcase__notes">
-        ${WHY.slice(1, 4).map(([t, d]) => `<li class="reveal"><strong>${t}</strong><span>${d}</span></li>`).join('')}
-      </ul>
-      <ul class="showcase__figures reveal">
-        <li><strong>${YEAR - 2007}</strong><span>years</span></li>
-        <li><strong>${PROJECTS.length}</strong><span>projects</span></li>
-        <li><strong>3</strong><span>divisions</span></li>
-      </ul>
-    </div>
-    <div class="showcase__body">
-      <p class="showcase__statement reveal">We build Chennai's <b>schools, homes, showrooms and courts</b> — one team from the first site visit to handover.</p>
-      ${workGrid(PROJECTS.filter((p) => p.featured))}
-      <p class="section-foot reveal"><a class="link" href="/projects.php">All ${PROJECTS.length} projects</a></p>
     </div>
   </div>
 </section>`;
@@ -573,31 +563,24 @@ pages['index.php'] = layout({
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
   h1Hero: homeHero(),
-  body: `${statBar({ float: true })}
-<section class="section section--flush">
+  body: `<section class="section section--flush about" id="studio">
   <div class="container">
-    <p class="statement reveal">Construction, interiors and sports courts <b>delivered by one team in Chennai</b> — from the first site visit <b>to handover</b>.</p>
-  </div>
-</section>
-
-<section class="section" id="studio">
-  <div class="container">
-    <div class="studio">
-      <div class="reveal">
-        <span class="kicker">The studio</span>
-        <h2 class="display">One team for construction, interiors and <em>sports courts</em></h2>
-      </div>
-      <div class="reveal prose">
-        <p>${SITE.legalName} is a Chennai construction company with three specialist divisions under one roof: residential and commercial building construction, interior and exterior decoration, and sports arena construction.</p>
-        <p>Backed by professional architects, experienced engineers and a skilled workforce, we have delivered apartments, villas, individual homes, commercial complexes, schools and sports facilities across the city since ${SITE.founded} — with a single point of responsibility from planning to handover.</p>
-        <p><a class="link" href="/aboutus.php">About the studio</a></p>
-      </div>
-      <blockquote class="pull reveal">A single point of responsibility, from the first site visit to handover.<cite>How we work, since ${SITE.founded}</cite></blockquote>
+    <div class="about__head">
+      <span class="kicker reveal">About us</span>
+      <p class="statement reveal">Every school, home, showroom and court we build is <b>one team's responsibility</b> — from the first site visit to handover.</p>
+    </div>
+    <div class="about__row">
+      <ul class="about__figures reveal">
+        <li><strong>${YEAR - Number(SITE.founded)}<em>+</em></strong><span>years in ${addr.city}</span></li>
+        <li><strong>100<em>%</em></strong><span>in-house engineers and supervisors</span></li>
+      </ul>
+      <p class="about__text reveal">${SITE.legalName} is a Chennai construction company with three divisions under one roof — building construction, interior and exterior decoration, and sports arena construction — with our own architects, engineers and skilled workforce since ${SITE.founded}.</p>
+      <a class="btn reveal" href="/aboutus.php">About the studio</a>
     </div>
   </div>
 </section>
 
-${showcase()}
+${projectsBlock()}
 ${lightbox}
 
 <section class="section">
