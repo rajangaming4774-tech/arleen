@@ -26,9 +26,9 @@
 <link rel="apple-touch-icon" href="/assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Manrope:wght@300;400;500&display=swap">
 <link rel="preload" as="image" href="/assets/img/hero-interiors.webp" imagesrcset="/assets/img/hero-interiors-sm.webp 800w, /assets/img/hero-interiors.webp 1920w" imagesizes="100vw">
-<link rel="stylesheet" href="/assets/css/style.css?v=db7c9a4f">
+<link rel="stylesheet" href="/assets/css/style.css?v=3e7514d9">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":"https://www.arleenbuilders.com/assets/img/logo.png","image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":{"@type":"City","name":"Chennai"},"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/interiors.php#webpage","url":"https://www.arleenbuilders.com/interiors.php","name":"Interior Decorators in Chennai | Interior & Exterior Design","description":"Arleen Builders are interior & exterior decorators in Chennai for homes, offices, showrooms, salons and hotels, plus ACP cladding, structural and spider glazing.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.arleenbuilders.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://www.arleenbuilders.com/services.php"},{"@type":"ListItem","position":3,"name":"Interior & Exterior Decoration","item":"https://www.arleenbuilders.com/interiors.php"}]},{"@type":"Service","name":"Interior & Exterior Decoration","serviceType":"Interior design and exterior facade works","description":"Arleen Builders are interior & exterior decorators in Chennai for homes, offices, showrooms, salons and hotels, plus ACP cladding, structural and spider glazing.","url":"https://www.arleenbuilders.com/interiors.php","provider":{"@id":"https://www.arleenbuilders.com/#organization"},"areaServed":{"@type":"City","name":"Chennai"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do you do both home and commercial interiors in Chennai?","acceptedAnswer":{"@type":"Answer","text":"Yes. We design and execute residential interiors (kitchens, bedrooms, bathrooms, living rooms) as well as commercial interiors for offices, hotels, showrooms, clubs, retail stores, salons and spas."}},{"@type":"Question","name":"What is ACP cladding and is it suitable for Chennai weather?","acceptedAnswer":{"@type":"Answer","text":"ACP (aluminium composite panel) cladding is a lightweight, weather-resistant facade material. It handles Chennai’s heat and humidity well, is easy to clean and is available in many colours and finishes."}},{"@type":"Question","name":"What is the difference between structural glazing and spider glazing?","acceptedAnswer":{"@type":"Answer","text":"Structural glazing bonds glass to an aluminium frame behind it for a seamless glass facade. Spider glazing holds glass panels with stainless-steel point fittings, and is popular for entrances, lobbies and showroom fronts."}},{"@type":"Question","name":"How long does an interior project take?","acceptedAnswer":{"@type":"Answer","text":"A typical apartment interior takes 6–10 weeks, and commercial fit-outs vary with size. We share a timeline with your quotation and stick to it."}}]}]}</script>
 </head>
 <body>
@@ -45,11 +45,11 @@
 </header>
 <div class="menu" id="menu" aria-label="Site menu">
   <nav class="menu__links" aria-label="Pages">
-        <a href="/"><span>01</span>Home</a>
-        <a href="/projects.php"><span>02</span>Projects</a>
-        <a href="/aboutus.php"><span>03</span>Studio</a>
-        <a href="/services.php"><span>04</span>Services</a>
-        <a href="/contactus.php"><span>05</span>Contact</a>
+        <a href="/">Home</a>
+        <a href="/projects.php">Projects</a>
+        <a href="/aboutus.php">Studio</a>
+        <a href="/services.php">Services</a>
+        <a href="/contactus.php">Contact</a>
   </nav>
   <div class="menu__aside">
     <div>
@@ -77,7 +77,7 @@
   <img class="page-hero__bg" src="/assets/img/hero-interiors.webp" srcset="/assets/img/hero-interiors-sm.webp 800w, /assets/img/hero-interiors.webp 1920w" sizes="100vw" alt="Billiards room interior with pendant lights designed by Arleen Builders, Nungambakkam" width="1920" height="1280" fetchpriority="high">
   <div class="container">
     <nav class="breadcrumb reveal" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/services.php">Services</a></li><li aria-current="page">Interior & Exterior Decoration</li></ol></nav>
-    <span class="kicker reveal">02 / Interiors &amp; facades</span>
+    <span class="kicker reveal">Interiors &amp; facades</span>
     <h1 class="display reveal">Interior &amp; exterior decorators in Chennai</h1>
     <p class="lead reveal">Beautiful, functional interiors and striking facades for homes, offices, showrooms, salons, hotels and clubs.</p>
     <div class="reveal"><a class="link link--lg" href="/contactus.php">Start a project</a></div>
@@ -117,19 +117,15 @@
   <div class="container">
     <div class="section-head reveal"><span class="kicker">Our process</span><h2 class="display">From concept to completion</h2></div>
     <div class="rows rows--steps"><div class="row reveal">
-  <span class="row__n">01</span>
   <h3>Consultation</h3>
   <div class="row__body"><p>We visit your space and understand your style, needs and budget.</p></div>
 </div><div class="row reveal">
-  <span class="row__n">02</span>
   <h3>Design</h3>
   <div class="row__body"><p>Layouts, material boards and 3D views for your approval.</p></div>
 </div><div class="row reveal">
-  <span class="row__n">03</span>
   <h3>Execution</h3>
   <div class="row__body"><p>Carpentry, ceilings, lighting and finishes by our skilled team.</p></div>
 </div><div class="row reveal">
-  <span class="row__n">04</span>
   <h3>Handover</h3>
   <div class="row__body"><p>Deep clean, final walk-through and after-sales support.</p></div>
 </div></div>
@@ -139,38 +135,41 @@
 <section class="section">
   <div class="container">
     <div class="section-head reveal"><span class="kicker">Recent work</span><h2 class="display">Our interiors & exteriors projects</h2></div>
-    <div class="grid grid-3"><article class="work__item reveal" data-cat="interiors">
+    <div class="work"><article class="work__item reveal">
     <div class="work__media">
-      <button type="button" data-gallery='[{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-1.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-2.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-3.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-4.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-5.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 5)&quot;}]' aria-label="View 5 photos of Eden Square">
-        <img src="/assets/img/projects/edensquare-structural-glazing-1.webp" srcset="/assets/img/projects/edensquare-structural-glazing-1-sm.webp 640w, /assets/img/projects/edensquare-structural-glazing-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw" alt="Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
+      <button type="button" data-gallery='{&quot;title&quot;:&quot;Eden Square&quot;,&quot;place&quot;:&quot;Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-1.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-2.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-3.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-4.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-5.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Eden Square">
+        <img src="/assets/img/projects/edensquare-structural-glazing-1.webp" srcset="/assets/img/projects/edensquare-structural-glazing-1-sm.webp 640w, /assets/img/projects/edensquare-structural-glazing-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
       </button>
-      <span class="work__count">5 photos</span>
     </div>
     <div class="work__meta">
-      <span class="mono">01 / Interiors & Exteriors</span>
-      <h3>Eden Square</h3><p>Chennai · Commercial facade with structural glazing</p>
+      <span class="mono">Interiors & Exteriors · 5 photos</span>
+      <h3>Eden Square</h3>
+      <p class="work__place">Chennai</p>
+      <p class="work__work">Commercial facade with structural glazing</p>
     </div>
-  </article><article class="work__item reveal" data-cat="interiors">
+  </article><article class="work__item reveal">
     <div class="work__media">
-      <button type="button" data-gallery='[{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-1.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-2.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-3.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-4.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-5.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 5)&quot;}]' aria-label="View 5 photos of Recreation Centre I – Billiards">
-        <img src="/assets/img/projects/recreation-centre-billiards-interior-1.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-1-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw" alt="Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
+      <button type="button" data-gallery='{&quot;title&quot;:&quot;Recreation Centre I – Billiards&quot;,&quot;place&quot;:&quot;Park Side Road, Nungambakkam&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-1.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-2.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-3.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-4.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/recreation-centre-billiards-interior-5.webp&quot;,&quot;alt&quot;:&quot;Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Recreation Centre I – Billiards">
+        <img src="/assets/img/projects/recreation-centre-billiards-interior-1.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-1-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Recreation Centre I – Billiards, Park Side Road, Nungambakkam – Billiards room interior, flooring, lighting and wall finishes by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
       </button>
-      <span class="work__count">5 photos</span>
     </div>
     <div class="work__meta">
-      <span class="mono">02 / Interiors & Exteriors</span>
-      <h3>Recreation Centre I – Billiards</h3><p>Park Side Road, Nungambakkam · Billiards room interior, flooring, lighting and wall finishes</p>
+      <span class="mono">Interiors & Exteriors · 5 photos</span>
+      <h3>Recreation Centre I – Billiards</h3>
+      <p class="work__place">Park Side Road, Nungambakkam</p>
+      <p class="work__work">Billiards room interior, flooring, lighting and wall finishes</p>
     </div>
-  </article><article class="work__item reveal" data-cat="interiors">
+  </article><article class="work__item reveal">
     <div class="work__media">
-      <button type="button" data-gallery='[{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-1.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-2.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-3.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-4.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 4)&quot;}]' aria-label="View 4 photos of Sreeleathers Showroom">
-        <img src="/assets/img/projects/sreeleathers-glass-facade-1.webp" srcset="/assets/img/projects/sreeleathers-glass-facade-1-sm.webp 640w, /assets/img/projects/sreeleathers-glass-facade-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw" alt="Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
+      <button type="button" data-gallery='{&quot;title&quot;:&quot;Sreeleathers Showroom&quot;,&quot;place&quot;:&quot;Purasaiwakkam, Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-1.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-2.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-3.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sreeleathers-glass-facade-4.webp&quot;,&quot;alt&quot;:&quot;Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 4)&quot;}]}' aria-label="View 4 photos of Sreeleathers Showroom">
+        <img src="/assets/img/projects/sreeleathers-glass-facade-1.webp" srcset="/assets/img/projects/sreeleathers-glass-facade-1-sm.webp 640w, /assets/img/projects/sreeleathers-glass-facade-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Sreeleathers Showroom, Purasaiwakkam, Chennai – Showroom exterior with ACP cladding and spider glazing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
       </button>
-      <span class="work__count">4 photos</span>
     </div>
     <div class="work__meta">
-      <span class="mono">03 / Interiors & Exteriors</span>
-      <h3>Sreeleathers Showroom</h3><p>Purasaiwakkam, Chennai · Showroom exterior with ACP cladding and spider glazing</p>
+      <span class="mono">Interiors & Exteriors · 4 photos</span>
+      <h3>Sreeleathers Showroom</h3>
+      <p class="work__place">Purasaiwakkam, Chennai</p>
+      <p class="work__work">Showroom exterior with ACP cladding and spider glazing</p>
     </div>
   </article></div>
     <p class="section-foot reveal"><a class="link" href="/projects.php#interiors">All interiors & exteriors projects</a></p>
@@ -191,7 +190,6 @@
 <section class="section">
   <div class="container contact-band">
     <div class="reveal">
-      <span class="kicker">Enquiries</span>
       <h2 class="display">Start a<br>project</h2>
       <p class="lead">Tell us about the site, the brief and the timeline. We call back within one working day to arrange a free site visit and a detailed, itemised quotation.</p>
     </div>
@@ -250,6 +248,6 @@
   <a class="fa-wa" href="https://wa.me/919383341020?text=Hi%20Arleen%20Builders%2C%20I%20would%20like%20to%20enquire%20about%20a%20project." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.7.1a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.5.3-.5a.6.6 0 0 0 0-.5l-1-2.4c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.5 3.5 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.8 13.8 0 0 0 5.3 4.7c2.6 1 2.6.7 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.6-.3zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm8.4-18.2A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6a11.8 11.8 0 0 0 5.6 1.4A11.8 11.8 0 0 0 20.4 3.6z"/></svg></a>
   <a class="fa-call" href="tel:+919383341020" aria-label="Call +91 93833 41020"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
 </div>
-<script src="/assets/js/main.js?v=fee8a00f" defer></script>
+<script src="/assets/js/main.js?v=d40fedd0" defer></script>
 </body>
 </html>

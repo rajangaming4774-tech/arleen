@@ -4,7 +4,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, CATEGORY_LABEL, imgName } from './data.mjs';
-import { TOUR, cutPoints } from './config.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
@@ -92,14 +91,17 @@ const serviceSchema = (name, type, desc, path) => ({
   provider: { '@id': ORG_ID }, areaServed: { '@type': 'City', name: 'Chennai' },
 });
 /* ---------- Layout ---------- */
-const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap';
+// Fraunces (serif, optical sizing) for headings; Manrope for body text and small labels
+const FONTS = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Manrope:wght@300;400;500&display=swap';
 
 function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = 'og-image.jpg', preload }) {
   const canonical = `${SITE.url}${path}`;
   const graph = { '@context': 'https://schema.org', '@graph': [orgSchema, { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description: desc, isPartOf: { '@type': 'WebSite', '@id': `${SITE.url}/#website`, url: `${SITE.url}/`, name: SITE.name, publisher: { '@id': ORG_ID } }, about: { '@id': ORG_ID }, inLanguage: 'en-IN' }, ...schema] };
   const cur = (n) => n.key === key || (n.children && n.children.includes(key));
   const navHtml = NAV.map((n) => `<li><a href="${n.href}"${cur(n) ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
-  const menuHtml = MENU.map((n, i) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}><span>0${i + 1}</span>${n.label}</a>`).join('\n        ');
+  const menuHtml = MENU.map((n) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}>${n.label}</a>`).join('\n        ');
+  // Pages without a dark hero (home) start with the light header bar instead of white-on-dark text
+  const lightHeader = !h1Hero.includes('class="page-hero"');
   const preloadTag = !preload ? '' : typeof preload === 'string'
     ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp 1920w" imagesizes="100vw">\n`
     : `<link rel="preload" as="image" href="${preload.href}" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes || '100vw'}" fetchpriority="high">\n`;
@@ -138,7 +140,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
+<header class="site-header${lightHeader ? ' scrolled' : ''}">
   <nav class="container nav" aria-label="Main">
     <a class="nav__brand" href="/" aria-label="${SITE.name} home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="${SITE.name}"></picture></a>
     <ul class="nav__menu">${navHtml}</ul>
@@ -251,24 +253,26 @@ function pageHero({ img, alt, crumbs, kicker, h1, intro, actions = true }) {
 }
 
 const projectAlt = (p, i) => `${p.title}, ${p.place} – ${p.work} by Arleen Builders${p.files.length > 1 ? ` (photo ${i + 1})` : ''}`;
-const pad2 = (n) => String(n).padStart(2, '0');
 
-function workTile(p, i) {
-  const gallery = p.files.map((_, k) => ({ src: `/assets/img/projects/${imgName(p, k)}.webp`, alt: projectAlt(p, k) }));
-  return `<article class="work__item reveal" data-cat="${p.category}">
+function workTile(p) {
+  const n = p.files.length;
+  const gallery = { title: p.title, place: p.place, images: p.files.map((_, k) => ({ src: `/assets/img/projects/${imgName(p, k)}.webp`, alt: projectAlt(p, k) })) };
+  return `<article class="work__item reveal">
     <div class="work__media">
-      <button type="button" data-gallery='${esc(JSON.stringify(gallery))}' aria-label="View ${p.files.length} photo${p.files.length > 1 ? 's' : ''} of ${esc(p.title)}">
-        ${pic(`projects/${imgName(p, 0)}`, projectAlt(p, 0), { w: 1400, h: 1050, sizes: '(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw' })}
+      <button type="button" data-gallery='${esc(JSON.stringify(gallery))}' aria-label="View ${n} photo${n > 1 ? 's' : ''} of ${esc(p.title)}">
+        ${pic(`projects/${imgName(p, 0)}`, projectAlt(p, 0), { w: 1400, h: 1050, sizes: '(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw' })}
       </button>
-      ${p.files.length > 1 ? `<span class="work__count">${p.files.length} photos</span>` : ''}
     </div>
     <div class="work__meta">
-      <span class="mono">${pad2(i + 1)} / ${CATEGORY_LABEL[p.category]}</span>
-      <h3>${esc(p.title)}</h3><p>${esc(p.place)} · ${esc(p.work)}</p>
+      <span class="mono">${CATEGORY_LABEL[p.category]}${n > 1 ? ` · ${n} photos` : ''}</span>
+      <h3>${esc(p.title)}</h3>
+      <p class="work__place">${esc(p.place)}</p>
+      <p class="work__work">${esc(p.work)}</p>
     </div>
   </article>`;
 }
-const workGrid = (list) => `<div class="grid grid-3">${list.map(workTile).join('')}</div>`;
+// editorial: the first project runs wide and the second tall (see .work--editorial); plain: three-up
+const workGrid = (list, editorial = true) => `<div class="work${editorial ? ' work--editorial' : ''}">${list.map(workTile).join('')}</div>`;
 
 const lightbox = `<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project photos">
   <button class="lb-close" aria-label="Close">×</button>
@@ -280,7 +284,6 @@ const lightbox = `<div class="lightbox" id="lightbox" role="dialog" aria-modal="
 const contactBand = (heading = 'Start a<br>project', text = 'Tell us about the site, the brief and the timeline. We call back within one working day to arrange a free site visit and a detailed, itemised quotation.') => `<section class="section">
   <div class="container contact-band">
     <div class="reveal">
-      <span class="kicker">Enquiries</span>
       <h2 class="display">${heading}</h2>
       <p class="lead">${text}</p>
     </div>
@@ -306,7 +309,7 @@ const related = (cat, heading) => {
   return `<section class="section">
   <div class="container">
     <div class="section-head reveal"><span class="kicker">Recent work</span><h2 class="display">${heading}</h2></div>
-    ${workGrid(list)}
+    ${workGrid(list, false)}
     <p class="section-foot reveal"><a class="link" href="/projects.php#${cat}">All ${CATEGORY_LABEL[cat].toLowerCase()} projects</a></p>
   </div>
 </section>
@@ -328,21 +331,19 @@ const SERVICES = [
     tags: ['Badminton', 'Basketball', 'Squash', 'Multi-sport'] },
 ];
 
-// Numbered hairline rows: the three divisions, with a thumbnail
-const divisionRows = () => `<div class="rows">${SERVICES.map((s, i) => `<article class="row reveal">
-  <span class="row__n">${pad2(i + 1)}</span>
+// Hairline rows: the three divisions, with a thumbnail
+const divisionRows = () => `<div class="rows">${SERVICES.map((s) => `<article class="row reveal">
   <h3><a href="${s.href}">${s.title}</a></h3>
   <div class="row__body">
     <p>${s.text}</p>
     <ul class="row__tags">${s.tags.map((t) => `<li>${t}</li>`).join('')}</ul>
-    <a class="link" href="${s.href}">Enter</a>
+    <a class="link" href="${s.href}">View services</a>
   </div>
   <div class="row__media">${pic(s.img, s.alt, { w: 1400, h: 1050, sizes: '200px' })}</div>
 </article>`).join('')}</div>`;
 
-// Generic numbered rows from [title, text] pairs
-const rows = (items, { cols2 = false, steps = false } = {}) => `<div class="rows${cols2 ? ' rows--2' : ''}${steps ? ' rows--steps' : ''}">${items.map(([t, d], i) => `<div class="row reveal">
-  <span class="row__n">${pad2(i + 1)}</span>
+// Generic hairline rows from [title, text] pairs
+const rows = (items, { cols2 = false, steps = false } = {}) => `<div class="rows${cols2 ? ' rows--2' : ''}${steps ? ' rows--steps' : ''}">${items.map(([t, d]) => `<div class="row reveal">
   <h3>${t}</h3>
   <div class="row__body"><p>${d}</p></div>
 </div>`).join('')}</div>`;
@@ -358,70 +359,41 @@ const WHY = [
 
 const CLIENTS = ['Stella Matutina College', 'D.G. Vaishnav College', 'Sacred Heart School', 'Sreeleathers', 'CavinCare', 'Naturals Salon & Spa', 'Eden Square', 'Cloudy Shop'];
 
-const quoteBand = `<section class="section quote-band">
-  <div class="container"><blockquote>${SITE.tagline}</blockquote><span class="mono reveal">Arleen Builders — est. ${SITE.founded}</span></div>
-</section>`;
-
 /* ---------- Pages ---------- */
 const pages = {};
 
-// HOME — the film: one pinned, scroll-scrubbed take over the four clips in raw/tour/,
-// with a title card and one numbered chapter per clip. Chapter ranges follow the cross-fades.
-const cuts = cutPoints();
-const FILM = {
-  hold: 0, // the one-take opening clip plays under the title card as you start to scroll
-  title: { to: cuts[0], kicker: 'Arleen Builders — Chennai', line: 'Construction, interiors and sports courts,<br>in one continuous take. Scroll to enter.' },
-  chapters: [
-    { n: '01', kicker: 'Construction', title: 'The<br>structure', sub: 'Apartments, villas, offices and institutions — built on time.', href: '/construction.php' },
-    { n: '02', kicker: 'Facade', title: 'The<br>facade', sub: 'ACP cladding, structural and spider glazing.', href: '/interiors.php#exterior' },
-    { n: '03', kicker: 'Interiors', title: 'The<br>interior', sub: 'Offices, showrooms and homes, fitted out by our own team.', href: '/interiors.php' },
-    { n: '04', kicker: 'Sports', title: 'The<br>court', sub: 'Indoor badminton and multi-sport arenas.', href: '/sports-flooring.php' },
-  ],
-};
-const chapterRanges = FILM.chapters.map((_, i) => [cuts[i], i + 1 < cuts.length ? cuts[i + 1] : 1.01]);
-const FRAME1 = { sm: '/assets/video/tour/sm/f-001.webp', lg: '/assets/video/tour/lg/f-001.webp', xl: '/assets/video/tour/xl/f-001.webp' };
-const filmSection = `<section class="film" aria-label="Arleen Builders film" data-frames="${TOUR.frames}" data-hold="${FILM.hold}" data-xl="/assets/video/tour/xl/" data-lg="/assets/video/tour/lg/" data-sm="/assets/video/tour/sm/">
-  <noscript><style>.film{height:auto}.film .film__sticky{position:static;height:auto;overflow:visible;padding-top:60px}.film__canvas,.film__progress,.film__hint,.film__loading,.film__vignette{display:none}.film__poster{position:static;aspect-ratio:16/9;height:auto}.film__video{display:block;width:100%}.film__card{position:static;opacity:1;transform:none;pointer-events:auto;padding:40px var(--gutter);border-top:1px solid var(--line);align-items:flex-start;text-align:left}.film__card h2{font-size:clamp(2rem,5vw,3.5rem)}</style></noscript>
-  <div class="film__sticky">
-    <img class="film__poster" src="${FRAME1.lg}" srcset="${FRAME1.sm} 720w, ${FRAME1.lg} 1280w, ${FRAME1.xl} 1920w" sizes="100vw" width="${TOUR.canvas[0]}" height="${TOUR.canvas[1]}" alt="" fetchpriority="high" decoding="async">
-    <canvas class="film__canvas" width="${TOUR.canvas[0]}" height="${TOUR.canvas[1]}" aria-hidden="true"></canvas>
-    <video class="film__video" src="/assets/video/tour.mp4" poster="/assets/video/tour-poster.jpg" muted playsinline controls preload="none" width="1280" height="720">Video tour: exterior, facade, interiors and indoor badminton court.</video>
-    <div class="film__vignette" aria-hidden="true"></div>
-    <div class="film__card film__card--title on" data-from="0" data-to="${FILM.title.to}">
-      <span class="kicker">${FILM.title.kicker}</span>
-      <h1 class="display film__wordmark">Arleen Builders<span class="sr-only"> — builders, interior decorators &amp; sports flooring contractors in Chennai</span></h1>
-      <p class="mono">${FILM.title.line}</p>
+// HOME — a short editorial hero: the headline, then one framed photo that slowly cross-fades
+// through a few real projects (the hero-*.webp banners rendered by build/images.mjs).
+const HERO_PHOTOS = [
+  { img: 'hero-sports', alt: 'Indoor synthetic badminton court with steel roof built by Arleen Builders at Sacred Heart School, Chennai', caption: 'Sacred Heart School — indoor badminton court, Church Park' },
+  { img: 'hero-about', alt: 'Stella Matutina College canteen block with ACP cladding and glazing at dusk, built by Arleen Builders', caption: 'Stella Matutina College — canteen block, Ashok Nagar' },
+  { img: 'hero-home', alt: 'Eden Square commercial building with structural glazing facade by Arleen Builders, Chennai', caption: 'Eden Square — structural glazing facade' },
+];
+const homeHero = `<section class="hero">
+  <div class="container">
+    <div class="hero__text">
+      <h1 class="reveal">Builders, interior decorators &amp; sports flooring contractors in Chennai</h1>
+      <p class="lead reveal">Apartments, villas, schools, showrooms and indoor courts — designed, built and fitted out by one in-house team since ${SITE.founded}.</p>
+      <p class="hero__links reveal"><a class="link" href="/projects.php">View projects</a><a class="link link--muted" href="/contactus.php">Get a quotation</a></p>
     </div>
-    ${FILM.chapters.map((c, i) => `<div class="film__card film__card--${i % 2 ? 'right' : 'left'}" data-from="${chapterRanges[i][0].toFixed(3)}" data-to="${chapterRanges[i][1].toFixed(3)}" inert>
-      <span class="kicker">${c.n} / ${c.kicker}</span>
-      <h2 class="display">${c.title}</h2>
-      <p class="mono">${c.sub}</p>
-      <a class="link" href="${c.href}">Enter chapter</a>
-    </div>`).join('\n    ')}
-    <div class="film__loading" role="status" aria-live="polite">Loading film…</div>
-    <div class="film__hint" aria-hidden="true">Scroll</div>
-    <div class="film__progress" aria-hidden="true"></div>
+    <figure class="hero__media reveal">
+      <div class="hero__frame">${HERO_PHOTOS.map((h, i) => `<img${i === 0 ? ' class="is-on"' : ''} src="/assets/img/${h.img}.webp" srcset="/assets/img/${h.img}-sm.webp 800w, /assets/img/${h.img}.webp 1920w" sizes="(max-width: 1400px) 100vw, 1400px" alt="${esc(h.alt)}" data-caption="${esc(h.caption)}" width="1920" height="1280"${i === 0 ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`).join('')}</div>
+      <figcaption class="hero__caption">${esc(HERO_PHOTOS[0].caption)}</figcaption>
+    </figure>
   </div>
 </section>`;
-const filmSchema = {
-  '@type': 'VideoObject', name: 'Arleen Builders – construction, facade, interior and sports court tour',
-  description: 'A short tour of the kind of work Arleen Builders delivers in Chennai: commercial building construction, glass facade, office interiors and an indoor badminton court.',
-  thumbnailUrl: `${SITE.url}/assets/video/tour-poster.jpg`, contentUrl: `${SITE.url}/assets/video/tour.mp4`,
-  duration: `PT${TOUR.seconds}S`, uploadDate: new Date().toISOString().slice(0, 10), publisher: { '@id': ORG_ID },
-};
 
 pages['index.php'] = layout({
-  path: '/', key: 'home', schema: [filmSchema],
-  preload: { href: FRAME1.lg, srcset: `${FRAME1.sm} 720w, ${FRAME1.lg} 1280w, ${FRAME1.xl} 1920w`, sizes: '100vw' },
+  path: '/', key: 'home', preload: 'hero-sports',
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
-  h1Hero: filmSection,
-  body: `<section class="section section--flush" id="studio">
+  h1Hero: homeHero,
+  body: `<section class="section" id="studio">
   <div class="container">
     <div class="studio">
       <div class="reveal">
-        <span class="kicker">00 / Studio</span>
-        <h2 class="display">Builders, interior decorators &amp; sports flooring experts in Chennai</h2>
+        <span class="kicker">The studio</span>
+        <h2 class="display">One team for construction, interiors and sports courts</h2>
       </div>
       <div class="reveal prose">
         <p>${SITE.legalName} is a Chennai construction company with three specialist divisions under one roof: residential and commercial building construction, interior and exterior decoration, and sports arena construction.</p>
@@ -429,46 +401,44 @@ pages['index.php'] = layout({
         <p><a class="link" href="/aboutus.php">About the studio</a></p>
       </div>
     </div>
-    <div class="stats">
-      <div class="stat reveal"><strong data-count="${SITE.founded}">${SITE.founded}</strong><span>Established</span></div>
-      <div class="stat reveal"><strong data-count="${YEAR - 2007}" data-suffix="+">${YEAR - 2007}+</strong><span>Years of experience</span></div>
-      <div class="stat reveal"><strong data-count="${PROJECTS.length}" data-suffix="+">${PROJECTS.length}+</strong><span>Landmark projects</span></div>
-      <div class="stat reveal"><strong data-count="3">3</strong><span>Specialist divisions</span></div>
-    </div>
+    <ul class="facts reveal">
+      <li><strong>Est. ${SITE.founded}</strong> ${addr.locality}, ${addr.city}</li>
+      <li><strong>${YEAR - 2007} years</strong> of building, interiors and courts</li>
+      <li><strong>${PROJECTS.length} projects</strong> schools, homes, showrooms and courts</li>
+      <li><strong>3 divisions</strong> one in-house team</li>
+    </ul>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-head reveal"><span class="kicker">Selected work</span><h2 class="display">Work we are proud of</h2><p class="lead">Schools, residences, showrooms, recreation centres and sports courts delivered across Chennai.</p></div>
+    <div class="section-head reveal"><h2 class="display">Selected projects</h2><p class="lead">Schools, residences, showrooms, recreation centres and sports courts across Chennai.</p></div>
     ${workGrid(PROJECTS.filter((p) => p.featured))}
-    <p class="section-foot reveal"><a class="link" href="/projects.php">All projects</a></p>
+    <p class="section-foot reveal"><a class="link" href="/projects.php">All ${PROJECTS.length} projects</a></p>
   </div>
 </section>
 ${lightbox}
 
 <section class="section">
   <div class="container">
-    <div class="section-head reveal"><span class="kicker">Three divisions</span><h2 class="display">One partner for construction, interiors &amp; sports infrastructure</h2></div>
+    <div class="section-head reveal"><span class="kicker">Three divisions</span><h2 class="display">Construction, interiors and sports infrastructure under one roof</h2></div>
     ${divisionRows()}
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-head reveal"><span class="kicker">Why Arleen</span><h2 class="display">Why clients across Chennai choose us</h2></div>
+    <div class="section-head reveal"><h2 class="display">Why clients across Chennai choose us</h2></div>
     ${rows(WHY, { cols2: true })}
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-head reveal"><span class="kicker">Clients</span><h2 class="display">Trusted by schools, colleges &amp; brands</h2></div>
+    <div class="section-head reveal"><h2 class="display">Trusted by schools, colleges and brands</h2></div>
     <ul class="clients">${CLIENTS.map((c) => `<li>${c}</li>`).join('')}</ul>
   </div>
 </section>
-
-${quoteBand}
 
 ${contactBand()}`,
 });
@@ -532,7 +502,6 @@ pages['aboutus.php'] = layout({
   </div>
 </section>
 
-${quoteBand}
 ${contactBand()}`,
 });
 
@@ -594,7 +563,7 @@ function servicePage({ file, key, cat, n, title, desc, hero, heroAlt, kicker, h1
   pages[file] = layout({
     path, key, preload: hero, title, desc,
     schema: [crumbSchema([{ name: 'Home', href: '/' }, { name: 'Services', href: '/services.php' }, { name: schemaName, href: path }]), serviceSchema(schemaName, schemaType, desc, path), faqSchema(faqs)],
-    h1Hero: pageHero({ img: hero, alt: heroAlt, crumbs: [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services.php' }, { name: schemaName }], kicker: `${n} / ${kicker}`, h1, intro }),
+    h1Hero: pageHero({ img: hero, alt: heroAlt, crumbs: [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services.php' }, { name: schemaName }], kicker, h1, intro }),
     body: `${sections}
 ${related(cat, `Our ${CATEGORY_LABEL[cat].toLowerCase()} projects`)}
 ${faqBlock(faqs, faqHeading)}
@@ -769,17 +738,17 @@ pages['projects.php'] = layout({
   h1Hero: pageHero({ img: 'hero-sports', alt: 'Indoor sports arena built by Arleen Builders in Chennai',
     crumbs: [{ name: 'Home', href: '/' }, { name: 'Projects' }], kicker: 'Work',
     h1: 'Our projects in Chennai', intro: `${PROJECTS.length} completed projects — schools, colleges, residences, showrooms, salons, recreation centres and sports courts.`, actions: false }),
+  // one group per division; the ids keep the /projects.php#construction links from the service pages working
   body: `<section class="section section--flush">
   <div class="container">
-    <div class="filters" role="group" aria-label="Filter projects">
-      <button type="button" data-filter="all" aria-pressed="true">All (${PROJECTS.length})</button>
-      ${Object.entries(CATEGORY_LABEL).map(([k, v]) => `<button type="button" data-filter="${k}" aria-pressed="false">${v} (${PROJECTS.filter((p) => p.category === k).length})</button>`).join('')}
-    </div>
-    ${workGrid(PROJECTS)}
+    ${Object.entries(CATEGORY_LABEL).map(([k, v]) => `<div class="work-group" id="${k}">
+      <h2 class="reveal">${v}</h2>
+      ${workGrid(PROJECTS.filter((p) => p.category === k))}
+    </div>`).join('\n    ')}
   </div>
 </section>
 ${lightbox}
-${contactBand('Want results<br>like these?')}`,
+${contactBand('Planning something<br>similar?')}`,
 });
 
 // CONTACT
@@ -848,7 +817,6 @@ pages['404.php'] = layout({
 // Post-process: add scroll-reveal classes to repeated elements in one place.
 const animate = (html) => html
   .replace(/class="section-head( center)?"/g, 'class="section-head$1 reveal"')
-  .replace(/class="filters"/g, 'class="filters reveal"')
   .replace(/<ul class="clients">([\s\S]*?)<\/ul>/g, (m, inner) => '<ul class="clients">' + inner.replace(/<li>/g, '<li class="reveal">') + '</ul>')
   .replace(/<blockquote>/g, '<blockquote class="reveal">')
   .replace(/<details>/g, '<details class="reveal">')

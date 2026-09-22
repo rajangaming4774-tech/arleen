@@ -35,7 +35,7 @@ export const PROJECTS = [
   { slug: 'recreation-centre-billiards-interior', title: 'Recreation Centre I – Billiards', place: 'Park Side Road, Nungambakkam', category: 'interiors',
     work: 'Billiards room interior, flooring, lighting and wall finishes', dir: 'recreationcentre-1', files: ['billards_1', 'billards_2', 'billards_3', 'billards_4', 'billards_5'], featured: true },
   { slug: 'sunil-residency-apartments', title: 'Sunil Residency', place: 'Nungambakkam, Chennai', category: 'construction',
-    work: 'Residential apartment construction', dir: 'sunil', files: ['sunil1', 'sunil2', 'sunil3', 'sunil4'], featured: true },
+    work: 'Residential apartment construction', dir: 'sunil', files: ['sunil1', 'sunil2', 'sunil3', 'sunil4'] },
   { slug: 'sreeleathers-glass-facade', title: 'Sreeleathers Showroom', place: 'Purasaiwakkam, Chennai', category: 'interiors',
     work: 'Showroom exterior with ACP cladding and spider glazing', dir: 'sree', files: ['sree1', 'sree2', 'sree3', 'sree4'], featured: true },
   { slug: 'naturals-salon-spa-interior', title: 'Naturals Salon & Spa', place: 'Infosys, Mahindra World City', category: 'interiors',
