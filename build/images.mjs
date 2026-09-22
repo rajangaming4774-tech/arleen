@@ -55,6 +55,19 @@ for (const [name, src] of Object.entries(heroes)) {
   ff(['-i', `${RAW}/${src}`, '-vf', `${pre}scale='min(800,iw)':-2`, '-c:v', 'libwebp', '-quality', '65', `${OUT}/${name}-sm.webp`]);
 }
 
+// One share image per page, from that page's own hero, so a shared link previews the right work.
+const OG = {
+  'og-home': HOME_HEROES['hero-index-a'],
+  'og-about': 'projects/kk-nirmala-school/big/schools1.jpg',
+  'og-construction': 'projects/sunil/big/sunil1.jpg',
+  'og-interiors': 'projects/recreationcentre-1/big/billards_2.jpg',
+  'og-sports': 'projects/sacred-heart/big/1.jpg',
+  'og-projects': 'projects/cloudyshop/big/cloudyshop_1.jpg',
+};
+for (const [name, src] of Object.entries(OG)) {
+  ff(['-i', `${RAW}/${src}`, '-vf', 'scale=1200:630:force_original_aspect_ratio=increase,crop=1200:630', '-q:v', '4', `${OUT}/${name}.jpg`]);
+}
+
 // Logo: white -> transparent, resized
 ff(['-i', `${RAW}/images/logo.png`, '-vf', 'scale=360:-2,colorkey=white:0.08:0.05,format=rgba', `${OUT}/logo.png`]);
 ff(['-i', `${OUT}/logo.png`, '-c:v', 'libwebp', '-quality', '90', `${OUT}/logo.webp`]);

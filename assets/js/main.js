@@ -4,12 +4,26 @@
 
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Keep Tab inside an open overlay — without this the focus ring walks off behind it.
+  var FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  var trapFocus = function (box) {
+    return function (e) {
+      if (e.key !== 'Tab') return;
+      var items = Array.prototype.filter.call(box.querySelectorAll(FOCUSABLE), function (el) { return el.offsetParent !== null; });
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+  };
+
   // Full-screen menu
   var toggle = document.querySelector('.nav__toggle');
   var menu = document.getElementById('menu');
   if (toggle && menu) {
     var setMenu = function (open) {
       menu.classList.toggle('open', open);
+      menu.setAttribute('aria-hidden', !open);
       document.body.classList.toggle('nav-open', open);
       toggle.setAttribute('aria-expanded', open);
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
@@ -21,6 +35,7 @@
       }
     };
     toggle.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+    menu.addEventListener('keydown', trapFocus(menu));
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('open')) setMenu(false);
     });
@@ -83,6 +98,7 @@
     lb.querySelector('.lb-prev').addEventListener('click', function () { step(-1); });
     lb.querySelector('.lb-next').addEventListener('click', function () { step(1); });
     lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    lb.addEventListener('keydown', trapFocus(lb));
     document.addEventListener('keydown', function (e) {
       if (!lb.classList.contains('open')) return;
       if (e.key === 'Escape') close();

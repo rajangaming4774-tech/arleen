@@ -18,6 +18,9 @@
 <meta property="og:description" content="Explore Arleen Builders services in Chennai: building construction, interior &amp; exterior decoration, ACP cladding, glazing and sports flooring &amp; court construction.">
 <meta property="og:url" content="https://www.arleenbuilders.com/services.php">
 <meta property="og:image" content="https://www.arleenbuilders.com/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Arleen Builders — Construction &amp; Interior Services in Chennai">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Construction &amp; Interior Services in Chennai | Arleen Builders">
 <meta name="twitter:description" content="Explore Arleen Builders services in Chennai: building construction, interior &amp; exterior decoration, ACP cladding, glazing and sports flooring &amp; court construction.">
@@ -27,9 +30,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap">
-<link rel="preload" as="image" href="/assets/img/hero-construction.webp" imagesrcset="/assets/img/hero-construction-sm.webp 800w, /assets/img/hero-construction.webp 1920w" imagesizes="100vw">
-<link rel="stylesheet" href="/assets/css/style.css?v=a9c73306">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":"https://www.arleenbuilders.com/assets/img/logo.png","image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/services.php#webpage","url":"https://www.arleenbuilders.com/services.php","name":"Construction & Interior Services in Chennai | Arleen Builders","description":"Explore Arleen Builders services in Chennai: building construction, interior & exterior decoration, ACP cladding, glazing and sports flooring & court construction.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.arleenbuilders.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://www.arleenbuilders.com/services.php"}]}]}</script>
+<link rel="preload" as="image" href="/assets/img/hero-construction.webp" imagesrcset="/assets/img/hero-construction-sm.webp 800w, /assets/img/hero-construction.webp 1280w" imagesizes="(max-width: 900px) 100vw, 58vw">
+<link rel="stylesheet" href="/assets/css/style.css?v=69960c65">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":{"@type":"ImageObject","url":"https://www.arleenbuilders.com/assets/img/logo.png","width":360,"height":168},"image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/services.php#webpage","url":"https://www.arleenbuilders.com/services.php","name":"Construction & Interior Services in Chennai | Arleen Builders","description":"Explore Arleen Builders services in Chennai: building construction, interior & exterior decoration, ACP cladding, glazing and sports flooring & court construction.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.arleenbuilders.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://www.arleenbuilders.com/services.php"}]}]}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -43,7 +46,7 @@
     </div>
   </nav>
 </header>
-<div class="menu" id="menu" aria-label="Site menu">
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
   <nav class="menu__links" aria-label="Pages">
         <a href="/">Home</a>
         <a href="/projects.php">Projects</a>
@@ -83,7 +86,7 @@
       <div class="reveal"><a class="btn" href="/contactus.php">Start a project</a></div>
     </div>
     <figure class="cover__media reveal">
-      <img class="cover__img" src="/assets/img/hero-construction.webp" srcset="/assets/img/hero-construction-sm.webp 800w, /assets/img/hero-construction.webp 1920w" sizes="(max-width: 900px) 100vw, 58vw" alt="Residential apartment building constructed by Arleen Builders in Chennai" width="1920" height="1280" fetchpriority="high">
+      <img class="cover__img" src="/assets/img/hero-construction.webp" srcset="/assets/img/hero-construction-sm.webp 800w, /assets/img/hero-construction.webp 1280w" sizes="(max-width: 900px) 100vw, 58vw" alt="Residential apartment building constructed by Arleen Builders in Chennai" width="1280" height="853" fetchpriority="high">
       <figcaption>Sunil Residency — Nungambakkam</figcaption>
     </figure>
   </div>
@@ -179,10 +182,10 @@
       <span class="tile__label">Our services</span>
       <h3 class="tile__title">What we build</h3>
       <p>Construction, interior and exterior decor, sports flooring and courts.</p>
-    </a><a class="tile reveal" href="/contactus.php">
-      <span class="tile__label">Contact us</span>
-      <h3 class="tile__title">Start a project</h3>
-      <p>Tell us the brief. A free site visit and an itemised quotation follow.</p>
+    </a><a class="tile reveal" href="/aboutus.php">
+      <span class="tile__label">The studio</span>
+      <h3 class="tile__title">Who we are</h3>
+      <p>A Chennai firm of builders, decorators and court contractors since 2007.</p>
     </a></div>
   </div>
 </section>
@@ -191,7 +194,7 @@
     <div class="reveal">
       <span class="kicker">Enquiries</span>
       <h2 class="display">Start a<br>project</h2>
-      <p class="lead">Tell us about the site, the brief and the timeline. We call back within one working day to arrange a free site visit and a detailed, itemised quotation.</p>
+      <p class="lead">Send the site address and what you want built. We reply within one working day.</p>
     </div>
     <div class="contact-band__list reveal">
       <div><span class="mono">Call</span><a href="tel:+919383341020">+91 93833 41020</a></div>
@@ -249,6 +252,6 @@
   <a class="fa-wa" href="https://wa.me/919383341020?text=Hi%20Arleen%20Builders%2C%20I%20would%20like%20to%20enquire%20about%20a%20project." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.7.1a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.5.3-.5a.6.6 0 0 0 0-.5l-1-2.4c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.5 3.5 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.8 13.8 0 0 0 5.3 4.7c2.6 1 2.6.7 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.6-.3zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm8.4-18.2A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6a11.8 11.8 0 0 0 5.6 1.4A11.8 11.8 0 0 0 20.4 3.6z"/></svg></a>
   <a class="fa-call" href="tel:+919383341020" aria-label="Call +91 93833 41020"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
 </div>
-<script src="/assets/js/main.js?v=1eed037c" defer></script>
+<script src="/assets/js/main.js?v=572640f5" defer></script>
 </body>
 </html>

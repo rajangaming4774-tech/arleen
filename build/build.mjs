@@ -76,7 +76,7 @@ const orgSchema = {
   name: SITE.name,
   legalName: SITE.legalName,
   url: `${SITE.url}/`,
-  logo: `${SITE.url}/assets/img/logo.png`,
+  logo: { '@type': 'ImageObject', url: `${SITE.url}/assets/img/logo.png`, width: 360, height: 168 },
   image: `${SITE.url}/assets/img/og-image.jpg`,
   description: 'Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.',
   foundingDate: SITE.founded,
@@ -110,14 +110,14 @@ const serviceSchema = (name, type, desc, path) => ({
 // Fraunces (serif, optical sizing) for headings; Manrope for body text and small labels
 const FONTS = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap';
 
-function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = 'og-image.jpg', preload }) {
+function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = 'og-image.jpg', preload, pageType = 'WebPage', org = true }) {
   const canonical = `${SITE.url}${path}`;
-  const graph = { '@context': 'https://schema.org', '@graph': [orgSchema, { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description: desc, isPartOf: { '@type': 'WebSite', '@id': `${SITE.url}/#website`, url: `${SITE.url}/`, name: SITE.name, publisher: { '@id': ORG_ID } }, about: { '@id': ORG_ID }, inLanguage: 'en-IN' }, ...schema] };
+  const graph = { '@context': 'https://schema.org', '@graph': [...(org ? [orgSchema] : []), { '@type': pageType, '@id': `${canonical}#webpage`, url: canonical, name: title, description: desc, isPartOf: { '@type': 'WebSite', '@id': `${SITE.url}/#website`, url: `${SITE.url}/`, name: SITE.name, publisher: { '@id': ORG_ID } }, about: { '@id': ORG_ID }, inLanguage: 'en-IN' }, ...schema] };
   const cur = (n) => n.key === key || (n.children && n.children.includes(key));
   const navHtml = NAV.map((n) => `<li><a href="${n.href}"${cur(n) ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
   const menuHtml = MENU.map((n) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}>${n.label}</a>`).join('\n        ');
   const preloadTag = !preload ? '' : typeof preload === 'string'
-    ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp 1920w" imagesizes="100vw">\n`
+    ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp ${HERO_W[preload] || 1280}w" imagesizes="(max-width: 900px) 100vw, 58vw">\n`
     : `<link rel="preload" as="image" href="${preload.href}" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes || '100vw'}" fetchpriority="high">\n`;
 
   return `<!DOCTYPE html>
@@ -140,6 +140,9 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${SITE.url}/assets/img/${ogImage}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(SITE.name)} — ${esc(title.split('|')[0].trim())}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
@@ -164,7 +167,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
     </div>
   </nav>
 </header>
-<div class="menu" id="menu" aria-label="Site menu">
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
   <nav class="menu__links" aria-label="Pages">
         ${menuHtml}
   </nav>
@@ -249,8 +252,13 @@ ${body}
 const pic = (base, alt, { w = 1400, h = 933, cls = '', eager = false, sizes = '(max-width: 640px) 100vw, 50vw' } = {}) =>
   `<img${cls ? ` class="${cls}"` : ''} src="/assets/img/${base}.webp" srcset="/assets/img/${base}-sm.webp 640w, /assets/img/${base}.webp 1400w" sizes="${sizes}" alt="${esc(alt)}" width="${w}" height="${h}"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`;
 
-const heroImg = (name, alt) =>
-  `<img class="cover__img" src="/assets/img/${name}.webp" srcset="/assets/img/${name}-sm.webp 800w, /assets/img/${name}.webp 1920w" sizes="(max-width: 900px) 100vw, 58vw" alt="${esc(alt)}" width="1920" height="1280" fetchpriority="high">`;
+// hero-sports is the only 1920-wide source; the rest are 1280, and claiming otherwise made
+// browsers pick the small file on high-resolution screens.
+const HERO_W = { 'hero-sports': 1920 };
+const heroImg = (name, alt) => {
+  const w = HERO_W[name] || 1280;
+  return `<img class="cover__img" src="/assets/img/${name}.webp" srcset="/assets/img/${name}-sm.webp 800w, /assets/img/${name}.webp ${w}w" sizes="(max-width: 900px) 100vw, 58vw" alt="${esc(alt)}" width="${w}" height="${Math.round(w * 2 / 3)}" fetchpriority="high">`;
+};
 
 const startLink = (label = 'Start a project') => `<a class="btn" href="/contactus.php">${label}</a>`;
 
@@ -271,7 +279,7 @@ const statBar = ({ float = false } = {}) => `<section class="statbar-wrap${float
 const TILES = [
   { label: 'Our projects', title: 'See the work', text: `${PROJECTS.length} schools, homes, showrooms, recreation centres and courts across Chennai.`, href: '/projects.php' },
   { label: 'Our services', title: 'What we build', text: 'Construction, interior and exterior decor, sports flooring and courts.', href: '/services.php' },
-  { label: 'Contact us', title: 'Start a project', text: 'Tell us the brief. A free site visit and an itemised quotation follow.', href: '/contactus.php' },
+  { label: 'The studio', title: 'Who we are', text: `A ${addr.city} firm of builders, decorators and court contractors since ${SITE.founded}.`, href: '/aboutus.php' },
 ];
 const tiles = () => `<section class="section section--flush">
   <div class="container">
@@ -318,8 +326,8 @@ const HOME_HERO = HOME_HEROES[process.env.HERO === 'b' ? 'b' : 'a'];
 const homeHeroSrcset = (b) => `/assets/img/${b}-sm.webp 800w, /assets/img/${b}-1280.webp 1280w, /assets/img/${b}.webp 1920w`;
 function homeHero() {
   const b = HOME_HERO.base;
-  return `<section class="hero">
-  <figure class="hero__card">
+  return `<figure class="hero">
+  <div class="hero__card">
     <img class="hero__img" src="/assets/img/${b}-1280.webp" srcset="${homeHeroSrcset(b)}" sizes="100vw" width="1920" height="1080" alt="${esc(HOME_HERO.alt)}" fetchpriority="high" decoding="async">
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="hero__text">
@@ -328,9 +336,9 @@ function homeHero() {
       <p class="mono">School blocks, apartments, showroom facades and indoor courts — built by one team since ${SITE.founded}.</p>
       <a class="btn" href="/contactus.php">Start a project</a>
     </div>
-    <figcaption class="hero__credit">${HOME_HERO.credit}</figcaption>
-  </figure>
-</section>`;
+  </div>
+  <figcaption class="hero__credit">${HOME_HERO.credit}</figcaption>
+</figure>`;
 }
 
 const projectAlt = (p, i) => `${p.title}, ${p.place} – ${p.work} by Arleen Builders${p.files.length > 1 ? ` (photo ${i + 1})` : ''}`;
@@ -338,7 +346,7 @@ const projectAlt = (p, i) => `${p.title}, ${p.place} – ${p.work} by Arleen Bui
 function workTile(p) {
   const n = p.files.length;
   const gallery = { title: p.title, place: p.place, images: p.files.map((_, k) => ({ src: `/assets/img/projects/${imgName(p, k)}.webp`, alt: projectAlt(p, k) })) };
-  return `<article class="work__item reveal">
+  return `<article class="work__item reveal" id="${p.slug}">
     <div class="work__media">
       <button type="button" data-gallery='${esc(JSON.stringify(gallery))}' aria-label="View ${n} photo${n > 1 ? 's' : ''} of ${esc(p.title)}">
         ${pic(`projects/${imgName(p, 0)}`, projectAlt(p, 0), { w: 1400, h: 1050, sizes: '(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw' })}
@@ -362,7 +370,7 @@ const lightbox = `<div class="lightbox" id="lightbox" role="dialog" aria-modal="
   <button class="lb-next" aria-label="Next photo">›</button>
 </div>`;
 
-const contactBand = (heading = 'Start a<br>project', text = 'Tell us about the site, the brief and the timeline. We call back within one working day to arrange a free site visit and a detailed, itemised quotation.') => `${tiles()}
+const contactBand = (heading = 'Start a<br>project', text = `Send the site address and what you want built. ${SITE.responsePromise}`) => `${tiles()}
 <section class="section">
   <div class="container contact-band">
     <div class="reveal">
@@ -500,12 +508,10 @@ const coverageSection = () => `<section class="section">
 </section>`;
 
 const WHY = [
-  ['Since 2007', `Over ${YEAR - 2007} years of building, decorating and equipping spaces across Chennai.`],
-  ['In-house team', 'Architects, civil engineers, supervisors and skilled labour — one accountable team.'],
-  ['On-time delivery', 'Clear schedules and weekly progress updates so your project finishes as promised.'],
-  ['Quality materials', 'Branded materials, tested specifications and strict site supervision at every stage.'],
-  ['Transparent pricing', 'Detailed, itemised quotations with no hidden costs or surprise extras.'],
-  ['After-sales support', 'We stay available after handover for maintenance, warranty and upgrades.'],
+  ['Since 2007', `${YEAR - Number(SITE.founded)} years from the same office in ${addr.locality}.`],
+  ['Named clients', 'Sacred Heart School, Stella Matutina College, D.G. Vaishnav College, CavinCare, Sreeleathers.'],
+  ['One contract', 'Civil work, interiors and sports flooring under one agreement and one site engineer.'],
+  ['One quotation', 'Priced line by line before work starts, so you can see what each item costs.'],
 ];
 
 const CLIENTS = ['Stella Matutina College', 'D.G. Vaishnav College', 'Sacred Heart School', 'Sreeleathers', 'CavinCare', 'Naturals Salon & Spa', 'Eden Square', 'Cloudy Shop'];
@@ -515,7 +521,7 @@ const pages = {};
 
 // HOME
 pages['index.php'] = layout({
-  path: '/', key: 'home',
+  path: '/', key: 'home', ogImage: 'og-home.jpg',
   preload: { href: `/assets/img/${HOME_HERO.base}-1280.webp`, srcset: homeHeroSrcset(HOME_HERO.base), sizes: '100vw' },
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
@@ -583,7 +589,7 @@ ${contactBand()}`,
 
 // ABOUT (Studio)
 pages['aboutus.php'] = layout({
-  path: '/aboutus.php', key: 'about', preload: 'hero-about',
+  path: '/aboutus.php', key: 'about', ogImage: 'og-about.jpg', pageType: 'AboutPage', preload: 'hero-about',
   title: 'About Arleen Builders | Chennai Construction Company Since 2007',
   desc: 'Learn about Arleen Builders India Pvt. Ltd – a Chennai construction, interior decoration and sports infrastructure company delivering quality projects since 2007.',
   schema: [crumbSchema([{ name: 'Home', href: '/' }, { name: 'About Us', href: '/aboutus.php' }])],
@@ -595,8 +601,8 @@ pages['aboutus.php'] = layout({
     <div class="reveal prose">
       <span class="kicker">Who we are</span>
       <h2 class="display">Builders, decorators and sports arena constructors</h2>
-      <p>${SITE.legalName} was founded in ${SITE.founded}. Through the commitment of our professional team and by God’s grace, we have grown into a well-regarded builder, interior and exterior decorator, and constructor of sports arenas in Chennai.</p>
-      <p>We have delivered residential apartments, commercial complexes, villas, individual homes, schools and sports facilities to the complete satisfaction of our customers. Our team is professionally equipped with modern technology to meet every client requirement.</p>
+      <p>${SITE.legalName} was founded in ${SITE.founded}. Through the commitment of our professional team and by God’s grace, we have grown into a builder, interior and exterior decorator and constructor of sports arenas in Chennai.</p>
+      <p>We have delivered apartments, commercial complexes, villas, individual homes, school and college buildings, showroom facades and indoor sports courts — for clients including Sacred Heart School, Stella Matutina College, D.G. Vaishnav College, CavinCare and Sreeleathers.</p>
     </div>
     <figure class="split__media reveal">
       ${pic('projects/' + imgName(PROJECTS[5], 0), 'Sreeleathers showroom glass facade in Purasaiwakkam by Arleen Builders', { w: 1400, h: 930 })}
@@ -610,7 +616,7 @@ pages['aboutus.php'] = layout({
     <div class="reveal prose">
       <span class="kicker">Arleen Builders care</span>
       <h2 class="display">A pleasant experience from foundation to finish</h2>
-      <p>At Arleen Builders you can expect a pleasant, stress-free experience for all your construction needs. Teamwork, a dedicated workforce, skilled labour, professional architects and engineers give you peace of mind.</p>
+      <p>One civil engineer stays with your site from the foundation to the snag list, and reports progress to you as the work goes on. Architects, supervisors and our own skilled labour work to that engineer, so there is one person to ask about anything on site.</p>
       <p>Our focus on timely completion is what has earned us our reputation as one of Chennai’s dependable builders.</p>
       <ul class="list">
         <li>Professional architects &amp; civil engineers</li>
@@ -700,7 +706,7 @@ ${contactBand()}`,
 function servicePage({ file, key, cat, n, title, desc, hero, heroAlt, heroCaption, kicker, h1, intro, sections, faqs, faqHeading, schemaName, schemaType }) {
   const path = `/${file}`;
   pages[file] = layout({
-    path, key, preload: hero, title, desc,
+    path, key, preload: hero, title, desc, ogImage: `og-${cat}.jpg`,
     schema: [crumbSchema([{ name: 'Home', href: '/' }, { name: 'Services', href: '/services.php' }, { name: schemaName, href: path }]), serviceSchema(schemaName, schemaType, desc, path), faqSchema(faqs)],
     h1Hero: pageHero({ img: hero, alt: heroAlt, caption: heroCaption, crumbs: [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services.php' }, { name: schemaName }], kicker, h1, intro }),
     body: `${sections}
@@ -775,7 +781,7 @@ servicePage({
     <div class="reveal prose">
       <span class="kicker">The interior</span>
       <h2 class="display">Interiors designed around the way you live and work</h2>
-      <p>Our interior team turns empty rooms into spaces that feel good and work hard. From modular kitchens and wardrobes to complete office, salon and showroom fit-outs, we handle design, false ceilings, lighting, flooring, electrical, carpentry and painting — all under one contract.</p>
+      <p>From modular kitchens and wardrobes to complete office, salon and showroom fit-outs, we handle design, false ceilings, lighting, flooring, electrical, carpentry and painting — all under one contract.</p>
       <h3>Residential interiors</h3>
       <ul class="list cols-2"><li>Modular kitchen</li><li>Bathroom</li><li>Bedroom &amp; wardrobes</li><li>Living &amp; dining room</li></ul>
       <h3>Commercial interiors</h3>
@@ -830,7 +836,7 @@ servicePage({
     <div class="reveal prose">
       <span class="kicker">The court</span>
       <h2 class="display">Professional sports courts for schools, clubs &amp; communities</h2>
-      <p>Arleen Builders is one of the few Chennai contractors that can deliver a complete sports arena under one roof: civil base preparation, pre-engineered steel structures and roofing, ventilation, sports lighting and the final court surface with line marking.</p>
+      <p>We deliver a complete sports arena under one contract: civil base preparation, pre-engineered steel structures and roofing, ventilation, sports lighting and the final court surface with line marking.</p>
       <p>We have built indoor courts for schools, colleges, apartment communities and private clubs. Every court is laid to the correct level, slope and dimensions, with surfaces chosen for grip, shock absorption, durability and the right ball bounce.</p>
       <ul class="list cols-2">
         <li>Synthetic PVC / PU flooring</li><li>Wooden sports flooring</li><li>Acrylic outdoor courts</li><li>Artificial turf</li><li>Steel shed &amp; roofing</li><li>Sports lighting</li>
@@ -870,7 +876,7 @@ servicePage({
 
 // PROJECTS
 pages['projects.php'] = layout({
-  path: '/projects.php', key: 'projects', preload: 'hero-sports',
+  path: '/projects.php', key: 'projects', ogImage: 'og-projects.jpg', pageType: 'CollectionPage', preload: 'hero-sports',
   title: 'Our Projects | Construction, Interiors & Sports Courts in Chennai',
   desc: 'See completed Arleen Builders projects across Chennai – schools, apartments, villas, showrooms, salon interiors, glass facades and indoor badminton courts.',
   schema: [crumbSchema([{ name: 'Home', href: '/' }, { name: 'Projects', href: '/projects.php' }]),
@@ -893,7 +899,7 @@ ${contactBand('Planning something<br>similar?')}`,
 
 // CONTACT
 pages['contactus.php'] = layout({
-  path: '/contactus.php', key: 'contact', preload: 'hero-home',
+  path: '/contactus.php', key: 'contact', ogImage: 'og-home.jpg', pageType: 'ContactPage', preload: 'hero-home',
   title: 'Contact Arleen Builders | Nungambakkam, Chennai | Free Quote',
   desc: 'Contact Arleen Builders, Nungambakkam, Chennai. Call +91 93833 41020 / +91 99403 58889 or email info@arleenbuilders.com for a free site visit and quote.',
   schema: [crumbSchema([{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contactus.php' }])],
@@ -959,10 +965,13 @@ ${coverageSection()}
 
 // 404
 pages['404.php'] = layout({
-  path: '/404.php', key: '', title: 'Page Not Found | Arleen Builders',
+  path: '/404.php', key: '', org: false, title: 'Page Not Found | Arleen Builders',
   desc: 'The page you are looking for could not be found. Explore Arleen Builders construction, interior and sports flooring services in Chennai.',
-  h1Hero: pageHero({ img: 'hero-home', alt: 'Arleen Builders project', caption: 'Eden Square — Chennai', crumbs: [{ name: 'Home', href: '/' }, { name: 'Page not found' }], kicker: '404', h1: 'Page <em>not found</em>', intro: 'Sorry, we could not find that page. Try one of the divisions below.', actions: false, stats: false }),
-  body: `<section class="section section--flush"><div class="container">${divisionRows()}</div></section>`,
+  h1Hero: pageHero({ img: 'hero-home', alt: 'Eden Square commercial building with a structural glazing facade by Arleen Builders, Chennai', caption: 'Eden Square — Chennai', crumbs: [{ name: 'Home', href: '/' }, { name: 'Page not found' }], kicker: '404', h1: 'Page <em>not found</em>', intro: 'Sorry, we could not find that page. Try one of the divisions below.', actions: false, stats: false }),
+  body: `<section class="section section--flush"><div class="container">
+    <div class="section-head reveal"><span class="kicker">Where to next</span><h2 class="display">Our three divisions</h2></div>
+    ${divisionRows()}
+  </div></section>`,
 }).replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex, follow">');
 
 /* ---------- Write files ---------- */
