@@ -530,6 +530,39 @@ const WHY = [
 
 const CLIENTS = ['Stella Matutina College', 'D.G. Vaishnav College', 'Sacred Heart School', 'Sreeleathers', 'CavinCare', 'Naturals Salon & Spa', 'Eden Square', 'Cloudy Shop'];
 
+// Dark showcase (after a reference the owner sent): a full-bleed photo card with the name set large
+// over it, three reasons and the figures at the edges, then a statement and the featured projects on
+// the same dark ground. The photo is the real Sacred Heart court, cut by build/images.mjs.
+const showcase = () => `<section class="section section--flush showcase-wrap" aria-label="Selected work">
+  <div class="showcase">
+    <img class="showcase__bg" src="/assets/img/hero-index-a-1280.webp" srcset="/assets/img/hero-index-a-sm.webp 800w, /assets/img/hero-index-a-1280.webp 1280w, /assets/img/hero-index-a.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+    <div class="showcase__scrim" aria-hidden="true"></div>
+    <div class="showcase__cover">
+      <div class="showcase__intro reveal">
+        <span class="kicker">Selected work</span>
+        <p>Schools, residences, showrooms, recreation centres and sports courts — ${PROJECTS.length} projects across Chennai since ${SITE.founded}.</p>
+      </div>
+      <div class="showcase__title reveal">
+        <h2 class="display">Arleen <em>Builders</em></h2>
+        <p class="mono">Why choose us?</p>
+      </div>
+      <ul class="showcase__notes">
+        ${WHY.slice(1, 4).map(([t, d]) => `<li class="reveal"><strong>${t}</strong><span>${d}</span></li>`).join('')}
+      </ul>
+      <ul class="showcase__figures reveal">
+        <li><strong>${YEAR - 2007}</strong><span>years</span></li>
+        <li><strong>${PROJECTS.length}</strong><span>projects</span></li>
+        <li><strong>3</strong><span>divisions</span></li>
+      </ul>
+    </div>
+    <div class="showcase__body">
+      <p class="showcase__statement reveal">We build Chennai's <b>schools, homes, showrooms and courts</b> — one team from the first site visit to handover.</p>
+      ${workGrid(PROJECTS.filter((p) => p.featured))}
+      <p class="section-foot reveal"><a class="link" href="/projects.php">All ${PROJECTS.length} projects</a></p>
+    </div>
+  </div>
+</section>`;
+
 /* ---------- Pages ---------- */
 const pages = {};
 
@@ -564,13 +597,7 @@ pages['index.php'] = layout({
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head reveal"><span class="kicker">Selected work</span><h2 class="display">Recent <em>projects</em></h2><p class="lead">Schools, residences, showrooms, recreation centres and sports courts across Chennai.</p></div>
-    ${workGrid(PROJECTS.filter((p) => p.featured))}
-    <p class="section-foot reveal"><a class="link" href="/projects.php">All ${PROJECTS.length} projects</a></p>
-  </div>
-</section>
+${showcase()}
 ${lightbox}
 
 <section class="section">

@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero/poster-lg.webp" imagesrcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/style.css?v=e53c564e">
+<link rel="stylesheet" href="/assets/css/style.css?v=bb255241">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":{"@type":"ImageObject","url":"https://www.arleenbuilders.com/assets/img/logo.png","width":360,"height":168},"image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"}]}</script>
 </head>
 <body>
@@ -122,10 +122,31 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head reveal"><span class="kicker">Selected work</span><h2 class="display">Recent <em>projects</em></h2><p class="lead">Schools, residences, showrooms, recreation centres and sports courts across Chennai.</p></div>
-    <div class="work work--editorial"><article class="work__item reveal" id="sacred-heart-indoor-shuttle-court">
+<section class="section section--flush showcase-wrap" aria-label="Selected work">
+  <div class="showcase">
+    <img class="showcase__bg" src="/assets/img/hero-index-a-1280.webp" srcset="/assets/img/hero-index-a-sm.webp 800w, /assets/img/hero-index-a-1280.webp 1280w, /assets/img/hero-index-a.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+    <div class="showcase__scrim" aria-hidden="true"></div>
+    <div class="showcase__cover">
+      <div class="showcase__intro reveal">
+        <span class="kicker">Selected work</span>
+        <p>Schools, residences, showrooms, recreation centres and sports courts — 15 projects across Chennai since 2007.</p>
+      </div>
+      <div class="showcase__title reveal">
+        <h2 class="display">Arleen <em>Builders</em></h2>
+        <p class="mono">Why choose us?</p>
+      </div>
+      <ul class="showcase__notes">
+        <li class="reveal"><strong>Named clients</strong><span>Sacred Heart School, Stella Matutina College, D.G. Vaishnav College, CavinCare, Sreeleathers.</span></li><li class="reveal"><strong>One contract</strong><span>Civil work, interiors and sports flooring under one agreement and one site engineer.</span></li><li class="reveal"><strong>One quotation</strong><span>Priced line by line before work starts, so you can see what each item costs.</span></li>
+      </ul>
+      <ul class="showcase__figures reveal">
+        <li><strong>19</strong><span>years</span></li>
+        <li><strong>15</strong><span>projects</span></li>
+        <li><strong>3</strong><span>divisions</span></li>
+      </ul>
+    </div>
+    <div class="showcase__body">
+      <p class="showcase__statement reveal">We build Chennai's <b>schools, homes, showrooms and courts</b> — one team from the first site visit to handover.</p>
+      <div class="work work--editorial"><article class="work__item reveal" id="sacred-heart-indoor-shuttle-court">
     <div class="work__media">
       <button type="button" data-gallery='{&quot;title&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School&quot;,&quot;place&quot;:&quot;Church Park, Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-2.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-4.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-5.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Sacred Heart Matriculation Hr. Sec. School">
         <img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
@@ -186,7 +207,8 @@
       <p class="work__work">Showroom exterior with ACP cladding and spider glazing</p>
     </div>
   </article></div>
-    <p class="section-foot reveal"><a class="link" href="/projects.php">All 15 projects</a></p>
+      <p class="section-foot reveal"><a class="link" href="/projects.php">All 15 projects</a></p>
+    </div>
   </div>
 </section>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project photos">
