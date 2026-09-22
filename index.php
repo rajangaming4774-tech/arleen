@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Manrope:wght@300;400;500&display=swap">
 <link rel="preload" as="image" href="/assets/video/tour/lg/f-001.webp" imagesrcset="/assets/video/tour/sm/f-001.webp 720w, /assets/video/tour/lg/f-001.webp 1280w, /assets/video/tour/xl/f-001.webp 1920w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/style.css?v=8418d7a4">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":"https://www.arleenbuilders.com/assets/img/logo.png","image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":{"@type":"City","name":"Chennai"},"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"},{"@type":"VideoObject","name":"Arleen Builders – construction, facade, interior and sports court tour","description":"A short tour of the kind of work Arleen Builders delivers in Chennai: commercial building construction, glass facade, office interiors and an indoor badminton court.","thumbnailUrl":"https://www.arleenbuilders.com/assets/video/tour-poster.jpg","contentUrl":"https://www.arleenbuilders.com/assets/video/tour.mp4","duration":"PT37.6S","uploadDate":"2026-09-22","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":"https://www.arleenbuilders.com/assets/img/logo.png","image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":{"@type":"City","name":"Chennai"},"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"},{"@type":"VideoObject","name":"Arleen Builders – construction, facade, interior and sports court tour","description":"A short tour of the kind of work Arleen Builders delivers in Chennai: commercial building construction, glass facade, office interiors and an indoor badminton court.","thumbnailUrl":"https://www.arleenbuilders.com/assets/video/tour-poster.jpg","contentUrl":"https://www.arleenbuilders.com/assets/video/tour.mp4","duration":"PT30.2S","uploadDate":"2026-09-22","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}}]}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -80,30 +80,24 @@
     <canvas class="film__canvas" width="1920" height="1080" aria-hidden="true"></canvas>
     <video class="film__video" src="/assets/video/tour.mp4" poster="/assets/video/tour-poster.jpg" muted playsinline controls preload="none" width="1280" height="720">Video tour: exterior, facade, interiors and indoor badminton court.</video>
     <div class="film__vignette" aria-hidden="true"></div>
-    <div class="film__card film__card--title on" data-from="0" data-to="0.19680851063829788">
+    <div class="film__card film__card--title on" data-from="0" data-to="0.2450331125827815">
       <span class="kicker">Builders · Interiors · Sports flooring</span>
       <h1 class="display film__wordmark">Arleen Builders<span class="sr-only"> — builders, interior decorators &amp; sports flooring contractors in Chennai</span></h1>
       <p class="mono">Construction, interiors and sports courts — Chennai, since 2007.</p>
     </div>
-    <div class="film__card film__card--left" data-from="0.197" data-to="0.394" inert>
-      <span class="kicker">Construction</span>
-      <h2 class="display">The structure</h2>
-      <p class="mono">Apartments, villas, offices and institutions — built on time.</p>
-      <a class="link" href="/construction.php">See the work</a>
-    </div>
-    <div class="film__card film__card--right" data-from="0.394" data-to="0.590" inert>
+    <div class="film__card film__card--left" data-from="0.245" data-to="0.490" inert>
       <span class="kicker">Facades</span>
       <h2 class="display">The facade</h2>
       <p class="mono">ACP cladding, structural and spider glazing.</p>
       <a class="link" href="/interiors.php#exterior">See the work</a>
     </div>
-    <div class="film__card film__card--left" data-from="0.590" data-to="0.787" inert>
+    <div class="film__card film__card--right" data-from="0.490" data-to="0.735" inert>
       <span class="kicker">Interiors</span>
       <h2 class="display">The interior</h2>
       <p class="mono">Offices, showrooms and homes, fitted out by our own team.</p>
       <a class="link" href="/interiors.php">See the work</a>
     </div>
-    <div class="film__card film__card--right" data-from="0.787" data-to="1.010" inert>
+    <div class="film__card film__card--left" data-from="0.735" data-to="1.010" inert>
       <span class="kicker">Sports</span>
       <h2 class="display">The court</h2>
       <p class="mono">Indoor badminton and multi-sport arenas.</p>

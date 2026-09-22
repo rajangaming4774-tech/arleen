@@ -31,9 +31,9 @@ To add a project:
 3. Run both build commands.
 
 ## The film (Home page)
-The home page opens with a title card and then plays one continuous, scroll-scrubbed take with four chapters (construction, facade, interiors, sports court). It is stitched from five 8-second clips in `raw/tour/` — `0-tour-1080.mp4` (the opening take under the title card), then `1-exterior-1080.mp4`, `2-facade.mp4`, `3-lobby.mp4`, `4-court.mp4` for the chapters:
+The home page opens with a title card and then plays one continuous, scroll-scrubbed take with three chapters (facade, interiors, sports court). It is stitched from four 8-second clips in `raw/tour/` — `0-tour-1080.mp4` (the opening take under the title card), then `2-facade.mp4`, `3-lobby.mp4`, `4-court.mp4` for the chapters. (`1-exterior-1080.mp4` was dropped on client feedback but is kept in the folder; add it back to `CLIPS` in `build/video.mjs`, set `clips = 5` in `config.mjs` and add its chapter to `FILM` to restore it.)
 ```bash
-node build/video.mjs    # cross-fades the 5 clips into raw/tour-master.mp4, exports 220 WebP frames in three sizes (1920 / 1280 / 720 wide), an mp4 fallback and posters
+node build/video.mjs    # cross-fades the clips into raw/tour-master.mp4, exports 220 WebP frames in three sizes (1920 / 1280 / 720 wide), an mp4 fallback and posters
 node build/build.mjs
 ```
 - Clip count, frame count, clip length, cross-fade and sizes live in `build/config.mjs` (`TOUR`). Both `video.mjs` and `build.mjs` read it.

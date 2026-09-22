@@ -1,4 +1,5 @@
-// Builds the scroll film from the five Google Flow (Veo) clips in raw/tour/ (clip 0 runs under the title card, clips 1–4 are the chapters):
+// Builds the scroll film from four of the Google Flow (Veo) clips in raw/tour/ (clip 0 runs under the title card, the rest are the chapters).
+// 1-exterior-1080.mp4 is left out on client feedback; its file stays in raw/tour/ for reference.
 //   1. erases the small "Veo" watermark in each clip's bottom-right corner
 //   2. normalises every clip to the master resolution in config.mjs @ 24fps and joins them with 0.6s cross-fades
 //   3. exports scroll-scrub WebP frames (desktop + mobile sizes), an mp4 fallback and a poster
@@ -17,7 +18,6 @@ const FPS = TOUR.fps;
 // Clips in order. `logo` is the watermark box on that clip's native resolution ('' = none).
 const CLIPS = [
   { file: 'raw/tour/0-tour-1080.mp4', logo: 'delogo=x=1700:y=860:w=80:h=76' },      // 1920x1080, one-take exterior → interior → court (title card)
-  { file: 'raw/tour/1-exterior-1080.mp4', logo: 'delogo=x=1846:y=1030:w=70:h=42' }, // 1920x1080 upscale
   { file: 'raw/tour/2-facade.mp4', logo: 'delogo=x=1230:y=686:w=48:h=28' },        // 1280x720
   { file: 'raw/tour/3-lobby.mp4', logo: 'delogo=x=1230:y=686:w=48:h=28' },
   { file: 'raw/tour/4-court.mp4', logo: 'delogo=x=1230:y=686:w=48:h=28' },

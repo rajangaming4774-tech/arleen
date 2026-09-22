@@ -370,8 +370,7 @@ const cuts = cutPoints();
 const FILM = {
   hold: 0, // the one-take opening clip plays under the title card as you start to scroll
   title: { to: cuts[0], kicker: 'Builders · Interiors · Sports flooring', line: 'Construction, interiors and sports courts — Chennai, since 2007.' },
-  chapters: [
-    { kicker: 'Construction', title: 'The structure', sub: 'Apartments, villas, offices and institutions — built on time.', href: '/construction.php' },
+  chapters: [ // one per clip after the opening take — keep in step with CLIPS in build/video.mjs
     { kicker: 'Facades', title: 'The facade', sub: 'ACP cladding, structural and spider glazing.', href: '/interiors.php#exterior' },
     { kicker: 'Interiors', title: 'The interior', sub: 'Offices, showrooms and homes, fitted out by our own team.', href: '/interiors.php' },
     { kicker: 'Sports', title: 'The court', sub: 'Indoor badminton and multi-sport arenas.', href: '/sports-flooring.php' },
