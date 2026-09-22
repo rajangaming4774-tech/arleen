@@ -159,7 +159,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header scrolled">
+<header class="site-header${h1Hero.includes('hero--film') ? ' site-header--over' : ' scrolled'}">
   <nav class="container nav" aria-label="Main">
     <a class="nav__brand" href="/" aria-label="${SITE.name} home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="${SITE.name}"></picture></a>
     <ul class="nav__menu">${navHtml}</ul>

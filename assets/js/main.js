@@ -44,9 +44,23 @@
     });
   }
 
-  // The header is the paper bar on every page — set once, nothing to recompute on scroll.
+  // The header is the paper bar on every page, except over the home film, where it is a transparent
+  // bar with white text until the film has scrolled away.
   var header = document.querySelector('.site-header');
-  if (header) header.classList.add('scrolled');
+  var over = document.querySelector('.hero--film');
+  if (header && over) {
+    var headerRaf = 0;
+    var headerUpdate = function () {
+      var edge = over.classList.contains('hero--static') ? over.offsetHeight - 64 : over.offsetHeight - window.innerHeight + 8;
+      header.classList.toggle('scrolled', window.scrollY > edge);
+    };
+    window.addEventListener('scroll', function () { cancelAnimationFrame(headerRaf); headerRaf = requestAnimationFrame(headerUpdate); }, { passive: true });
+    window.addEventListener('resize', headerUpdate);
+    window.addEventListener('pageshow', function (e) { if (e.persisted) headerUpdate(); });
+    setTimeout(headerUpdate, 0); // after the film block below may have added hero--static
+  } else if (header) {
+    header.classList.add('scrolled');
+  }
 
   // Home hero film: the card pins while a pre-rendered frame sequence is drawn on its canvas
   // from scroll progress. Frames stream in coarse-to-fine so any scroll position shows a nearby
