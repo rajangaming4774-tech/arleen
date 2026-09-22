@@ -31,16 +31,21 @@ To add a project:
 3. Run both build commands.
 
 ## Home hero
-The home page opens with one real project photograph in a rounded card, the headline over it. The
-photo, its alt text and its credit line live in `HOME_HERO` in `build/build.mjs`; the crops are cut
-in `build/images.mjs` (`HOME_HEROES`) at 1920 / 1280 / 800 wide, so the browser downloads about
-40 KB on a laptop. Two candidates are generated — `hero-index-a` (Sacred Heart indoor court, the
-only 2048-wide source in the repo) and `hero-index-b` (Stella Matutina college block); the one in
-use is set by `HOME_HERO`.
+The home page opens with the rounded card playing a short **scroll film**: the office-lobby take
+(`raw/tour/3-lobby.mp4`, the same file as `Modern_office_lobby_interior_20260921212448.mp4`, 8 s).
+The card pins for about two screens of scrolling while the footage advances with the scroll; the
+headline stays over it. Frames are rendered by `build/film.mjs` (`FILM`: clip, watermark box, frame
+count, sizes) into `assets/video/hero/` — 120 WebP frames at 1280 and 720 wide (about 6 MB in all)
+plus a poster that is the LCP `<img>` and the whole hero for "reduce motion" / no-JS visitors:
+```bash
+node build/film.mjs     # re-render after changing the clip or FRAMES (needs ffmpeg)
+node build/build.mjs
+```
+The scroll length is `.hero--film { --screens: 2.2 }` (2 on phones) in `assets/css/style.css`.
+The text, alt and credit line live in `HERO_FILM` in `build/build.mjs`.
 
-The AI-generated scroll film that used to sit here was removed: the client found it "very AI-ish",
-and its frame sequence alone was 30 MB. The source clips are still in `raw/tour/` (gitignored) and
-the code is in the history if it is ever wanted.
+`HOME_HEROES` / `hero-index-*.webp` (real project photographs cut by `build/images.mjs`) remain
+available as a still alternative; `HOME_HERO` picks one but nothing renders it at present.
 
 ## Material the owner supplies
 `build/data.mjs` ends with three deliberately empty structures — `TESTIMONIALS`, `TEAM` and

@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, SERVICE_AREAS, CATEGORY_LABEL, imgName, TEAM, publishedTestimonials, filledCredentials } from './data.mjs';
+import { FILM } from './film.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);

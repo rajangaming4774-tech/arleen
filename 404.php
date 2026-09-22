@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/css/style.css?v=69960c65">
+<link rel="stylesheet" href="/assets/css/style.css?v=e3e1512f">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.arleenbuilders.com/404.php#webpage","url":"https://www.arleenbuilders.com/404.php","name":"Page Not Found | Arleen Builders","description":"The page you are looking for could not be found. Explore Arleen Builders construction, interior and sports flooring services in Chennai.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"}]}</script>
 </head>
 <body>
@@ -166,6 +166,6 @@
   <a class="fa-wa" href="https://wa.me/919383341020?text=Hi%20Arleen%20Builders%2C%20I%20would%20like%20to%20enquire%20about%20a%20project." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.7.1a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.5.3-.5a.6.6 0 0 0 0-.5l-1-2.4c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.5 3.5 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.8 13.8 0 0 0 5.3 4.7c2.6 1 2.6.7 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.6-.3zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm8.4-18.2A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6a11.8 11.8 0 0 0 5.6 1.4A11.8 11.8 0 0 0 20.4 3.6z"/></svg></a>
   <a class="fa-call" href="tel:+919383341020" aria-label="Call +91 93833 41020"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
 </div>
-<script src="/assets/js/main.js?v=572640f5" defer></script>
+<script src="/assets/js/main.js?v=bf3f9f91" defer></script>
 </body>
 </html>

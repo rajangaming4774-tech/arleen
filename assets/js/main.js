@@ -48,6 +48,104 @@
   var header = document.querySelector('.site-header');
   if (header) header.classList.add('scrolled');
 
+  // Home hero film: the card pins while a pre-rendered frame sequence is drawn on its canvas
+  // from scroll progress. Frames stream in coarse-to-fine so any scroll position shows a nearby
+  // frame early; the drawn frame eases towards the scroll position so flicks play as motion.
+  var film = document.querySelector('.hero--film');
+  if (film) {
+    var canvas = film.querySelector('.hero__canvas');
+    var ctx = canvas && canvas.getContext && canvas.getContext('2d');
+    var conn = navigator.connection || {};
+    if (reduced || !ctx) {
+      film.classList.add('hero--static');
+    } else {
+      var sticky = film.querySelector('.hero__sticky');
+      var poster = film.querySelector('.hero__img');
+      var hint = film.querySelector('.hero__hint');
+      var N = parseInt(film.getAttribute('data-frames'), 10);
+      var slow = !!conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
+      var base = film.getAttribute(window.innerWidth < 768 || slow ? 'data-sm' : 'data-lg');
+      var stride = (navigator.deviceMemory || 8) <= 2 ? 2 : 1; // low-memory phones: every 2nd frame
+      var frames = new Array(N), inflight = {}, lastDrawn = -1, wanted = 0;
+      var pad = function (n) { return ('00' + n).slice(-3); };
+      var progress = 0, shown = 0, animating = false, visible = true;
+
+      var draw = function (i) {
+        var j = i, k = i; // the requested frame, or the nearest one that has loaded
+        while (j >= 0 || k < N) {
+          if (j >= 0 && frames[j]) { i = j; break; }
+          if (k < N && frames[k]) { i = k; break; }
+          j--; k++;
+        }
+        if (!frames[i] || i === lastDrawn) return;
+        ctx.drawImage(frames[i], 0, 0, canvas.width, canvas.height);
+        lastDrawn = i;
+        canvas.classList.add('ready');
+      };
+      var store = function (i, bmp) {
+        frames[i] = bmp;
+        delete inflight[i];
+        if (lastDrawn !== wanted) draw(wanted);
+      };
+      var queue = [], seen = {};
+      for (var s = 16; s >= 1; s = s >> 1) for (var q = 0; q < N; q += s * stride) if (!seen[q]) { seen[q] = true; queue.push(q); }
+      var decode = function (blob) {
+        if (window.createImageBitmap) return createImageBitmap(blob);
+        return new Promise(function (resolve, reject) {
+          var im = new Image();
+          im.onload = function () { resolve(im); };
+          im.onerror = reject;
+          im.src = URL.createObjectURL(blob);
+        });
+      };
+      var fetchFrame = function (i) {
+        inflight[i] = true;
+        return fetch(base + 'f-' + pad(i + 1) + '.webp').then(function (r) { return r.blob(); }).then(decode)
+          .then(function (bmp) { store(i, bmp); }, function () { delete inflight[i]; });
+      };
+      var nextIndex = function () {
+        if (!frames[wanted] && !inflight[wanted]) return wanted;
+        for (var n = 1; n <= 4; n++) { var a = wanted + n * stride; if (a < N && !frames[a] && !inflight[a]) return a; }
+        while (queue.length) { var idx = queue.shift(); if (!frames[idx] && !inflight[idx]) return idx; }
+        return -1;
+      };
+      var lane = function () { var i = nextIndex(); if (i >= 0) fetchFrame(i).then(lane); };
+      if (poster && poster.complete && poster.naturalWidth) store(0, poster);
+      for (var c = 0; c < 4; c++) lane();
+
+      var render = function () {
+        wanted = Math.round(shown * (N - 1));
+        if (stride > 1) wanted -= wanted % stride;
+        draw(wanted);
+      };
+      var tick = function () {
+        if (!visible) { animating = false; return; }
+        var diff = progress - shown;
+        var settled = Math.abs(diff) < 0.0005;
+        shown = settled ? progress : shown + diff * 0.22;
+        render();
+        if (settled) animating = false; else requestAnimationFrame(tick);
+      };
+      var filmUpdate = function () {
+        var range = film.offsetHeight - sticky.offsetHeight;
+        var rect = film.getBoundingClientRect();
+        var wasVisible = visible;
+        visible = !(rect.bottom <= 0 || rect.top >= window.innerHeight);
+        if (!visible) return;
+        progress = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
+        // coming back from outside the film (Home key, bfcache restore): jump, don't rewind
+        if (!wasVisible || Math.abs(progress - shown) > 0.3) { shown = progress; render(); }
+        if (!animating) { animating = true; requestAnimationFrame(tick); }
+        if (hint) hint.classList.toggle('off', progress > 0.04);
+      };
+      var raf = 0;
+      window.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(filmUpdate); }, { passive: true });
+      window.addEventListener('resize', function () { lastDrawn = -1; filmUpdate(); });
+      window.addEventListener('pageshow', function (e) { if (e.persisted) filmUpdate(); });
+      filmUpdate();
+    }
+  }
+
   // Reveal on scroll — a short stagger for children of grid-like containers
   document.querySelectorAll('.grid, .work, .clients, .faq, .footer-grid, .rows, .contact-band').forEach(function (group) {
     var i = 0;
