@@ -8,6 +8,11 @@ const RAW = 'raw';
 const OUT = 'assets/img';
 mkdirSync(`${OUT}/projects`, { recursive: true });
 
+// Widest file we ever emit. Every scale below is `min(CAP,iw)`, so this is a ceiling and never an
+// upscale: a 1280-wide original still ships at 1280. Raising it simply stops us from throwing away
+// the detail the sharper sources (the 2048-wide sacred-heart set) actually have.
+const FULL = 2048;
+
 const ff = (args) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args]);
 const webp = (src, dst, width, q = 78) =>
   ff(['-i', src, '-vf', `scale='min(${width},iw)':-2`, '-c:v', 'libwebp', '-quality', String(q), dst]);
@@ -23,7 +28,10 @@ for (const p of PROJECTS) {
     if (!existsSync(src)) return console.warn('missing', src);
     const base = `${OUT}/projects/${imgName(p, i)}`;
     const pre = src.endsWith(EDENSQUARE) ? `${noRival},` : '';
-    ff(['-i', src, '-vf', `${pre}scale='min(1400,iw)':-2`, '-c:v', 'libwebp', '-quality', '78', `${base}.webp`]);
+    // `min(CAP,iw)` never upscales, so the cap only ever throws detail away. Most of these
+    // originals are 1280 wide and the sacred-heart set is 2048; capping at 1400 was discarding
+    // the sharpest source we have, which showed as soft tiles on large and high-DPI screens.
+    ff(['-i', src, '-vf', `${pre}scale='min(${FULL},iw)':-2`, '-c:v', 'libwebp', '-quality', '78', `${base}.webp`]);
     ff(['-i', src, '-vf', `${pre}scale='min(640,iw)':-2`, '-c:v', 'libwebp', '-quality', '72', `${base}-sm.webp`]);
   });
 }
@@ -36,7 +44,7 @@ const HOME_HEROES = {
 };
 const wide = "crop=iw:iw*9/16:0:(ih-ih*9/16)*0.40";
 for (const [name, src] of Object.entries(HOME_HEROES)) {
-  for (const [suffix, width, q] of [['', 1920, 72], ['-1280', 1280, 70], ['-sm', 800, 66]]) {
+  for (const [suffix, width, q] of [['', FULL, 72], ['-1280', 1280, 70], ['-sm', 800, 66]]) {
     ff(['-i', `${RAW}/${src}`, '-vf', `${wide},scale='min(${width},iw)':-2`, '-c:v', 'libwebp', '-quality', String(q), `${OUT}/${name}${suffix}.webp`]);
   }
 }
@@ -51,7 +59,7 @@ const heroes = {
 };
 for (const [name, src] of Object.entries(heroes)) {
   const pre = src === EDENSQUARE ? `${noRival},` : '';
-  ff(['-i', `${RAW}/${src}`, '-vf', `${pre}scale='min(1920,iw)':-2`, '-c:v', 'libwebp', '-quality', '70', `${OUT}/${name}.webp`]);
+  ff(['-i', `${RAW}/${src}`, '-vf', `${pre}scale='min(${FULL},iw)':-2`, '-c:v', 'libwebp', '-quality', '70', `${OUT}/${name}.webp`]);
   ff(['-i', `${RAW}/${src}`, '-vf', `${pre}scale='min(800,iw)':-2`, '-c:v', 'libwebp', '-quality', '65', `${OUT}/${name}-sm.webp`]);
 }
 

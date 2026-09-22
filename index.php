@@ -30,13 +30,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600&display=swap">
-<link rel="preload" as="image" href="/assets/video/hero/poster-lg.webp" imagesrcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/img/hero-index-a-1280.webp" imagesrcset="/assets/img/hero-index-a-sm.webp 800w, /assets/img/hero-index-a-1280.webp 1280w, /assets/img/hero-index-a.webp 2048w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/style.css?v=ff997724">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":{"@type":"ImageObject","url":"https://www.arleenbuilders.com/assets/img/logo.png","width":360,"height":168},"image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"}]}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header site-header--over">
+<header class="site-header scrolled">
   <nav class="container nav" aria-label="Main">
     <a class="nav__brand" href="/" aria-label="Arleen Builders home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="Arleen Builders"></picture></a>
     <ul class="nav__menu"><li><a href="/" aria-current="page">Home</a></li><li><a href="/projects.php">Projects</a></li><li><a href="/aboutus.php">Studio</a></li><li><a href="/services.php">Services</a></li><li><a href="/contactus.php">Contact</a></li></ul>
@@ -76,24 +76,19 @@
   </div>
 </div>
 <main id="main">
-<figure class="hero hero--film" data-frames="200" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
-  <noscript><style>.hero--film{height:auto}.hero--film .hero__sticky{position:static;height:auto}.hero--film .hero__card{aspect-ratio:16/9;height:auto}.hero__canvas{display:none}</style></noscript>
-  <div class="hero__sticky">
-    <div class="hero__card">
-      <img class="hero__img" src="/assets/video/hero/poster-lg.webp" srcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w" sizes="100vw" width="1280" height="720" alt="Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby" fetchpriority="high" decoding="async">
-      <canvas class="hero__canvas" width="1280" height="720" aria-hidden="true"></canvas>
-      <div class="hero__scrim" aria-hidden="true"></div>
-      <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since 2007</span></h1>
-      <div class="hero__text">
-        <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
-        <a class="btn btn--light" href="/contactus.php">Start a project</a>
-      </div>
-      <div class="hero__badge"><strong>15</strong> projects across Chennai</div>
-      <div class="hero__stat"><strong>19<em>+</em></strong><span>years of building, interiors and courts in Chennai</span></div>
+<figure class="hero">
+  <div class="hero__card">
+    <img class="hero__img" src="/assets/img/hero-index-a-1280.webp" srcset="/assets/img/hero-index-a-sm.webp 800w, /assets/img/hero-index-a-1280.webp 1280w, /assets/img/hero-index-a.webp 2048w" sizes="100vw" width="2048" height="1152" alt="Indoor synthetic badminton court with steel roofing built by Arleen Builders at Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai" fetchpriority="high">
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since 2007</span></h1>
+    <div class="hero__text">
+      <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
+      <a class="btn btn--light" href="/contactus.php">Start a project</a>
     </div>
-    <figcaption class="hero__credit">Building exterior and office lobby — visualisation</figcaption>
-    <div class="hero__hint" aria-hidden="true">Scroll</div>
+    <div class="hero__badge"><strong>15</strong> projects across Chennai</div>
+    <div class="hero__stat"><strong>19<em>+</em></strong><span>years of building, interiors and courts in Chennai</span></div>
   </div>
+  <figcaption class="hero__credit">Sacred Heart Matriculation Hr. Sec. School — indoor shuttle court, Church Park</figcaption>
 </figure>
 <section class="section section--flush about" id="studio">
   <div class="container">
@@ -118,7 +113,7 @@
     <div class="work"><article class="work__item reveal" id="sacred-heart-indoor-shuttle-court">
     <div class="work__media">
       <button type="button" data-gallery='{&quot;title&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School&quot;,&quot;place&quot;:&quot;Church Park, Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-2.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-4.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/sacred-heart-indoor-shuttle-court-5.webp&quot;,&quot;alt&quot;:&quot;Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Sacred Heart Matriculation Hr. Sec. School">
-        <img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
+        <img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 2048w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Sacred Heart Matriculation Hr. Sec. School, Church Park, Chennai – Indoor synthetic badminton / shuttle court with steel roofing by Arleen Builders (photo 1)" width="2048" height="1536" loading="lazy" decoding="async">
       </button>
     </div>
     <div class="work__meta">
@@ -130,7 +125,7 @@
   </article><article class="work__item reveal" id="stella-matutina-college-building">
     <div class="work__media">
       <button type="button" data-gallery='{&quot;title&quot;:&quot;Stella Matutina College of Education (K.K. Nirmala School)&quot;,&quot;place&quot;:&quot;Ashok Nagar, Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/stella-matutina-college-building-1.webp&quot;,&quot;alt&quot;:&quot;Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/stella-matutina-college-building-2.webp&quot;,&quot;alt&quot;:&quot;Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/stella-matutina-college-building-3.webp&quot;,&quot;alt&quot;:&quot;Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/stella-matutina-college-building-4.webp&quot;,&quot;alt&quot;:&quot;Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/stella-matutina-college-building-5.webp&quot;,&quot;alt&quot;:&quot;Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Stella Matutina College of Education (K.K. Nirmala School)">
-        <img src="/assets/img/projects/stella-matutina-college-building-1.webp" srcset="/assets/img/projects/stella-matutina-college-building-1-sm.webp 640w, /assets/img/projects/stella-matutina-college-building-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
+        <img src="/assets/img/projects/stella-matutina-college-building-1.webp" srcset="/assets/img/projects/stella-matutina-college-building-1-sm.webp 640w, /assets/img/projects/stella-matutina-college-building-1.webp 1280w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Stella Matutina College of Education (K.K. Nirmala School), Ashok Nagar, Chennai – Institutional building construction and glazed entrance block by Arleen Builders (photo 1)" width="1280" height="850" loading="lazy" decoding="async">
       </button>
     </div>
     <div class="work__meta">
@@ -142,7 +137,7 @@
   </article><article class="work__item reveal" id="edensquare-structural-glazing">
     <div class="work__media">
       <button type="button" data-gallery='{&quot;title&quot;:&quot;Eden Square&quot;,&quot;place&quot;:&quot;Chennai&quot;,&quot;images&quot;:[{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-1.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-2.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 2)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-3.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 3)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-4.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 4)&quot;},{&quot;src&quot;:&quot;/assets/img/projects/edensquare-structural-glazing-5.webp&quot;,&quot;alt&quot;:&quot;Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 5)&quot;}]}' aria-label="View 5 photos of Eden Square">
-        <img src="/assets/img/projects/edensquare-structural-glazing-1.webp" srcset="/assets/img/projects/edensquare-structural-glazing-1-sm.webp 640w, /assets/img/projects/edensquare-structural-glazing-1.webp 1400w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)" width="1400" height="1050" loading="lazy" decoding="async">
+        <img src="/assets/img/projects/edensquare-structural-glazing-1.webp" srcset="/assets/img/projects/edensquare-structural-glazing-1-sm.webp 640w, /assets/img/projects/edensquare-structural-glazing-1.webp 1126w" sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw" alt="Eden Square, Chennai – Commercial facade with structural glazing by Arleen Builders (photo 1)" width="1126" height="852" loading="lazy" decoding="async">
       </button>
     </div>
     <div class="work__meta">
@@ -153,7 +148,7 @@
     </div>
   </article></div>
     <a class="wide reveal" href="/projects.php#construction" aria-label="Stella Matutina College of Education, Ashok Nagar — see all construction projects">
-      <img src="/assets/img/hero-index-b-1280.webp" srcset="/assets/img/hero-index-b-sm.webp 800w, /assets/img/hero-index-b-1280.webp 1280w, /assets/img/hero-index-b.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+      <img src="/assets/img/hero-index-b-1280.webp" srcset="/assets/img/hero-index-b-sm.webp 800w, /assets/img/hero-index-b-1280.webp 1280w, /assets/img/hero-index-b.webp 1280w" sizes="100vw" width="1280" height="720" alt="" loading="lazy" decoding="async">
       <span class="wide__play" aria-hidden="true">↗</span>
       <span class="wide__cap">Stella Matutina College — Ashok Nagar</span>
     </a>
@@ -183,7 +178,7 @@
     <ul class="row__tags"><li>Apartments</li><li>Villas</li><li>Commercial</li><li>Schools</li></ul>
     <a class="link" href="/construction.php">View services</a>
   </div>
-  <div class="row__media"><img src="/assets/img/projects/sunil-residency-apartments-1.webp" srcset="/assets/img/projects/sunil-residency-apartments-1-sm.webp 640w, /assets/img/projects/sunil-residency-apartments-1.webp 1400w" sizes="200px" alt="Sunil Residency apartment building in Nungambakkam constructed by Arleen Builders" width="1400" height="1050" loading="lazy" decoding="async"></div>
+  <div class="row__media"><img src="/assets/img/projects/sunil-residency-apartments-1.webp" srcset="/assets/img/projects/sunil-residency-apartments-1-sm.webp 640w, /assets/img/projects/sunil-residency-apartments-1.webp 1280w" sizes="200px" alt="Sunil Residency apartment building in Nungambakkam constructed by Arleen Builders" width="1280" height="850" loading="lazy" decoding="async"></div>
 </article><article class="row reveal">
   <h3><a href="/interiors.php">Interior &amp; exterior decor</a></h3>
   <div class="row__body">
@@ -191,7 +186,7 @@
     <ul class="row__tags"><li>Kitchens</li><li>Offices</li><li>Salons</li><li>ACP &amp; glazing</li></ul>
     <a class="link" href="/interiors.php">View services</a>
   </div>
-  <div class="row__media"><img src="/assets/img/projects/recreation-centre-billiards-interior-2.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-2-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-2.webp 1400w" sizes="200px" alt="Billiards room interior design with pendant lighting by Arleen Builders, Chennai" width="1400" height="1050" loading="lazy" decoding="async"></div>
+  <div class="row__media"><img src="/assets/img/projects/recreation-centre-billiards-interior-2.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-2-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-2.webp 1280w" sizes="200px" alt="Billiards room interior design with pendant lighting by Arleen Builders, Chennai" width="1280" height="848" loading="lazy" decoding="async"></div>
 </article><article class="row reveal">
   <h3><a href="/sports-flooring.php">Sports flooring &amp; courts</a></h3>
   <div class="row__body">
@@ -199,7 +194,7 @@
     <ul class="row__tags"><li>Badminton</li><li>Basketball</li><li>Squash</li><li>Multi-sport</li></ul>
     <a class="link" href="/sports-flooring.php">View services</a>
   </div>
-  <div class="row__media"><img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 1400w" sizes="200px" alt="Indoor synthetic badminton court flooring at Sacred Heart School, Chennai" width="1400" height="1050" loading="lazy" decoding="async"></div>
+  <div class="row__media"><img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 2048w" sizes="200px" alt="Indoor synthetic badminton court flooring at Sacred Heart School, Chennai" width="2048" height="1536" loading="lazy" decoding="async"></div>
 </article></div>
   </div>
 </section>

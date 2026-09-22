@@ -86,7 +86,7 @@
       <div class="reveal"><a class="btn" href="/contactus.php">Start a project</a></div>
     </div>
     <figure class="cover__media reveal">
-      <img class="cover__img" src="/assets/img/hero-about.webp" srcset="/assets/img/hero-about-sm.webp 800w, /assets/img/hero-about.webp 1280w" sizes="(max-width: 900px) 100vw, 58vw" alt="Institutional building constructed by Arleen Builders in Ashok Nagar, Chennai" width="1280" height="853" fetchpriority="high">
+      <img class="cover__img" src="/assets/img/hero-about.webp" srcset="/assets/img/hero-about-sm.webp 800w, /assets/img/hero-about.webp 1280w" sizes="(max-width: 900px) 100vw, 58vw" alt="Institutional building constructed by Arleen Builders in Ashok Nagar, Chennai" width="1280" height="850" fetchpriority="high">
       <figcaption>Stella Matutina College — canteen block, Ashok Nagar</figcaption>
     </figure>
   </div>
@@ -105,7 +105,7 @@
       <p>We have delivered apartments, commercial complexes, villas, individual homes, school and college buildings, showroom facades and indoor sports courts — for clients including Sacred Heart School, Stella Matutina College, D.G. Vaishnav College, CavinCare and Sreeleathers.</p>
     </div>
     <figure class="split__media reveal">
-      <img src="/assets/img/projects/sreeleathers-glass-facade-1.webp" srcset="/assets/img/projects/sreeleathers-glass-facade-1-sm.webp 640w, /assets/img/projects/sreeleathers-glass-facade-1.webp 1400w" sizes="(max-width: 640px) 100vw, 50vw" alt="Sreeleathers showroom glass facade in Purasaiwakkam by Arleen Builders" width="1400" height="930" loading="lazy" decoding="async">
+      <img src="/assets/img/projects/sreeleathers-glass-facade-1.webp" srcset="/assets/img/projects/sreeleathers-glass-facade-1-sm.webp 640w, /assets/img/projects/sreeleathers-glass-facade-1.webp 1280w" sizes="(max-width: 640px) 100vw, 50vw" alt="Sreeleathers showroom glass facade in Purasaiwakkam by Arleen Builders" width="1280" height="850" loading="lazy" decoding="async">
       <figcaption>Sreeleathers showroom — Purasaiwakkam</figcaption>
     </figure>
   </div>
@@ -126,7 +126,7 @@
       </ul>
     </div>
     <figure class="split__media reveal">
-      <img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-3-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp 1400w" sizes="(max-width: 640px) 100vw, 50vw" alt="Indoor sports court constructed by Arleen Builders for Sacred Heart School, Chennai" width="1400" height="1050" loading="lazy" decoding="async">
+      <img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-3-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-3.webp 2048w" sizes="(max-width: 640px) 100vw, 50vw" alt="Indoor sports court constructed by Arleen Builders for Sacred Heart School, Chennai" width="2048" height="1536" loading="lazy" decoding="async">
       <figcaption>Indoor shuttle court — Sacred Heart School</figcaption>
     </figure>
   </div>
@@ -184,7 +184,7 @@
     <ul class="row__tags"><li>Apartments</li><li>Villas</li><li>Commercial</li><li>Schools</li></ul>
     <a class="link" href="/construction.php">View services</a>
   </div>
-  <div class="row__media"><img src="/assets/img/projects/sunil-residency-apartments-1.webp" srcset="/assets/img/projects/sunil-residency-apartments-1-sm.webp 640w, /assets/img/projects/sunil-residency-apartments-1.webp 1400w" sizes="200px" alt="Sunil Residency apartment building in Nungambakkam constructed by Arleen Builders" width="1400" height="1050" loading="lazy" decoding="async"></div>
+  <div class="row__media"><img src="/assets/img/projects/sunil-residency-apartments-1.webp" srcset="/assets/img/projects/sunil-residency-apartments-1-sm.webp 640w, /assets/img/projects/sunil-residency-apartments-1.webp 1280w" sizes="200px" alt="Sunil Residency apartment building in Nungambakkam constructed by Arleen Builders" width="1280" height="850" loading="lazy" decoding="async"></div>
 </article><article class="row reveal">
   <h3><a href="/interiors.php">Interior &amp; exterior decor</a></h3>
   <div class="row__body">
@@ -192,7 +192,7 @@
     <ul class="row__tags"><li>Kitchens</li><li>Offices</li><li>Salons</li><li>ACP &amp; glazing</li></ul>
     <a class="link" href="/interiors.php">View services</a>
   </div>
-  <div class="row__media"><img src="/assets/img/projects/recreation-centre-billiards-interior-2.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-2-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-2.webp 1400w" sizes="200px" alt="Billiards room interior design with pendant lighting by Arleen Builders, Chennai" width="1400" height="1050" loading="lazy" decoding="async"></div>
+  <div class="row__media"><img src="/assets/img/projects/recreation-centre-billiards-interior-2.webp" srcset="/assets/img/projects/recreation-centre-billiards-interior-2-sm.webp 640w, /assets/img/projects/recreation-centre-billiards-interior-2.webp 1280w" sizes="200px" alt="Billiards room interior design with pendant lighting by Arleen Builders, Chennai" width="1280" height="848" loading="lazy" decoding="async"></div>
 </article><article class="row reveal">
   <h3><a href="/sports-flooring.php">Sports flooring &amp; courts</a></h3>
   <div class="row__body">
@@ -200,7 +200,7 @@
     <ul class="row__tags"><li>Badminton</li><li>Basketball</li><li>Squash</li><li>Multi-sport</li></ul>
     <a class="link" href="/sports-flooring.php">View services</a>
   </div>
-  <div class="row__media"><img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 1400w" sizes="200px" alt="Indoor synthetic badminton court flooring at Sacred Heart School, Chennai" width="1400" height="1050" loading="lazy" decoding="async"></div>
+  <div class="row__media"><img src="/assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp" srcset="/assets/img/projects/sacred-heart-indoor-shuttle-court-1-sm.webp 640w, /assets/img/projects/sacred-heart-indoor-shuttle-court-1.webp 2048w" sizes="200px" alt="Indoor synthetic badminton court flooring at Sacred Heart School, Chennai" width="2048" height="1536" loading="lazy" decoding="async"></div>
 </article></div>
   </div>
 </section>

@@ -4,12 +4,42 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, SERVICE_AREAS, CATEGORY_LABEL, imgName, TEAM, publishedTestimonials, filledCredentials } from './data.mjs';
-import { FILM } from './film.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
 const CSS_V = ver('assets/css/style.css');
 const JS_V = ver('assets/js/main.js');
+
+// Real pixel size of a generated WebP, read from its header. Every srcset descriptor and
+// width/height below comes from this rather than a hand-kept number: a descriptor that claims more
+// pixels than the file has makes the browser pick that file for a big screen and stretch it, which
+// is what made the site look soft on large and high-DPI displays.
+const sizeCache = new Map();
+function imgSize(rel) {
+  if (sizeCache.has(rel)) return sizeCache.get(rel);
+  const b = readFileSync(new URL('../' + rel, import.meta.url));
+  if (b.length < 30 || b.toString('ascii', 0, 4) !== 'RIFF' || b.toString('ascii', 8, 12) !== 'WEBP')
+    throw new Error(`not a WebP: ${rel}`);
+  const fourcc = b.toString('ascii', 12, 16);
+  let size;
+  if (fourcc === 'VP8 ') size = { w: b.readUInt16LE(26) & 0x3fff, h: b.readUInt16LE(28) & 0x3fff };
+  else if (fourcc === 'VP8L') {
+    const bits = b.readUInt32LE(21);
+    size = { w: (bits & 0x3fff) + 1, h: ((bits >> 14) & 0x3fff) + 1 };
+  } else if (fourcc === 'VP8X') size = { w: b.readUIntLE(24, 3) + 1, h: b.readUIntLE(27, 3) + 1 };
+  else throw new Error(`unknown WebP chunk ${fourcc} in ${rel}`);
+  sizeCache.set(rel, size);
+  return size;
+}
+// srcset + width/height for an image that ships in a full-size and a -sm variant, measured not guessed
+function srcsetFor(base) {
+  const full = imgSize(`assets/img/${base}.webp`);
+  const sm = imgSize(`assets/img/${base}-sm.webp`);
+  const srcset = sm.w < full.w
+    ? `/assets/img/${base}-sm.webp ${sm.w}w, /assets/img/${base}.webp ${full.w}w`
+    : `/assets/img/${base}.webp ${full.w}w`;
+  return { srcset, ...full };
+}
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const YEAR = new Date().getFullYear();
@@ -119,7 +149,7 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
   const navHtml = NAV.map((n) => `<li><a href="${n.href}"${cur(n) ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
   const menuHtml = MENU.map((n) => `<a href="${n.href}"${n.key === key ? ' aria-current="page"' : ''}>${n.label}</a>`).join('\n        ');
   const preloadTag = !preload ? '' : typeof preload === 'string'
-    ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="/assets/img/${preload}-sm.webp 800w, /assets/img/${preload}.webp ${HERO_W[preload] || 1280}w" imagesizes="(max-width: 900px) 100vw, 58vw">\n`
+    ? `<link rel="preload" as="image" href="/assets/img/${preload}.webp" imagesrcset="${srcsetFor(preload).srcset}" imagesizes="(max-width: 900px) 100vw, 58vw">\n`
     : `<link rel="preload" as="image" href="${preload.href}" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes || '100vw'}" fetchpriority="high">\n`;
 
   return `<!DOCTYPE html>
@@ -159,7 +189,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header${h1Hero.includes('hero--film') ? ' site-header--over' : ' scrolled'}">
+<header class="site-header scrolled">
   <nav class="container nav" aria-label="Main">
     <a class="nav__brand" href="/" aria-label="${SITE.name} home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="${SITE.name}"></picture></a>
     <ul class="nav__menu">${navHtml}</ul>
@@ -251,15 +281,14 @@ ${body}
 }
 
 /* ---------- Components ---------- */
-const pic = (base, alt, { w = 1400, h = 933, cls = '', eager = false, sizes = '(max-width: 640px) 100vw, 50vw' } = {}) =>
-  `<img${cls ? ` class="${cls}"` : ''} src="/assets/img/${base}.webp" srcset="/assets/img/${base}-sm.webp 640w, /assets/img/${base}.webp 1400w" sizes="${sizes}" alt="${esc(alt)}" width="${w}" height="${h}"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`;
+const pic = (base, alt, { cls = '', eager = false, sizes = '(max-width: 640px) 100vw, 50vw' } = {}) => {
+  const { srcset, w, h } = srcsetFor(base);
+  return `<img${cls ? ` class="${cls}"` : ''} src="/assets/img/${base}.webp" srcset="${srcset}" sizes="${sizes}" alt="${esc(alt)}" width="${w}" height="${h}"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`;
+};
 
-// hero-sports is the only 1920-wide source; the rest are 1280, and claiming otherwise made
-// browsers pick the small file on high-resolution screens.
-const HERO_W = { 'hero-sports': 1920 };
 const heroImg = (name, alt) => {
-  const w = HERO_W[name] || 1280;
-  return `<img class="cover__img" src="/assets/img/${name}.webp" srcset="/assets/img/${name}-sm.webp 800w, /assets/img/${name}.webp ${w}w" sizes="(max-width: 900px) 100vw, 58vw" alt="${esc(alt)}" width="${w}" height="${Math.round(w * 2 / 3)}" fetchpriority="high">`;
+  const { srcset, w, h } = srcsetFor(name);
+  return `<img class="cover__img" src="/assets/img/${name}.webp" srcset="${srcset}" sizes="(max-width: 900px) 100vw, 58vw" alt="${esc(alt)}" width="${w}" height="${h}" fetchpriority="high">`;
 };
 
 const startLink = (label = 'Start a project') => `<a class="btn" href="/contactus.php">${label}</a>`;
@@ -325,35 +354,29 @@ const HOME_HEROES = {
        credit: 'Stella Matutina College of Education — glazed entrance block, Ashok Nagar' },
 };
 const HOME_HERO = HOME_HEROES[process.env.HERO === 'b' ? 'b' : 'a'];
-const homeHeroSrcset = (b) => `/assets/img/${b}-sm.webp 800w, /assets/img/${b}-1280.webp 1280w, /assets/img/${b}.webp 1920w`;
+// Three widths, each labelled with the pixels it actually has (see imgSize): phone, laptop, and the
+// full crop — 2048 for hero-index-a, whose source is the one 2048-wide photograph in the repo.
+const homeHeroSrcset = (b) => [`${b}-sm`, `${b}-1280`, b]
+  .map((f) => `/assets/img/${f}.webp ${imgSize(`assets/img/${f}.webp`).w}w`).join(', ');
 
-// The home card plays a short scroll-scrubbed film (the office-lobby take, frames rendered by
-// build/film.mjs): the card pins for a couple of screens while the footage advances with the scroll.
-// Its first frame is an ordinary <img> underneath, so the page paints before any frame loads, and it
-// is all that shows for visitors with "reduce motion" on or without JavaScript.
-const HERO_FILM = { poster: '/assets/video/hero/poster-lg.webp', posterSm: '/assets/video/hero/poster-sm.webp',
-  alt: 'Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby',
-  credit: 'Building exterior and office lobby — visualisation' };
-const heroFilmSrcset = `${HERO_FILM.posterSm} 720w, ${HERO_FILM.poster} 1280w`;
+// The home hero is one real photograph of the firm's own work, shown as large as the file allows.
+// It replaced a scroll-scrubbed AI film: the client rejected that footage as "too big" and
+// "very AI-ish", and a photograph carries far more detail per byte than 200 video frames.
 function homeHero() {
-  return `<figure class="hero hero--film" data-frames="${FILM.frames}" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
-  <noscript><style>.hero--film{height:auto}.hero--film .hero__sticky{position:static;height:auto}.hero--film .hero__card{aspect-ratio:16/9;height:auto}.hero__canvas{display:none}</style></noscript>
-  <div class="hero__sticky">
-    <div class="hero__card">
-      <img class="hero__img" src="${HERO_FILM.poster}" srcset="${heroFilmSrcset}" sizes="100vw" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" alt="${esc(HERO_FILM.alt)}" fetchpriority="high" decoding="async">
-      <canvas class="hero__canvas" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" aria-hidden="true"></canvas>
-      <div class="hero__scrim" aria-hidden="true"></div>
-      <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since ${SITE.founded}</span></h1>
-      <div class="hero__text">
-        <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
-        <a class="btn btn--light" href="/contactus.php">Start a project</a>
-      </div>
-      <div class="hero__badge"><strong>${PROJECTS.length}</strong> projects across Chennai</div>
-      <div class="hero__stat"><strong>${YEAR - Number(SITE.founded)}<em>+</em></strong><span>years of building, interiors and courts in ${addr.city}</span></div>
+  const full = imgSize(`assets/img/${HOME_HERO.base}.webp`);
+  return `<figure class="hero">
+  <div class="hero__card">
+    <img class="hero__img" src="/assets/img/${HOME_HERO.base}-1280.webp" srcset="${homeHeroSrcset(HOME_HERO.base)}" sizes="100vw" width="${full.w}" height="${full.h}" alt="${esc(HOME_HERO.alt)}" fetchpriority="high">
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since ${SITE.founded}</span></h1>
+    <div class="hero__text">
+      <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
+      <a class="btn btn--light" href="/contactus.php">Start a project</a>
     </div>
-    <figcaption class="hero__credit">${HERO_FILM.credit}</figcaption>
-    <div class="hero__hint" aria-hidden="true">Scroll</div>
+    <div class="hero__badge"><strong>${PROJECTS.length}</strong> projects across Chennai</div>
+    <div class="hero__stat"><strong>${YEAR - Number(SITE.founded)}<em>+</em></strong><span>years of building, interiors and courts in ${addr.city}</span></div>
   </div>
+  <figcaption class="hero__credit">${HOME_HERO.credit}</figcaption>
 </figure>`;
 }
 
@@ -539,7 +562,7 @@ const projectsBlock = () => `<section class="section section--flush projects" ar
     <div class="section-head reveal"><span class="kicker">Selected work</span><h2 class="display">Recent <em>projects</em></h2></div>
     ${workGrid(PROJECTS.filter((p) => p.featured).slice(0, 3), false)}
     <a class="wide reveal" href="/projects.php#construction" aria-label="Stella Matutina College of Education, Ashok Nagar — see all construction projects">
-      <img src="/assets/img/hero-index-b-1280.webp" srcset="/assets/img/hero-index-b-sm.webp 800w, /assets/img/hero-index-b-1280.webp 1280w, /assets/img/hero-index-b.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+      <img src="/assets/img/hero-index-b-1280.webp" srcset="${homeHeroSrcset('hero-index-b')}" sizes="100vw" width="${imgSize('assets/img/hero-index-b.webp').w}" height="${imgSize('assets/img/hero-index-b.webp').h}" alt="" loading="lazy" decoding="async">
       <span class="wide__play" aria-hidden="true">↗</span>
       <span class="wide__cap">Stella Matutina College — Ashok Nagar</span>
     </a>
@@ -559,7 +582,7 @@ const pages = {};
 // HOME
 pages['index.php'] = layout({
   path: '/', key: 'home', ogImage: 'og-home.jpg',
-  preload: { href: HERO_FILM.poster, srcset: heroFilmSrcset, sizes: '100vw' },
+  preload: { href: `/assets/img/${HOME_HERO.base}-1280.webp`, srcset: homeHeroSrcset(HOME_HERO.base), sizes: '100vw' },
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
   h1Hero: homeHero(),
