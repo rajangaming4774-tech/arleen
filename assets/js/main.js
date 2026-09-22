@@ -78,7 +78,12 @@
       var hint = film.querySelector('.hero__hint');
       var N = parseInt(film.getAttribute('data-frames'), 10);
       var slow = !!conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
-      var base = film.getAttribute(window.innerWidth < 768 || slow ? 'data-sm' : 'data-lg');
+      // Frame tier by the pixels the card actually covers: a 1280 frame stretched across a
+      // full-screen card is what made the film look soft. xl is the master's own 1920.
+      var wide = window.innerWidth * (window.devicePixelRatio || 1);
+      var tier = window.innerWidth < 768 || slow ? 'data-sm'
+        : (wide >= 1500 && (navigator.deviceMemory || 8) >= 4 && film.getAttribute('data-xl') ? 'data-xl' : 'data-lg');
+      var base = film.getAttribute(tier) || film.getAttribute('data-lg');
       var stride = (navigator.deviceMemory || 8) <= 2 ? 2 : 1; // low-memory phones: every 2nd frame
       var frames = new Array(N), inflight = {}, lastDrawn = -1, wanted = 0;
       var pad = function (n) { return ('00' + n).slice(-3); };

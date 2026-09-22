@@ -15,8 +15,11 @@ export const FILM = {
   ],
   xfade: 0.6,                              // seconds of cross-fade between clips
   frames: 200,                             // frames the scroll animation steps through (~13 per second of footage)
-  tiers: { lg: [1280, 60], sm: [720, 56] }, // width and WebP quality; the lobby clip is 720p so no larger tier
-  canvas: [1280, 720],                     // master resolution and the <canvas> drawing surface
+  // width and WebP quality per tier. xl is for desktop and high-resolution screens: the tour clip is
+  // genuinely 1920 wide, so rendering the master at 720p was throwing away detail the source has.
+  // (The lobby clip is 1280x720 and is upscaled to match — it cannot get sharper than its source.)
+  tiers: { xl: [1920, 72], lg: [1280, 66], sm: [720, 58] },
+  canvas: [1920, 1080],                    // master resolution and the <canvas> drawing surface
 };
 
 const OUT = 'assets/video/hero';

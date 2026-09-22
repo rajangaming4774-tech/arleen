@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { SITE, PROJECTS, SERVICE_AREAS, CATEGORY_LABEL, imgName, TEAM, publishedTestimonials, filledCredentials } from './data.mjs';
+import { FILM } from './film.mjs';
 
 // Content hash appended to CSS/JS URLs so long-cached assets refresh when they change
 const ver = (p) => createHash('md5').update(readFileSync(new URL('../' + p, import.meta.url))).digest('hex').slice(0, 8);
@@ -189,7 +190,7 @@ ${preloadTag}<link rel="stylesheet" href="/assets/css/style.css?v=${CSS_V}">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header scrolled">
+<header class="site-header${h1Hero.includes('hero--film') ? ' site-header--over' : ' scrolled'}">
   <nav class="container nav" aria-label="Main">
     <a class="nav__brand" href="/" aria-label="${SITE.name} home"><picture><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" width="360" height="168" alt="${SITE.name}"></picture></a>
     <ul class="nav__menu">${navHtml}</ul>
@@ -359,24 +360,36 @@ const HOME_HERO = HOME_HEROES[process.env.HERO === 'b' ? 'b' : 'a'];
 const homeHeroSrcset = (b) => [`${b}-sm`, `${b}-1280`, b]
   .map((f) => `/assets/img/${f}.webp ${imgSize(`assets/img/${f}.webp`).w}w`).join(', ');
 
-// The home hero is one real photograph of the firm's own work, shown as large as the file allows.
-// It replaced a scroll-scrubbed AI film: the client rejected that footage as "too big" and
-// "very AI-ish", and a photograph carries far more detail per byte than 200 video frames.
+// The home card plays a short scroll-scrubbed film, frames rendered by build/film.mjs. The card
+// pins while the footage advances with the scroll. Frame 1 is an ordinary <img> underneath, so the
+// page paints before any frame loads, and it is all that shows with "reduce motion" or no JS.
+// Frames are rendered at the master's full 1920 (see FILM.canvas) — at 1280 they looked soft
+// stretched across a full-screen card. The lobby clip's own source is 1280x720, its ceiling.
+const HERO_FILM = {
+  poster: '/assets/video/hero/poster-xl.webp', posterLg: '/assets/video/hero/poster-lg.webp', posterSm: '/assets/video/hero/poster-sm.webp',
+  alt: 'Visualisation of a glass-fronted office building at dusk, moving from the exterior into a modern lobby',
+  credit: 'Building exterior and office lobby — visualisation',
+};
+const heroFilmSrcset = `${HERO_FILM.posterSm} 720w, ${HERO_FILM.posterLg} 1280w, ${HERO_FILM.poster} 1920w`;
 function homeHero() {
-  const full = imgSize(`assets/img/${HOME_HERO.base}.webp`);
-  return `<figure class="hero">
-  <div class="hero__card">
-    <img class="hero__img" src="/assets/img/${HOME_HERO.base}-1280.webp" srcset="${homeHeroSrcset(HOME_HERO.base)}" sizes="100vw" width="${full.w}" height="${full.h}" alt="${esc(HOME_HERO.alt)}" fetchpriority="high">
-    <div class="hero__scrim" aria-hidden="true"></div>
-    <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since ${SITE.founded}</span></h1>
-    <div class="hero__text">
-      <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
-      <a class="btn btn--light" href="/contactus.php">Start a project</a>
+  return `<figure class="hero hero--film" data-frames="${FILM.frames}" data-xl="/assets/video/hero/xl/" data-lg="/assets/video/hero/lg/" data-sm="/assets/video/hero/sm/">
+  <noscript><style>.hero--film{height:auto}.hero--film .hero__sticky{position:static;height:auto}.hero--film .hero__card{aspect-ratio:16/9;height:auto}.hero__canvas{display:none}</style></noscript>
+  <div class="hero__sticky">
+    <div class="hero__card">
+      <img class="hero__img" src="${HERO_FILM.posterLg}" srcset="${heroFilmSrcset}" sizes="100vw" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" alt="${esc(HERO_FILM.alt)}" fetchpriority="high" decoding="async">
+      <canvas class="hero__canvas" width="${FILM.canvas[0]}" height="${FILM.canvas[1]}" aria-hidden="true"></canvas>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <h1 class="display hero__title">Built <em>in</em> Chennai<span class="sr-only"> — builders, interior decorators and sports flooring contractors since ${SITE.founded}</span></h1>
+      <div class="hero__text">
+        <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
+        <a class="btn btn--light" href="/contactus.php">Start a project</a>
+      </div>
+      <div class="hero__badge"><strong>${PROJECTS.length}</strong> projects across Chennai</div>
+      <div class="hero__stat"><strong>${YEAR - Number(SITE.founded)}<em>+</em></strong><span>years of building, interiors and courts in ${addr.city}</span></div>
     </div>
-    <div class="hero__badge"><strong>${PROJECTS.length}</strong> projects across Chennai</div>
-    <div class="hero__stat"><strong>${YEAR - Number(SITE.founded)}<em>+</em></strong><span>years of building, interiors and courts in ${addr.city}</span></div>
+    <figcaption class="hero__credit">${HERO_FILM.credit}</figcaption>
+    <div class="hero__hint" aria-hidden="true">Scroll</div>
   </div>
-  <figcaption class="hero__credit">${HOME_HERO.credit}</figcaption>
 </figure>`;
 }
 
@@ -582,7 +595,7 @@ const pages = {};
 // HOME
 pages['index.php'] = layout({
   path: '/', key: 'home', ogImage: 'og-home.jpg',
-  preload: { href: `/assets/img/${HOME_HERO.base}-1280.webp`, srcset: homeHeroSrcset(HOME_HERO.base), sizes: '100vw' },
+  preload: { href: HERO_FILM.posterLg, srcset: heroFilmSrcset, sizes: '100vw' },
   title: 'Builders, Interiors & Sports Flooring in Chennai | Arleen Builders',
   desc: 'Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.',
   h1Hero: homeHero(),
