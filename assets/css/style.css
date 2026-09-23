@@ -203,7 +203,7 @@ body.nav-open .site-header { background: none; border-bottom-color: transparent;
 .about__row { display: grid; grid-template-columns: var(--margin) 1fr auto; column-gap: clamp(24px, 4vw, 64px); row-gap: 28px; align-items: end; margin-top: clamp(36px, 5vw, 64px); }
 .about__figures { display: flex; gap: clamp(24px, 3vw, 48px); }
 .about__figures strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.2rem, 3.6vw, 3.4rem); line-height: .9; letter-spacing: .01em; }
-.about__figures strong em { color: var(--accent); }
+.about__figures strong em { color: inherit; } /* figures all black */
 .about__figures span { display: block; margin-top: 6px; font-size: .72rem; line-height: 1.45; color: var(--muted); max-width: 12ch; }
 .about__text { max-width: 54ch; font-size: .95rem; color: var(--ink-2); margin: 0; }
 @media (max-width: 900px) {
