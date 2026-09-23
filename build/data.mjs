@@ -63,6 +63,20 @@ export const PROJECTS = [
     work: 'Multi-storey residential building', dir: 'annanagar', files: ['annanagar_1'] },
   { slug: 'vengai-vasal-villa', title: 'Vengai Vasal Villa', place: 'Vengaivasal, Chennai', category: 'construction',
     work: 'Independent house / villa construction', dir: 'vengaivasal', files: ['vengai', 'vengai1-big'] },
+  // From the September 2026 brochure (pages 24, 25, 27). The photos are the brochure's own small
+  // JPEGs (691 px and 400 px wide) standing in until the owner sends the originals: overwrite
+  // raw/projects/<dir>/big/<file>.jpg with the original, keep the name, then run
+  // `node build/images.mjs` and `node build/build.mjs` — the page reads each file's real size.
+  // Keep these at the END of the list: the home and service pages reach older projects by index.
+  { slug: 'ram-nagar-velachery-residential-flat', title: 'Residential Flat', place: '8th Street, Ram Nagar, Velachery', category: 'construction',
+    work: 'Residential flat construction', dir: 'velachery', files: ['velachery_1'] },
+  { slug: 'ecr-uthandi-individual-house', title: 'Individual House', place: 'ECR, Uthandi', category: 'construction',
+    work: 'Individual house construction', dir: 'ecr-uthandi', files: ['ecr_1', 'ecr_2'] },
+  // Porur interior (brochure page 27): its brochure photos are 192–203 px and cannot survive the
+  // project tile. Originals go in raw/projects/porur/big/ as porur_1.jpg … porur_9.jpg; then
+  // uncomment this entry and rebuild.
+  // { slug: 'porur-interior', title: 'Interior', place: 'Porur, Chennai', category: 'interiors',
+  //   work: 'Residential interior work', dir: 'porur', files: ['porur_1', 'porur_2', 'porur_3', 'porur_4', 'porur_5', 'porur_6', 'porur_7', 'porur_8', 'porur_9'] },
 ];
 
 export const CATEGORY_LABEL = {

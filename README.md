@@ -9,7 +9,7 @@ A fast, mobile-first rebuild of https://www.arleenbuilders.com. It keeps the old
 | `/construction.php` | builders in Chennai |
 | `/interiors.php` | interior decorators in Chennai, ACP cladding, glazing |
 | `/sports-flooring.php` | sports flooring in Chennai, badminton court construction |
-| `/projects.php` | gallery with lightbox, grouped by division (15 projects) |
+| `/projects.php` | gallery with lightbox, grouped by division (17 projects; see the brochure note in `build/data.mjs`) |
 | `/aboutus.php`, `/services.php`, `/contactus.php` | supporting pages |
 
 ## Editing content

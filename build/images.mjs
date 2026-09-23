@@ -26,6 +26,9 @@ for (const p of PROJECTS) {
   p.files.forEach((f, i) => {
     const src = `${RAW}/projects/${p.dir}/big/${f}.jpg`;
     if (!existsSync(src)) return console.warn('missing', src);
+    // Brochure-grade sources look soft on the site; say so on every run, not just the first.
+    const srcW = parseInt(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width', '-of', 'csv=p=0', src]).toString(), 10);
+    if (srcW < 1000) console.warn(`low-res (${srcW}px wide)`, src);
     const base = `${OUT}/projects/${imgName(p, i)}`;
     const pre = src.endsWith(EDENSQUARE) ? `${noRival},` : '';
     // `min(CAP,iw)` never upscales, so the cap only ever throws detail away. Most of these

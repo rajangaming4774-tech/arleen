@@ -7,7 +7,7 @@
 <meta name="description" content="Arleen Builders – trusted builders, interior &amp; exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.">
 <link rel="canonical" href="https://www.arleenbuilders.com/">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#fdfcf9">
+<meta name="theme-color" content="#f1eee8">
 <meta name="color-scheme" content="light">
 <meta name="geo.region" content="IN-TN">
 <meta name="geo.placename" content="Chennai">
@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero/poster-lg.webp" imagesrcset="/assets/video/hero/poster-sm.webp 720w, /assets/video/hero/poster-lg.webp 1280w, /assets/video/hero/poster-xl.webp 1920w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/style.css?v=ff997724">
+<link rel="stylesheet" href="/assets/css/style.css?v=e5aa2c53">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["GeneralContractor","LocalBusiness"],"@id":"https://www.arleenbuilders.com/#organization","name":"Arleen Builders","legalName":"Arleen Builders India Pvt. Ltd","url":"https://www.arleenbuilders.com/","logo":{"@type":"ImageObject","url":"https://www.arleenbuilders.com/assets/img/logo.png","width":360,"height":168},"image":"https://www.arleenbuilders.com/assets/img/og-image.jpg","description":"Chennai-based builders, interior & exterior decorators and sports flooring / court construction contractors since 2007.","foundingDate":"2007","telephone":"+919383341020","email":"info@arleenbuilders.com","address":{"@type":"PostalAddress","streetAddress":"#72, 2nd Floor, Pushpa Nagar Main Road","addressLocality":"Nungambakkam, Chennai","addressRegion":"Tamil Nadu","postalCode":"600034","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":13.0569,"longitude":80.2425},"areaServed":[{"@type":"City","name":"Chennai"},{"@type":"Place","name":"Nungambakkam, Chennai"},{"@type":"Place","name":"T. Nagar, Chennai"},{"@type":"Place","name":"Anna Nagar, Chennai"},{"@type":"Place","name":"Adyar, Chennai"},{"@type":"Place","name":"Velachery, Chennai"},{"@type":"Place","name":"Ashok Nagar, Chennai"},{"@type":"Place","name":"Mylapore, Chennai"},{"@type":"Place","name":"Porur, Chennai"},{"@type":"Place","name":"OMR, Chennai"},{"@type":"Place","name":"ECR, Chennai"},{"@type":"Place","name":"Tambaram, Chennai"}],"priceRange":"₹₹","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}],"contactPoint":[{"@type":"ContactPoint","telephone":"+919383341020","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]},{"@type":"ContactPoint","telephone":"+919940358889","contactType":"sales","areaServed":"IN","availableLanguage":["English","Tamil"]}],"knowsAbout":["Building construction","Interior design","Exterior facade","ACP cladding","Structural glazing","Sports flooring","Indoor badminton court","Sports court construction"]},{"@type":"WebPage","@id":"https://www.arleenbuilders.com/#webpage","url":"https://www.arleenbuilders.com/","name":"Builders, Interiors & Sports Flooring in Chennai | Arleen Builders","description":"Arleen Builders – trusted builders, interior & exterior decorators and sports flooring contractors in Chennai since 2007. Call +91 93833 41020 for a free quote.","isPartOf":{"@type":"WebSite","@id":"https://www.arleenbuilders.com/#website","url":"https://www.arleenbuilders.com/","name":"Arleen Builders","publisher":{"@id":"https://www.arleenbuilders.com/#organization"}},"about":{"@id":"https://www.arleenbuilders.com/#organization"},"inLanguage":"en-IN"}]}</script>
 </head>
 <body>
@@ -91,7 +91,7 @@
         <p class="hero__tag">Construction, interiors and sports courts — one team from the first site visit to handover.</p>
         <a class="btn btn--light" href="/contactus.php">Start a project</a>
       </div>
-      <div class="hero__badge"><strong>15</strong> projects across Chennai</div>
+      <div class="hero__badge"><strong>17</strong> projects across Chennai</div>
       <div class="hero__stat"><strong>19<em>+</em></strong><span>years of building, interiors and courts in Chennai</span></div>
     </div>
     <figcaption class="hero__credit">Building exterior and office lobby — visualisation</figcaption>
@@ -163,8 +163,8 @@
     <div class="closing">
       <h2 class="display reveal">Building Chennai <em>one site at a time</em></h2>
       <div class="reveal">
-        <p>Schools, residences, showrooms, recreation centres and indoor courts — 15 projects delivered across the city since 2007, each with one contract, one engineer on site and one itemised quotation.</p>
-        <a class="btn" href="/projects.php">All 15 projects</a>
+        <p>Schools, residences, showrooms, recreation centres and indoor courts — 17 projects delivered across the city since 2007, each with one contract, one engineer on site and one itemised quotation.</p>
+        <a class="btn" href="/projects.php">All 17 projects</a>
       </div>
     </div>
   </div>
@@ -259,7 +259,7 @@
     <div class="tiles"><a class="tile reveal" href="/projects.php">
       <span class="tile__label">Our projects</span>
       <h3 class="tile__title">See the work</h3>
-      <p>15 schools, homes, showrooms, recreation centres and courts across Chennai.</p>
+      <p>17 schools, homes, showrooms, recreation centres and courts across Chennai.</p>
     </a><a class="tile reveal" href="/services.php">
       <span class="tile__label">Our services</span>
       <h3 class="tile__title">What we build</h3>
