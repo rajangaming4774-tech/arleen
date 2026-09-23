@@ -35,7 +35,7 @@ $clean = function ($key, $max) {
 };
 
 $name     = $clean('name', 80);
-$phone    = $clean('phone', 16);
+$phone    = $clean('phone', 18);
 $email    = $clean('email', 120);
 $service  = $clean('service', 60);
 $location = $clean('location', 120);
@@ -44,7 +44,8 @@ $message  = isset($_POST['message']) ? mb_substr(strip_tags(trim((string) $_POST
 if ($name === '' || $phone === '' || $service === '' || $message === '') {
     respond(false, 'Please fill in your name, phone number, service and project details.', $isAjax);
 }
-if (!preg_match('/^[0-9+\s\-]{8,16}$/', $phone)) {
+// Same rule as the form's pattern attribute and api/send-enquiry.js: digits, spaces, brackets, + and -
+if (!preg_match('/^[0-9+()\s\-]{8,18}$/', $phone)) {
     respond(false, 'Please enter a valid phone number.', $isAjax);
 }
 if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {

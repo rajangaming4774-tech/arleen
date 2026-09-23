@@ -162,7 +162,7 @@ function layout({ path, key, title, desc, h1Hero, body, schema = [], ogImage = '
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${canonical}">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#fdfcf9">
+<meta name="theme-color" content="#f1eee8">
 <meta name="color-scheme" content="light">
 <meta name="geo.region" content="IN-TN">
 <meta name="geo.placename" content="Chennai">

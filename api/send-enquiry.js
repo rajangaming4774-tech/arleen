@@ -35,7 +35,7 @@ export async function POST(request) {
 
   const clean = (key, max) => String(form.get(key) ?? '').trim().replace(/[\r\n]/g, ' ').replace(/<[^>]*>/g, '').slice(0, max);
   const name = clean('name', 80);
-  const phone = clean('phone', 16);
+  const phone = clean('phone', 18); // matches the form's maxlength and the 8–18 rule below
   const email = clean('email', 120);
   const service = clean('service', 60);
   const location = clean('location', 120);

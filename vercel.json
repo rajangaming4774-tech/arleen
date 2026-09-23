@@ -5,7 +5,7 @@
   "buildCommand": "node build/vercel.mjs",
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/:path*.php", "destination": "/404.html" }
+    { "source": "/:path*.php", "destination": "/api/not-found" }
   ],
   "redirects": [
     { "source": "/index.php", "destination": "/", "permanent": true }
